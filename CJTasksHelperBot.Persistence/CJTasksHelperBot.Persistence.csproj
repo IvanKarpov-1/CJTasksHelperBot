@@ -10,4 +10,12 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.8" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CJTasksHelperBot.Application\CJTasksHelperBot.Application.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Configurations\" />
+  </ItemGroup>
+
 </Project>
