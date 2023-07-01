@@ -1,9 +1,9 @@
 ﻿using CJTasksHelperBot.Application.Common.Interfaces;
-using CJTasksHelperBot.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace Microsoft.Extensions.DependencyInjection;
+namespace CJTasksHelperBot.Persistence;
 
 public static class ConfigureServices
 {

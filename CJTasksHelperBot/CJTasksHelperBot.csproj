@@ -13,7 +13,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
+    <ProjectReference Include="..\CJTasksHelperBot.Application\CJTasksHelperBot.Application.csproj" />
+    <ProjectReference Include="..\CJTasksHelperBot.Infrastructure\CJTasksHelperBot.Infrastructure.csproj" />
+    <ProjectReference Include="..\CJTasksHelperBot.Persistence\CJTasksHelperBot.Persistence.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Filters\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

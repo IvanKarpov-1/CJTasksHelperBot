@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <Folder Include="Common\Interfaces\" />
+    <Folder Include="Mapping\" />
   </ItemGroup>
 
   <ItemGroup>
