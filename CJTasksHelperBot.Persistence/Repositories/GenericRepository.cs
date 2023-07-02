@@ -1,5 +1,6 @@
-﻿using System.Linq.Expressions;
-using CJTasksHelperBot.Application.Common.Interfaces;
+﻿using CJTasksHelperBot.Application.Common.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace CJTasksHelperBot.Persistence.Repositories;
 
@@ -12,38 +13,34 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 		_context = context;
 	}
 
-	public Task<TEntity> FindAsync(Expression<Func<TEntity, bool>> predicate)
+	public async Task<TEntity?> FindAsync(Expression<Func<TEntity, bool>> predicate)
 	{
-		throw new NotImplementedException();
+		return await _context.Set<TEntity>().FirstOrDefaultAsync(predicate);
 	}
 
-	public Task<TEntity> GetByApplicationIdAsync(Guid id)
+	public async Task<TEntity?> GetByApplicationIdAsync(Guid id)
 	{
-		throw new NotImplementedException();
+		return await _context.Set<TEntity>().FindAsync(id);
 	}
 
-	public Task<TEntity> GetByTelegramIdAsync(long id)
+	public async Task<IEnumerable<TEntity>> GetAllAsync()
 	{
-		throw new NotImplementedException();
+		return await _context.Set<TEntity>().ToListAsync();
 	}
 
-	public Task<IEnumerable<TEntity>> GetAllAsync()
+	public async Task<IEnumerable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate)
 	{
-		throw new NotImplementedException();
+		return await _context.Set<TEntity>().Where(predicate).ToListAsync();
 	}
 
-	public Task<IEnumerable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate)
+	public async Task<Task> AddAsync(TEntity entity)
 	{
-		throw new NotImplementedException();
+		await _context.Set<TEntity>().AddAsync(entity);
+		return Task.CompletedTask;
 	}
 
-	public Task Add(TEntity entity)
+	public void Delete(TEntity entity)
 	{
-		throw new NotImplementedException();
-	}
-
-	public Task Delete(TEntity entity)
-	{
-		throw new NotImplementedException();
+		_context.Set<TEntity>().Remove(entity);
 	}
 }

@@ -9,7 +9,7 @@ public interface IApplicationDbContext
 	DbSet<Chat> Chats { get; }
 	DbSet<Homework> Homework { get; }
 	DbSet<Task> Tasks { get; }
-	DbSet<User> Users { get; }
+	DbSet<Domain.Entities.User> Users { get; }
 	DbSet<UserChat> UserChats { get; }
 	Task<int> SaveChangeAsync(CancellationToken cancellationToken);
 }
