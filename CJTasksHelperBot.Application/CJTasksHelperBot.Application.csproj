@@ -11,7 +11,7 @@
     <Folder Include="Common\Behaviours\" />
     <Folder Include="Common\Mapping\" />
     <Folder Include="Common\Models\" />
-    <Folder Include="User\Commands\" />
+    <Folder Include="User\Queries\" />
   </ItemGroup>
 
   <ItemGroup>
