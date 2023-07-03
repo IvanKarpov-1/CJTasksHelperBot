@@ -14,7 +14,9 @@
 
   <ItemGroup>
     <Folder Include="Common\Extensions\" />
+    <Folder Include="Common\Interfaces\" />
     <Folder Include="Identity\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>

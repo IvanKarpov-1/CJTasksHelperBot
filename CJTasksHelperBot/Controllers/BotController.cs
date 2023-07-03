@@ -1,4 +1,5 @@
 ﻿using CJTasksHelperBot.Filters;
+using CJTasksHelperBot.Infrastructure.Services;
 using Microsoft.AspNetCore.Mvc;
 using Telegram.Bot.Types;
 
@@ -10,10 +11,10 @@ namespace CJTasksHelperBot.Controllers
 	{
 		[HttpPost]
 		[ValidateTelegramBot]
-		public async Task<IActionResult> Post([FromBody] Update update, [FromServices] UpdateHandlers handleUpdateService, 
+		public async Task<IActionResult> Post([FromBody] Update update, [FromServices] UpdateHandler updateHandler, 
 			CancellationToken cancellationToken)
 		{
-			await handleUpdateService.HandleUpdateAsync(update, cancellationToken);
+			await updateHandler.HandleUpdateAsync(update, cancellationToken);
 
 			return Ok();
 		}

@@ -33,8 +33,6 @@ builder.Services.AddHttpClient("telegram_bot_client")
 
 builder.Services.AddHostedService<ConfigureWebhook>();
 
-builder.Services.AddScoped<UpdateHandlers>();
-
 var app = builder.Build();
 
 //Configure the HTTP request pipeline.
