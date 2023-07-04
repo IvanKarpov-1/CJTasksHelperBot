@@ -8,7 +8,7 @@ public class User : BaseEntity
 	public string? UserName { get; set; }
 	public string? FirstName { get; set; }
 	public string? LastName { get; set; }
-	public ICollection<UserChat> UserChats { get; set; } = new List<UserChat>();
+	public ICollection<Chat> Chats { get; set; } = new List<Chat>();
 	public ICollection<Task> Tasks { get; set; } = new List<Task>();
 	public ICollection<Homework> Homeworks { get; set; } = new List<Homework>();
 }
