@@ -28,15 +28,9 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Resul
 			return Result<Unit>.Failure(new[] { "UserDto is null" });
 		}
 
-		var user = await _unitOfWork.GetRepository<Domain.Entities.User>()
-			.FindAsync(x => x.TelegramId == request.UserDto.TelegramId);
-
-		if (user != null)
-		{
-			return Result<Unit>.Success(Unit.Value);
-		}
-
 		await _unitOfWork.GetRepository<Domain.Entities.User>().AddAsync(_mapper.Map(request.UserDto));
+
+		await _unitOfWork.CommitAsync();
 
 		return Result<Unit>.Success(Unit.Value);
 	}
