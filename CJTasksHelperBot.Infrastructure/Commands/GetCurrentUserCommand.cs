@@ -1,6 +1,6 @@
-﻿using CJTasksHelperBot.Infrastructure.Common.Interfaces;
+﻿using CJTasksHelperBot.Application.Common.Models;
+using CJTasksHelperBot.Infrastructure.Common.Interfaces;
 using Telegram.Bot;
-using Telegram.Bot.Types;
 
 namespace CJTasksHelperBot.Infrastructure.Commands;
 
@@ -11,18 +11,15 @@ public class GetCurrentUserCommand : ICommand
 	public GetCurrentUserCommand(ITelegramBotClient botClient)
 	{
 		_botClient = botClient;
-		CommandType = Infrastructure.CommandType.CommandType.GetCurrentUserCommand;
 	}
 
-	public CommandType.CommandType CommandType { get; set; }
+	public CommandType.CommandType CommandType { get; set; } = Infrastructure.CommandType.CommandType.GetCurrentUserCommand;
 
-	public async Task ExecuteAsync(Message message, CancellationToken cancellationToken)
+	public async Task ExecuteAsync(UserDto userDto, ChatDto chatDto, CancellationToken cancellationToken)
 	{
-		var user = message.From;
-
 		await _botClient.SendTextMessageAsync(
-			chatId: message.Chat.Id,
-			text: $"{user.FirstName} {user.LastName}",
+			chatId: chatDto.TelegramId,
+			text: $"{userDto.FirstName} {userDto.LastName}",
 			cancellationToken: cancellationToken);
 	}
 }

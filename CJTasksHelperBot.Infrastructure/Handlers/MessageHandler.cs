@@ -34,7 +34,7 @@ public class MessageHandler : IMessageHandler
 
 		if (_commandService.IsCommand(message.Text))
 		{
-			await _commandService.HandleTextCommandAsync(message, message.Text, cancellationToken);
+			await _commandService.HandleTextCommandAsync(user, chat, message.Text, cancellationToken);
 		}
 		else
 		{
