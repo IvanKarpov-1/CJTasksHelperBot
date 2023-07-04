@@ -22,7 +22,7 @@ public partial class MapperlyMapper
 	[MapProperty(nameof(Chat.Id), nameof(ChatDto.TelegramId))]
 	public partial void Map(Chat chat, ChatDto chatDto);
 	[MapProperty(nameof(ChatDto.TelegramId), nameof(Chat.Id))]
-	public partial User Map(ChatDto chatDto);
+	public partial Chat Map(ChatDto chatDto);
 	[MapProperty(nameof(Chat.Id), nameof(ChatDto.TelegramId))]
 	public partial ChatDto Map(Chat chat);
 
