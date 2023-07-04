@@ -23,7 +23,7 @@ public class StartCommand : ICommand
 		                     "/get_current_user\t- отримати ім'я та фамілію поточного користувача\n";
 
 		await _botClient.SendTextMessageAsync(
-			chatId: chatDto.TelegramId,
+			chatId: chatDto.Id,
 			text: usage,
 			replyMarkup: new ReplyKeyboardRemove(),
 			cancellationToken: cancellationToken);

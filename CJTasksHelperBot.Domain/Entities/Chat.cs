@@ -1,10 +1,9 @@
-﻿using CJTasksHelperBot.Domain.Common;
+﻿namespace CJTasksHelperBot.Domain.Entities;
 
-namespace CJTasksHelperBot.Domain.Entities;
-
-public class Chat : BaseEntity
+public class Chat
 {
-	public long TelegramId { get; set; }
+	public long Id { get; set; }
 	public string? Title { get; set; }
 	public ICollection<User> Users { get; set; } = new List<User>();
+	public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }

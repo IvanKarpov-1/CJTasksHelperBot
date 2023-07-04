@@ -10,6 +10,6 @@ public interface IApplicationDbContext
 	DbSet<Homework> Homework { get; }
 	DbSet<Task> Tasks { get; }
 	DbSet<Domain.Entities.User> Users { get; }
-	DbSet<UserChat> UserChats { get; }
+	DbSet<Domain.Entities.UserChat> UserChats { get; }
 	Task<int> SaveChangeAsync(CancellationToken cancellationToken);
 }

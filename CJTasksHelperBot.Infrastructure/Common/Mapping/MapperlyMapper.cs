@@ -7,23 +7,23 @@ namespace CJTasksHelperBot.Infrastructure.Common.Mapping;
 [Mapper(PropertyNameMappingStrategy = PropertyNameMappingStrategy.CaseInsensitive, UseReferenceHandling = true)]
 public partial class MapperlyMapper
 {
-	[MapProperty(nameof(UserDto.TelegramId), nameof(User.Id))]
+	[MapProperty(nameof(UserDto.Id), nameof(User.Id))]
 	public partial void Map(UserDto userDto, User user);
-	[MapProperty(nameof(User.Id), nameof(UserDto.TelegramId))]
+	[MapProperty(nameof(User.Id), nameof(UserDto.Id))]
 	public partial void Map(User user, UserDto userDto);
-	[MapProperty(nameof(UserDto.TelegramId), nameof(User.Id))]
+	[MapProperty(nameof(UserDto.Id), nameof(User.Id))]
 	public partial User Map(UserDto userDto);
-	[MapProperty(nameof(User.Id), nameof(UserDto.TelegramId))]
+	[MapProperty(nameof(User.Id), nameof(UserDto.Id))]
 	public partial UserDto Map(User user);
 
 
-	[MapProperty(nameof(ChatDto.TelegramId), nameof(Chat.Id))]
+	[MapProperty(nameof(ChatDto.Id), nameof(Chat.Id))]
 	public partial void Map(ChatDto chatDto, Chat chat);
-	[MapProperty(nameof(Chat.Id), nameof(ChatDto.TelegramId))]
+	[MapProperty(nameof(Chat.Id), nameof(ChatDto.Id))]
 	public partial void Map(Chat chat, ChatDto chatDto);
-	[MapProperty(nameof(ChatDto.TelegramId), nameof(Chat.Id))]
+	[MapProperty(nameof(ChatDto.Id), nameof(Chat.Id))]
 	public partial Chat Map(ChatDto chatDto);
-	[MapProperty(nameof(Chat.Id), nameof(ChatDto.TelegramId))]
+	[MapProperty(nameof(Chat.Id), nameof(ChatDto.Id))]
 	public partial ChatDto Map(Chat chat);
 
 }

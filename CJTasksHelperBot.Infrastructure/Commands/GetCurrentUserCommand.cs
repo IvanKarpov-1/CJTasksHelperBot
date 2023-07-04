@@ -18,7 +18,7 @@ public class GetCurrentUserCommand : ICommand
 	public async Task ExecuteAsync(UserDto userDto, ChatDto chatDto, CancellationToken cancellationToken)
 	{
 		await _botClient.SendTextMessageAsync(
-			chatId: chatDto.TelegramId,
+			chatId: chatDto.Id,
 			text: $"{userDto.FirstName} {userDto.LastName}",
 			cancellationToken: cancellationToken);
 	}

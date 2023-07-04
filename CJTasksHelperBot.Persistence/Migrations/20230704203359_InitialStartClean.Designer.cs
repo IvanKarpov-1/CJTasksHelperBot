@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CJTasksHelperBot.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230702150847_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20230704203359_InitialStartClean")]
+    partial class InitialStartClean
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,22 +27,16 @@ namespace CJTasksHelperBot.Persistence.Migrations
 
             modelBuilder.Entity("CJTasksHelperBot.Domain.Entities.Chat", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
-
-                    b.Property<long>("TelegramId")
-                        .HasColumnType("bigint");
 
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasAlternateKey("TelegramId");
 
                     b.ToTable("Chats");
                 });
@@ -71,8 +65,8 @@ namespace CJTasksHelperBot.Persistence.Migrations
                     b.Property<string>("Task")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<long?>("UserId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -105,8 +99,8 @@ namespace CJTasksHelperBot.Persistence.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<long?>("UserId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("Id");
 
@@ -117,9 +111,8 @@ namespace CJTasksHelperBot.Persistence.Migrations
 
             modelBuilder.Entity("CJTasksHelperBot.Domain.Entities.User", b =>
                 {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<long>("Id")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("datetime2");
@@ -130,26 +123,21 @@ namespace CJTasksHelperBot.Persistence.Migrations
                     b.Property<string>("LastName")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long>("TelegramId")
-                        .HasColumnType("bigint");
-
                     b.Property<string>("UserName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasAlternateKey("TelegramId");
 
                     b.ToTable("Users");
                 });
 
             modelBuilder.Entity("CJTasksHelperBot.Domain.Entities.UserChat", b =>
                 {
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<long>("UserId")
+                        .HasColumnType("bigint");
 
-                    b.Property<Guid>("ChatId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<long>("ChatId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("UserId", "ChatId");
 
@@ -175,13 +163,13 @@ namespace CJTasksHelperBot.Persistence.Migrations
             modelBuilder.Entity("CJTasksHelperBot.Domain.Entities.UserChat", b =>
                 {
                     b.HasOne("CJTasksHelperBot.Domain.Entities.Chat", "Chat")
-                        .WithMany("UserChats")
+                        .WithMany()
                         .HasForeignKey("ChatId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CJTasksHelperBot.Domain.Entities.User", "User")
-                        .WithMany("UserChats")
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -191,18 +179,11 @@ namespace CJTasksHelperBot.Persistence.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("CJTasksHelperBot.Domain.Entities.Chat", b =>
-                {
-                    b.Navigation("UserChats");
-                });
-
             modelBuilder.Entity("CJTasksHelperBot.Domain.Entities.User", b =>
                 {
                     b.Navigation("Homeworks");
 
                     b.Navigation("Tasks");
-
-                    b.Navigation("UserChats");
                 });
 #pragma warning restore 612, 618
         }

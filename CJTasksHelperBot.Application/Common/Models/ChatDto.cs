@@ -2,6 +2,6 @@
 
 public class ChatDto
 {
-	public long TelegramId { get; set; }
+	public long Id { get; set; }
 	public string? Title { get; set; }
 }

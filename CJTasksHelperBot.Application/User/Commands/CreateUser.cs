@@ -37,15 +37,17 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Resul
 			var userChatDto = new UserChatDto
 			{
 				ChatId = (long)request.ChatId,
-				UserId = request.UserDto.TelegramId,
+				UserId = request.UserDto.Id,
 				UserDto = request.UserDto
 			};
 
-			await _unitOfWork.GetRepository<UserChat>().AddAsync(_mapper.Map(userChatDto));
+			await _unitOfWork.GetRepository<Domain.Entities.UserChat>().AddAsync(_mapper.Map(userChatDto));
 		}
 
-		await _unitOfWork.CommitAsync();
+		var result = await _unitOfWork.CommitAsync();
 
-		return Result<Unit>.Success(Unit.Value);
+		return result > 0
+			? Result<Unit>.Success(Unit.Value)
+			: Result<Unit>.Failure(new[] { "Something went wrong whet trying to create User" });
 	}
 }
