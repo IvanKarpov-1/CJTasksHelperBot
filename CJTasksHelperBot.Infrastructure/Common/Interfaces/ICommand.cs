@@ -4,5 +4,6 @@ namespace CJTasksHelperBot.Infrastructure.Common.Interfaces;
 
 public interface ICommand
 {
-	Task ExecuteAsync(Message message);
+	CommandType.CommandType CommandType { get; set; }
+	Task ExecuteAsync(Message message, CancellationToken cancellationToken);
 }

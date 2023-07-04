@@ -13,9 +13,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="CommandType\Enumeration\" />
     <Folder Include="Common\Extensions\" />
     <Folder Include="Common\Interfaces\" />
+    <Folder Include="Common\Helpers\" />
     <Folder Include="Identity\" />
+    <Folder Include="Handlers\" />
+    <Folder Include="Commands\" />
     <Folder Include="Services\" />
   </ItemGroup>
 
