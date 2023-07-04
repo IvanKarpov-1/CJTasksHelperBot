@@ -1,4 +1,4 @@
-﻿using CJTasksHelperBot.Infrastructure.Common.Interfaces;
+﻿using CJTasksHelperBot.Infrastructure.Common.Interfaces.Handlers;
 using Microsoft.Extensions.Logging;
 using Telegram.Bot.Types;
 

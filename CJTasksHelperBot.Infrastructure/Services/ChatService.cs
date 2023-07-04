@@ -1,7 +1,7 @@
 ﻿using CJTasksHelperBot.Application.Chat.Commands;
 using CJTasksHelperBot.Application.Chat.Queries;
 using CJTasksHelperBot.Application.Common.Models;
-using CJTasksHelperBot.Infrastructure.Common.Interfaces;
+using CJTasksHelperBot.Infrastructure.Common.Interfaces.Services;
 using CJTasksHelperBot.Infrastructure.Common.Mapping;
 using MediatR;
 using Telegram.Bot.Types;

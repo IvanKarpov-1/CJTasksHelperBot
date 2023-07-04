@@ -1,4 +1,5 @@
-﻿using CJTasksHelperBot.Infrastructure.Common.Interfaces;
+﻿using CJTasksHelperBot.Infrastructure.Common.Interfaces.Handlers;
+using CJTasksHelperBot.Infrastructure.Common.Interfaces.Services;
 using Telegram.Bot.Types;
 
 namespace CJTasksHelperBot.Infrastructure.Handlers;

@@ -1,5 +1,5 @@
 ﻿using CJTasksHelperBot.Filters;
-using CJTasksHelperBot.Infrastructure.Common.Interfaces;
+using CJTasksHelperBot.Infrastructure.Common.Interfaces.Handlers;
 using CJTasksHelperBot.Infrastructure.Handlers;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
@@ -7,7 +7,7 @@ using Telegram.Bot.Types;
 
 namespace CJTasksHelperBot.Controllers
 {
-	[ApiController]
+    [ApiController]
 	[Route("bot")]
 	public class BotController : ControllerBase
 	{

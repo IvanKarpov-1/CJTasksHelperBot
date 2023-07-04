@@ -15,7 +15,6 @@
   <ItemGroup>
     <Folder Include="CommandType\Enumeration\" />
     <Folder Include="Common\Extensions\" />
-    <Folder Include="Common\Interfaces\" />
     <Folder Include="Common\Helpers\" />
     <Folder Include="Common\Mapping\" />
     <Folder Include="Handlers\" />

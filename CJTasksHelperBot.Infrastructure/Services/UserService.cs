@@ -1,7 +1,7 @@
 ﻿using CJTasksHelperBot.Application.Common.Models;
 using CJTasksHelperBot.Application.User.Commands;
 using CJTasksHelperBot.Application.User.Queries;
-using CJTasksHelperBot.Infrastructure.Common.Interfaces;
+using CJTasksHelperBot.Infrastructure.Common.Interfaces.Services;
 using CJTasksHelperBot.Infrastructure.Common.Mapping;
 using MediatR;
 using User = Telegram.Bot.Types.User;
