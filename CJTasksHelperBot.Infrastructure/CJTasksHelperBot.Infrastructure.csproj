@@ -17,10 +17,9 @@
     <Folder Include="Common\Extensions\" />
     <Folder Include="Common\Interfaces\" />
     <Folder Include="Common\Helpers\" />
-    <Folder Include="Identity\" />
+    <Folder Include="Common\Mapping\" />
     <Folder Include="Handlers\" />
     <Folder Include="Commands\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>

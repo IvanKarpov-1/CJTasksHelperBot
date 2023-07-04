@@ -13,10 +13,6 @@ public class CommandService : ICommandService
 		_commands = commands;
 	}
 
-	public void Initialize()
-	{
-	}
-
 	public bool IsCommand(string command) => CommandType.CommandType.GetAll().Any(x => x.DisplayName == command);
 
 	public Task HandleTextCommandAsync(Message message, string command, CancellationToken cancellationToken)

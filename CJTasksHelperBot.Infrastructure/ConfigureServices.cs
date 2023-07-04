@@ -1,8 +1,7 @@
-﻿using CJTasksHelperBot.Application.Common.Interfaces;
-using CJTasksHelperBot.Infrastructure.Common.Helpers;
+﻿using CJTasksHelperBot.Infrastructure.Common.Extensions;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces;
+using CJTasksHelperBot.Infrastructure.Common.Mapping;
 using CJTasksHelperBot.Infrastructure.Handlers;
-using CJTasksHelperBot.Infrastructure.Identity;
 using CJTasksHelperBot.Infrastructure.Services;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,22 +12,16 @@ public static class ConfigureServices
 	public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
 	{
 		services.AddTransient<IUserService, UserService>();
+		services.AddTransient<IChatService, ChatService>();
+		services.AddTransient<ICommandService, CommandService>();
+
 		services.AddTransient<IUpdateHandler, UpdateHandler>();
 		services.AddTransient<IMessageHandler, MessageHandler>();
 
-		services.AddTransient<ICommandService, CommandService>();
-
 		services.RegisterAsTransient<ICommand>();
 
-		return services;
-	}
+		services.AddScoped<MapperlyMapper>();
 
-	public static void RegisterAsTransient<T>(this IServiceCollection serviceCollection)
-	{
-		var types = ReflectionHelper.GetImplementationsOfType(typeof(T));
-		foreach (var type in types)
-		{
-			serviceCollection.AddTransient(typeof(T), type);
-		}
+		return services;
 	}
 }
