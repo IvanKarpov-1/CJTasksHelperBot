@@ -15,6 +15,7 @@ public static class ConfigureServices
 	{
 		services.AddTransient<IUserService, UserService>();
 		services.AddTransient<IChatService, ChatService>();
+		services.AddTransient<IUserChatService, UserChatService>();
 		services.AddTransient<ICommandService, CommandService>();
 
 		services.AddTransient<IUpdateHandler, UpdateHandler>();

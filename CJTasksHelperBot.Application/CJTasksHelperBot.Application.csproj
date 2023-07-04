@@ -13,6 +13,8 @@
     <Folder Include="Common\Behaviours\" />
     <Folder Include="Common\Mapping\" />
     <Folder Include="Common\Models\" />
+    <Folder Include="UserChat\Commands\" />
+    <Folder Include="UserChat\Queries\" />
     <Folder Include="User\Queries\" />
   </ItemGroup>
 
