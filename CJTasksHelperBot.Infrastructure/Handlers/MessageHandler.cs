@@ -32,6 +32,8 @@ public class MessageHandler : IMessageHandler
 		var user = await _userService.GetUserFromTelegramModelAsync(message.From);
 		var chat = await _chatService.GetChatFromTelegramModelAsync(message.Chat);
 
+		await _commandService.InitializeAsync();
+
 		if (_commandService.IsCommand(message.Text))
 		{
 			await _commandService.HandleTextCommandAsync(user, chat, message.Text, cancellationToken);

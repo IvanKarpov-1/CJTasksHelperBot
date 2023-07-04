@@ -43,7 +43,7 @@ public class UpdateHandler : IUpdateHandler
 			}
 			catch (Exception e)
 			{
-				_logger.LogError("{StackTrace}", e.StackTrace);
+				_logger.LogError("{Message}\n{StackTrace}", e.Message, e.StackTrace);
 			}
 		}
 		else
