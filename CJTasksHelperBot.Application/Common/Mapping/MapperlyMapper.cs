@@ -14,5 +14,10 @@ public partial class MapperlyMapper
 	public partial void Map(Domain.Entities.Chat chat, ChatDto chatDto);
 	public partial void Map(ChatDto chatDto, Domain.Entities.Chat chat);
 	public partial ChatDto Map(Domain.Entities.Chat chat);
-	public partial Domain.Entities.Chat Map(ChatDto userDto);
+	public partial Domain.Entities.Chat Map(ChatDto chatDto);
+
+	public partial void Map(Domain.Entities.UserChat userChat, UserChatDto userChatDto);
+	public partial void Map(UserChatDto userChatDto, Domain.Entities.UserChat userChat);
+	public partial UserChatDto Map(Domain.Entities.UserChat userChat);
+	public partial Domain.Entities.UserChat Map(UserChatDto userChatDto);
 }

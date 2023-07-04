@@ -1,6 +1,7 @@
 ﻿using CJTasksHelperBot.Application.Common.Interfaces;
 using CJTasksHelperBot.Application.Common.Mapping;
 using CJTasksHelperBot.Application.Common.Models;
+using CJTasksHelperBot.Domain.Entities;
 using MediatR;
 
 namespace CJTasksHelperBot.Application.Chat.Commands;
@@ -8,6 +9,7 @@ namespace CJTasksHelperBot.Application.Chat.Commands;
 public class CreateChatCommand : IRequest<Result<Unit>>
 {
 	public ChatDto? ChatDto { get; set; }
+	public long? UserId { get; set; }
 }
 
 public class CreateChatCommandHandler : IRequestHandler<CreateChatCommand, Result<Unit>>
@@ -29,6 +31,18 @@ public class CreateChatCommandHandler : IRequestHandler<CreateChatCommand, Resul
 		}
 
 		await _unitOfWork.GetRepository<Domain.Entities.Chat>().AddAsync(_mapper.Map(request.ChatDto));
+
+		if (request.UserId != null)
+		{
+			var userChatDto = new UserChatDto
+			{
+				UserId = (long)request.UserId,
+				ChatId = request.ChatDto.TelegramId,
+				ChatDto = request.ChatDto
+			};
+
+			await _unitOfWork.GetRepository<UserChat>().AddAsync(_mapper.Map(userChatDto));
+		}
 
 		await _unitOfWork.CommitAsync();
 
