@@ -28,8 +28,6 @@ public class CreateUserChatCommandHandler : IRequestHandler<CreateUserChatComman
 			return Result<Unit>.Failure(new[] { "UserChatDto is null" });
 		}
 
-		if (request.UserChatDto.UserId == request.UserChatDto.ChatId) return Result<Unit>.Success(Unit.Value);
-
 		var user = await _unitOfWork.GetRepository<Domain.Entities.User>()
 			.FindAsync(x => x.Id == request.UserChatDto.UserId);
 		var chat = await _unitOfWork.GetRepository<Domain.Entities.Chat>()

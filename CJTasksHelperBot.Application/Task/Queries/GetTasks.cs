@@ -7,14 +7,14 @@ using TaskStatus = CJTasksHelperBot.Domain.Enums.TaskStatus;
 
 namespace CJTasksHelperBot.Application.Task.Queries;
 
-public class GetTasksQuery : IRequest<Result<List<TaskDto>>>
+public class GetTasksQuery : IRequest<Result<List<GetTaskDto>>>
 {
 	public long UserId { get; set; }
 	public long? ChatId { get; set; }
 	public TaskStatus? Status { get; set; } 
 }
 
-public class GetTasksQueryHandler : IRequestHandler<GetTasksQuery, Result<List<TaskDto>>>
+public class GetTasksQueryHandler : IRequestHandler<GetTasksQuery, Result<List<GetTaskDto>>>
 {
 	private readonly IUnitOfWork _unitOfWork;
 	private readonly MapperlyMapper _mapper;
@@ -25,7 +25,7 @@ public class GetTasksQueryHandler : IRequestHandler<GetTasksQuery, Result<List<T
 		_mapper = mapper;
 	}
 
-	public async Task<Result<List<TaskDto>>> Handle(GetTasksQuery request, CancellationToken cancellationToken)
+	public async Task<Result<List<GetTaskDto>>> Handle(GetTasksQuery request, CancellationToken cancellationToken)
 	{
 		Expression<Func<Domain.Entities.Task, bool>> predicate = x =>
 			x.UserChat!.UserId == request.UserId &&
@@ -36,6 +36,6 @@ public class GetTasksQueryHandler : IRequestHandler<GetTasksQuery, Result<List<T
 
 		var tasksDto = tasks.Select(_mapper.Map).ToList();
 
-		return Result<List<TaskDto>>.Success(tasksDto);
+		return Result<List<GetTaskDto>>.Success(tasksDto);
 	}
 }

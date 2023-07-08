@@ -5,12 +5,12 @@ using MediatR;
 
 namespace CJTasksHelperBot.Application.Task.Queries;
 
-public class GetTaskQuery : IRequest<Result<TaskDto>>
+public class GetTaskQuery : IRequest<Result<GetTaskDto>>
 {
 	public Guid Id { get; set; }
 }
 
-public class GetTaskQueryHandler : IRequestHandler<GetTaskQuery, Result<TaskDto>>
+public class GetTaskQueryHandler : IRequestHandler<GetTaskQuery, Result<GetTaskDto>>
 {
 	private readonly IUnitOfWork _unitOfWork;
 	private readonly MapperlyMapper _mapper;
@@ -21,12 +21,12 @@ public class GetTaskQueryHandler : IRequestHandler<GetTaskQuery, Result<TaskDto>
 		_mapper = mapper;
 	}
 
-	public async Task<Result<TaskDto>> Handle(GetTaskQuery request, CancellationToken cancellationToken)
+	public async Task<Result<GetTaskDto>> Handle(GetTaskQuery request, CancellationToken cancellationToken)
 	{
 		var task = await _unitOfWork.GetRepository<Domain.Entities.Task>().GetByApplicationIdAsync(request.Id);
 
 		return task == null
-			? Result<TaskDto>.Failure(new[] { $"Task with Id {request.Id} not found" })
-			: Result<TaskDto>.Success(_mapper.Map(task));
+			? Result<GetTaskDto>.Failure(new[] { $"Task with Id {request.Id} not found" })
+			: Result<GetTaskDto>.Success(_mapper.Map(task));
 	}
 }

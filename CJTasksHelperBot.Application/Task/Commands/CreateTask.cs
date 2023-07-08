@@ -7,7 +7,7 @@ namespace CJTasksHelperBot.Application.Task.Commands;
 
 public class CreateTaskCommand : IRequest<Result<Unit>>
 {
-	public TaskDto? TaskDto { get; set; }
+	public CreateTaskDto? CreateTaskDto { get; set; }
 }
 
 public class CreateTaskCommandHandler : IRequestHandler<CreateTaskCommand, Result<Unit>>
@@ -23,12 +23,12 @@ public class CreateTaskCommandHandler : IRequestHandler<CreateTaskCommand, Resul
 
 	public async Task<Result<Unit>> Handle(CreateTaskCommand request, CancellationToken cancellationToken)
 	{
-		if (request.TaskDto == null)
+		if (request.CreateTaskDto == null)
 		{
 			return Result<Unit>.Failure(new[] { "TaskDto is null" });
 		}
 
-		await _unitOfWork.GetRepository<Domain.Entities.Task>().AddAsync(_mapper.Map(request.TaskDto));
+		await _unitOfWork.GetRepository<Domain.Entities.Task>().AddAsync(_mapper.Map(request.CreateTaskDto));
 
 		var result = await _unitOfWork.CommitAsync();
 

@@ -9,7 +9,7 @@ public class Task
 	public string? Description { get; set; }
 	public TaskStatus Status { get; set; } = TaskStatus.NotStarted;
 	public DateTime Deadline { get; set; }
-	public DateTime CompletedAd { get; set; }
+	public DateTime CompletedAt { get; set; }
 	public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 	public UserChat? UserChat { get; set; }
 }

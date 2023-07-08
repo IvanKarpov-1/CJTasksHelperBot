@@ -30,8 +30,11 @@ public partial class MapperlyMapper
 	[MapProperty(nameof(UserChatDto.ChatDto), nameof(Domain.Entities.UserChat.Chat))]
 	public partial Domain.Entities.UserChat Map(UserChatDto userChatDto);
 
-	public partial void Map(Domain.Entities.Task task, TaskDto taskDto);
-	public partial void Map(TaskDto taskDto, Domain.Entities.Task task);
-	public partial TaskDto Map(Domain.Entities.Task task);
-	public partial Domain.Entities.Task Map(TaskDto taskDto);
+	public partial void Map(Domain.Entities.Task task, GetTaskDto taskDto);
+	public partial GetTaskDto Map(Domain.Entities.Task task);
+
+	[MapProperty(nameof(CreateTaskDto.UserChatDto), nameof(Domain.Entities.Task.UserChat))]
+	public partial void Map(CreateTaskDto createTaskDto, Domain.Entities.Task task);
+	[MapProperty(nameof(CreateTaskDto.UserChatDto), nameof(Domain.Entities.Task.UserChat))]
+	public partial Domain.Entities.Task Map(CreateTaskDto createTaskDto);
 }
