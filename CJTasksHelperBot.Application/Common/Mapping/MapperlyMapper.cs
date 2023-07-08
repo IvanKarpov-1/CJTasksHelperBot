@@ -1,5 +1,6 @@
 ﻿using CJTasksHelperBot.Application.Common.Models;
 using Riok.Mapperly.Abstractions;
+using Task = CJTasksHelperBot.Domain.Entities.Task;
 
 namespace CJTasksHelperBot.Application.Common.Mapping;
 
@@ -28,4 +29,9 @@ public partial class MapperlyMapper
 	[MapProperty(nameof(UserChatDto.UserDto), nameof(Domain.Entities.UserChat.User))]
 	[MapProperty(nameof(UserChatDto.ChatDto), nameof(Domain.Entities.UserChat.Chat))]
 	public partial Domain.Entities.UserChat Map(UserChatDto userChatDto);
+
+	public partial void Map(Domain.Entities.Task task, TaskDto taskDto);
+	public partial void Map(TaskDto taskDto, Domain.Entities.Task task);
+	public partial TaskDto Map(Domain.Entities.Task task);
+	public partial Domain.Entities.Task Map(TaskDto taskDto);
 }
