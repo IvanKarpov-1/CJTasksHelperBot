@@ -1,7 +1,6 @@
 ﻿using CJTasksHelperBot.Application.Common.Interfaces;
 using CJTasksHelperBot.Application.Common.Mapping;
 using CJTasksHelperBot.Application.Common.Models;
-using CJTasksHelperBot.Domain.Entities;
 using MediatR;
 
 namespace CJTasksHelperBot.Application.UserChat.Queries;

@@ -1,4 +1,4 @@
-﻿using CJTasksHelperBot.Infrastructure.CommandType.Enumeration;
+﻿using CJTasksHelperBot.Domain;
 
 namespace CJTasksHelperBot.Infrastructure.CommandType;
 

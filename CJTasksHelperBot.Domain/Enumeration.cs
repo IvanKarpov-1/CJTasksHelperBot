@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 
-namespace CJTasksHelperBot.Infrastructure.CommandType.Enumeration;
+namespace CJTasksHelperBot.Domain;
 
 public abstract record Enumeration<T>(int Value, string DisplayName) : IComparable<T> where T : Enumeration<T>
 {
