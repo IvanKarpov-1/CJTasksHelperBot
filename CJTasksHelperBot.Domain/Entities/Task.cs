@@ -11,4 +11,5 @@ public class Task
 	public DateTime Deadline { get; set; }
 	public DateTime CompletedAd { get; set; }
 	public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+	public UserChat? UserChat { get; set; }
 }
