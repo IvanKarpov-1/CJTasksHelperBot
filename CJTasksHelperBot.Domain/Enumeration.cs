@@ -2,7 +2,7 @@
 
 namespace CJTasksHelperBot.Domain;
 
-public abstract record Enumeration<T>(int Value, string DisplayName) : IComparable<T> where T : Enumeration<T>
+public abstract record Enumeration<T>(int Id, string DisplayName) : IComparable<T> where T : Enumeration<T>
 {
 	private static readonly Lazy<Dictionary<int, T>> AllItems;
 	private static readonly Lazy<Dictionary<string, T>> AllItemsByName;
@@ -16,7 +16,7 @@ public abstract record Enumeration<T>(int Value, string DisplayName) : IComparab
 				.Where(x => x.FieldType == typeof(T))
 				.Select(x => x.GetValue(null))
 				.Cast<T>()
-				.ToDictionary(x => x.Value, x => x);
+				.ToDictionary(x => x.Id, x => x);
 		});
 
 		AllItemsByName = new Lazy<Dictionary<string, T>>(() =>
@@ -40,7 +40,7 @@ public abstract record Enumeration<T>(int Value, string DisplayName) : IComparab
 
 	public static int AbsoluteDifference(Enumeration<T> firstValue, Enumeration<T> secondValue)
 	{
-		return Math.Abs(firstValue.Value - secondValue.Value);
+		return Math.Abs(firstValue.Id - secondValue.Id);
 	}
 
 	public static T FromValue(int value)
@@ -61,5 +61,5 @@ public abstract record Enumeration<T>(int Value, string DisplayName) : IComparab
 		throw new InvalidOperationException($"'{displayName}' is not a valid display name in {typeof(T)}");
 	}
 
-	public int CompareTo(T? other) => Value.CompareTo(other!.Value);
+	public int CompareTo(T? other) => Id.CompareTo(other!.Id);
 }

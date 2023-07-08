@@ -1,9 +1,8 @@
-﻿using CJTasksHelperBot.Domain.Common;
-using TaskStatus = CJTasksHelperBot.Domain.Enums.TaskStatus;
+﻿using TaskStatus = CJTasksHelperBot.Domain.Enums.TaskStatus;
 
 namespace CJTasksHelperBot.Domain.Entities;
 
-public class Task/* : BaseEntity*/
+public class Task
 {
 	public Guid Id { get; set; }
 	public string? Title { get; set; }
