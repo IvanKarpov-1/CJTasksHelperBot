@@ -18,11 +18,13 @@ public static class ConfigureServices
 		services.AddTransient<IUserChatService, UserChatService>();
 		services.AddTransient<ICommandService, CommandService>();
 		services.AddTransient<ICommandStateService, CommandStateService>();
+		services.AddTransient<IStepService, StepService>();
 
 		services.AddTransient<IUpdateHandler, UpdateHandler>();
 		services.AddTransient<IMessageHandler, MessageHandler>();
 
 		services.RegisterAsTransient<ICommand>();
+		services.RegisterAsTransient<IStep>();
 
 		services.AddScoped<MapperlyMapper>();
 

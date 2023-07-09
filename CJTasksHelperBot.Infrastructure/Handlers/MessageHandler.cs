@@ -10,20 +10,24 @@ public class MessageHandler : IMessageHandler
 	private readonly IUserService _userService;
 	private readonly IChatService _chatService;
 	private readonly IUserChatService _userChatService;
+	private readonly ICommandStateService _commandStateService;
+	private readonly IStepService _stepService;
 
-	public MessageHandler(ICommandService commandService, IUserService userService, IChatService chatService, IUserChatService userChatService)
+	public MessageHandler(ICommandService commandService, IUserService userService, IChatService chatService, IUserChatService userChatService, ICommandStateService commandStateService, IStepService stepService)
 	{
 		_commandService = commandService;
 		_userService = userService;
 		_chatService = chatService;
 		_userChatService = userChatService;
+		_commandStateService = commandStateService;
+		_stepService = stepService;
 	}
 
 	public async Task HandleMessageAsync(Message message, CancellationToken cancellationToken)
 	{
 		var execute = message switch
 		{
-			{ Text: { } text } => HandleTextMessageAsync(message, cancellationToken),
+			{ Text: { } } => HandleTextMessageAsync(message, cancellationToken),
 			_ => HandleUnknownMessageType(message, cancellationToken)
 		};
 
@@ -38,13 +42,13 @@ public class MessageHandler : IMessageHandler
 
 		await _commandService.InitializeAsync();
 
-		if (_commandService.IsCommand(message.Text))
+		if (_commandService.IsCommand(message.Text!))
 		{
-			await _commandService.HandleTextCommandAsync(user, chat, message.Text, cancellationToken);
+			await _commandService.HandleTextCommandAsync(user, chat, message.Text!, cancellationToken);
 		}
-		else
+		else if (_commandStateService.CheckStateObjectExisting(user.Id, chat.Id))
 		{
-			
+			await _stepService.HandleTextCommandStepAsync(user, chat, message.Text!, cancellationToken);
 		}
 	}
 

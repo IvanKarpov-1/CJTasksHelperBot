@@ -38,7 +38,7 @@ public class CommandStateService : ICommandStateService
 	{
 		var key = GenerateKey(userId, chatId);
 		var entity = _memoryCache.Get<CachingEntity<T>>(key);
-		return entity == null ? entity!.Object : default;
+		return entity != null ? entity.Object : default;
 	}
 
 	public void UpdateStateObject<T>(long userId, long chatId, T stateObject)
@@ -68,7 +68,7 @@ public class CommandStateService : ICommandStateService
 	{
 		var key = GenerateKey(userId, chatId);
 		var entity = _memoryCache.Get(key);
-		return entity == null;
+		return entity != null;
 	}
 
 	private static string GenerateKey(long userId, long chatId)

@@ -40,7 +40,7 @@ public class CommandService : ICommandService
 		return CommandType.GetAll().Any(x => x.DisplayName == parsedCommand);
 	}
 
-	private string ParseCommand(string command)
+	private static string ParseCommand(string command)
 	{
 		var isContainsAt = command.Contains('@');
 		if (isContainsAt)
@@ -61,6 +61,6 @@ public class CommandService : ICommandService
 
 	private ICommand? GetCommand(string command)
 	{
-		return _commands!.FirstOrDefault(x => x.CommandType == CommandType.FromDisplayName(command), null);
+		return _commands.FirstOrDefault(x => x.CommandType == CommandType.FromDisplayName(command), null);
 	}
 }
