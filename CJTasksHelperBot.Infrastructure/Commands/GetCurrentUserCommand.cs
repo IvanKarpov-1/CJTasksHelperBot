@@ -1,4 +1,5 @@
 ﻿using CJTasksHelperBot.Application.Common.Models;
+using CJTasksHelperBot.Infrastructure.Common.Enums;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces;
 using Telegram.Bot;
 
@@ -13,7 +14,7 @@ public class GetCurrentUserCommand : ICommand
 		_botClient = botClient;
 	}
 
-	public CommandType.CommandType CommandType { get; set; } = Infrastructure.CommandType.CommandType.GetCurrentUserCommand;
+	public CommandType CommandType { get; set; } = CommandType.GetCurrentUserCommand;
 
 	public async Task ExecuteAsync(UserDto userDto, ChatDto chatDto, CancellationToken cancellationToken)
 	{

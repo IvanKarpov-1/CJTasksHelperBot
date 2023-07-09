@@ -1,4 +1,5 @@
 ﻿using CJTasksHelperBot.Application.Common.Models;
+using CJTasksHelperBot.Infrastructure.Common.Enums;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces;
 using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -14,7 +15,7 @@ public class StartCommand : ICommand
 		_botClient = botClient;
 	}
 
-	public CommandType.CommandType CommandType { get; set; } = Infrastructure.CommandType.CommandType.StartCommand;
+	public CommandType CommandType { get; set; } = CommandType.StartCommand;
 
 	public async Task ExecuteAsync(UserDto userDto, ChatDto chatDto, CancellationToken cancellationToken)
 	{

@@ -1,4 +1,5 @@
 ﻿using CJTasksHelperBot.Application.Common.Models;
+using CJTasksHelperBot.Infrastructure.Common.Enums;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces.Services;
 using System.Text.RegularExpressions;
@@ -36,7 +37,7 @@ public class CommandService : ICommandService
 
 		var parsedCommand = ParseCommand(command);
 
-		return CommandType.CommandType.GetAll().Any(x => x.DisplayName == parsedCommand);
+		return CommandType.GetAll().Any(x => x.DisplayName == parsedCommand);
 	}
 
 	private string ParseCommand(string command)
@@ -60,6 +61,6 @@ public class CommandService : ICommandService
 
 	private ICommand? GetCommand(string command)
 	{
-		return _commands!.FirstOrDefault(x => x.CommandType == CommandType.CommandType.FromDisplayName(command), null);
+		return _commands!.FirstOrDefault(x => x.CommandType == CommandType.FromDisplayName(command), null);
 	}
 }
