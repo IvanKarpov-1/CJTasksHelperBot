@@ -17,6 +17,7 @@ public static class ConfigureServices
 		services.AddTransient<IChatService, ChatService>();
 		services.AddTransient<IUserChatService, UserChatService>();
 		services.AddTransient<ICommandService, CommandService>();
+		services.AddTransient<ICommandStateService, CommandStateService>();
 
 		services.AddTransient<IUpdateHandler, UpdateHandler>();
 		services.AddTransient<IMessageHandler, MessageHandler>();
@@ -24,6 +25,8 @@ public static class ConfigureServices
 		services.RegisterAsTransient<ICommand>();
 
 		services.AddScoped<MapperlyMapper>();
+
+		services.AddMemoryCache();
 
 		return services;
 	}
