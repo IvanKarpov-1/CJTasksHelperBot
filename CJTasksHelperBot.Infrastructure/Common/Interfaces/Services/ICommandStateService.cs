@@ -6,4 +6,5 @@ public interface ICommandStateService
 	T? GetStateObject<T>(long userId, long chatId);
 	void UpdateStateObject<T>(long userId, long chatId, T stateObject);
 	void DeleteStateObject<T>(long userId, long chatId);
+	bool CheckStateObjectExisting(long userId, long chatId);
 }

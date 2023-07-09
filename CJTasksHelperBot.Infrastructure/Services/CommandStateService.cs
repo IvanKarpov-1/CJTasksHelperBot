@@ -64,6 +64,13 @@ public class CommandStateService : ICommandStateService
 		_memoryCache.Remove(key);
 	}
 
+	public bool CheckStateObjectExisting(long userId, long chatId)
+	{
+		var key = GenerateKey(userId, chatId);
+		var entity = _memoryCache.Get(key);
+		return entity == null;
+	}
+
 	private static string GenerateKey(long userId, long chatId)
 	{
 		return $"{userId}{chatId}";
