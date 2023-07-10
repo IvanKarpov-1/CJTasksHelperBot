@@ -25,7 +25,7 @@ public class GetUserChatQueryHandler : IRequestHandler<GetUserChatQuery, Result<
 	public async Task<Result<UserChatDto>> Handle(GetUserChatQuery request, CancellationToken cancellationToken)
 	{
 		var userChat = await _unitOfWork.GetRepository<Domain.Entities.UserChat>()
-			.FindAsync(x => x.UserId == request.UserId && x.ChatId == request.ChatId);
+			.FindAsync(x => x.UserId == request.UserId && x.ChatId == request.ChatId, false);
 
 		return userChat == null
 			? Result<UserChatDto>.Failure(new[]

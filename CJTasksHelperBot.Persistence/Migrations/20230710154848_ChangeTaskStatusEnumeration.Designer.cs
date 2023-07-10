@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CJTasksHelperBot.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230708141754_AddRelationshipToTaskAndHomeworkFromUserChat")]
-    partial class AddRelationshipToTaskAndHomeworkFromUserChat
+    [Migration("20230710154848_ChangeTaskStatusEnumeration")]
+    partial class ChangeTaskStatusEnumeration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -56,7 +56,7 @@ namespace CJTasksHelperBot.Persistence.Migrations
                     b.Property<DateTime>("Deadline")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("StatusId")
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<string>("Subject")
@@ -76,8 +76,6 @@ namespace CJTasksHelperBot.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StatusId");
-
                     b.HasIndex("UserId");
 
                     b.HasIndex("UserChatUserId", "UserChatChatId");
@@ -91,7 +89,7 @@ namespace CJTasksHelperBot.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CompletedAd")
+                    b.Property<DateTime>("CompletedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("CreatedAt")
@@ -103,7 +101,7 @@ namespace CJTasksHelperBot.Persistence.Migrations
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("StatusId")
+                    b.Property<int>("Status")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
@@ -119,8 +117,6 @@ namespace CJTasksHelperBot.Persistence.Migrations
                         .HasColumnType("bigint");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("StatusId");
 
                     b.HasIndex("UserId");
 
@@ -166,13 +162,10 @@ namespace CJTasksHelperBot.Persistence.Migrations
                     b.ToTable("UserChats");
                 });
 
-            modelBuilder.Entity("CJTasksHelperBot.Domain.Enums.TaskStatus", b =>
+            modelBuilder.Entity("CJTasksHelperBot.Domain.Enums.TaskStatus1", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
@@ -180,17 +173,11 @@ namespace CJTasksHelperBot.Persistence.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("TaskStatus");
+                    b.ToTable("TaskStatus1");
                 });
 
             modelBuilder.Entity("CJTasksHelperBot.Domain.Entities.Homework", b =>
                 {
-                    b.HasOne("CJTasksHelperBot.Domain.Enums.TaskStatus", "Status")
-                        .WithMany()
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("CJTasksHelperBot.Domain.Entities.User", null)
                         .WithMany("Homeworks")
                         .HasForeignKey("UserId");
@@ -199,19 +186,11 @@ namespace CJTasksHelperBot.Persistence.Migrations
                         .WithMany()
                         .HasForeignKey("UserChatUserId", "UserChatChatId");
 
-                    b.Navigation("Status");
-
                     b.Navigation("UserChat");
                 });
 
             modelBuilder.Entity("CJTasksHelperBot.Domain.Entities.Task", b =>
                 {
-                    b.HasOne("CJTasksHelperBot.Domain.Enums.TaskStatus", "Status")
-                        .WithMany()
-                        .HasForeignKey("StatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("CJTasksHelperBot.Domain.Entities.User", null)
                         .WithMany("Tasks")
                         .HasForeignKey("UserId");
@@ -219,8 +198,6 @@ namespace CJTasksHelperBot.Persistence.Migrations
                     b.HasOne("CJTasksHelperBot.Domain.Entities.UserChat", "UserChat")
                         .WithMany()
                         .HasForeignKey("UserChatUserId", "UserChatChatId");
-
-                    b.Navigation("Status");
 
                     b.Navigation("UserChat");
                 });

@@ -28,22 +28,9 @@ public class CreateUserChatCommandHandler : IRequestHandler<CreateUserChatComman
 			return Result<Unit>.Failure(new[] { "UserChatDto is null" });
 		}
 
-		var user = await _unitOfWork.GetRepository<Domain.Entities.User>()
-			.FindAsync(x => x.Id == request.UserChatDto.UserId);
-		var chat = await _unitOfWork.GetRepository<Domain.Entities.Chat>()
-			.FindAsync(x => x.Id == request.UserChatDto.ChatId);
+		var userChat = _mapper.Map(request.UserChatDto);
 
-		if (user == null || chat == null) return Result<Unit>.Failure(new[] { "User or Chat not found" });
-
-		var userChat = new Domain.Entities.UserChat
-		{
-			UserId = user.Id,
-			User = user,
-			ChatId = chat.Id,
-			Chat = chat
-		};
-
-		await _unitOfWork.GetRepository<Domain.Entities.UserChat>().AddAsync(userChat);
+		_unitOfWork.GetRepository<Domain.Entities.UserChat>().Add(userChat);
 
 		var result = await _unitOfWork.CommitAsync();
 

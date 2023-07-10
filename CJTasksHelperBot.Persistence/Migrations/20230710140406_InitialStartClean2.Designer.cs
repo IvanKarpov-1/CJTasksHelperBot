@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CJTasksHelperBot.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230708131520_TaskStatusRedesigned")]
-    partial class TaskStatusRedesigned
+    [Migration("20230710140406_InitialStartClean2")]
+    partial class InitialStartClean2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -65,6 +65,12 @@ namespace CJTasksHelperBot.Persistence.Migrations
                     b.Property<string>("Task")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("UserChatChatId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("UserChatUserId")
+                        .HasColumnType("bigint");
+
                     b.Property<long?>("UserId")
                         .HasColumnType("bigint");
 
@@ -73,6 +79,8 @@ namespace CJTasksHelperBot.Persistence.Migrations
                     b.HasIndex("StatusId");
 
                     b.HasIndex("UserId");
+
+                    b.HasIndex("UserChatUserId", "UserChatChatId");
 
                     b.ToTable("Homework");
                 });
@@ -83,7 +91,7 @@ namespace CJTasksHelperBot.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("CompletedAd")
+                    b.Property<DateTime>("CompletedAt")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("CreatedAt")
@@ -101,6 +109,12 @@ namespace CJTasksHelperBot.Persistence.Migrations
                     b.Property<string>("Title")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("UserChatChatId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("UserChatUserId")
+                        .HasColumnType("bigint");
+
                     b.Property<long?>("UserId")
                         .HasColumnType("bigint");
 
@@ -109,6 +123,8 @@ namespace CJTasksHelperBot.Persistence.Migrations
                     b.HasIndex("StatusId");
 
                     b.HasIndex("UserId");
+
+                    b.HasIndex("UserChatUserId", "UserChatChatId");
 
                     b.ToTable("Tasks");
                 });
@@ -153,10 +169,7 @@ namespace CJTasksHelperBot.Persistence.Migrations
             modelBuilder.Entity("CJTasksHelperBot.Domain.Enums.TaskStatus", b =>
                 {
                     b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
@@ -179,7 +192,13 @@ namespace CJTasksHelperBot.Persistence.Migrations
                         .WithMany("Homeworks")
                         .HasForeignKey("UserId");
 
+                    b.HasOne("CJTasksHelperBot.Domain.Entities.UserChat", "UserChat")
+                        .WithMany()
+                        .HasForeignKey("UserChatUserId", "UserChatChatId");
+
                     b.Navigation("Status");
+
+                    b.Navigation("UserChat");
                 });
 
             modelBuilder.Entity("CJTasksHelperBot.Domain.Entities.Task", b =>
@@ -194,7 +213,13 @@ namespace CJTasksHelperBot.Persistence.Migrations
                         .WithMany("Tasks")
                         .HasForeignKey("UserId");
 
+                    b.HasOne("CJTasksHelperBot.Domain.Entities.UserChat", "UserChat")
+                        .WithMany()
+                        .HasForeignKey("UserChatUserId", "UserChatChatId");
+
                     b.Navigation("Status");
+
+                    b.Navigation("UserChat");
                 });
 
             modelBuilder.Entity("CJTasksHelperBot.Domain.Entities.UserChat", b =>

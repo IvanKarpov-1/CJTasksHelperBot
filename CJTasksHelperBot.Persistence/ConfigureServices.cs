@@ -12,6 +12,8 @@ public static class ConfigureServices
 		services.AddDbContext<ApplicationDbContext>(options =>
 		{
 			options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+			options.EnableDetailedErrors();
+			options.EnableSensitiveDataLogging();
 		});
 
 		services.AddScoped<IUnitOfWork, UnitOfWork>();

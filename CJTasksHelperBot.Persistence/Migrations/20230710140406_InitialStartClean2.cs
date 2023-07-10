@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace CJTasksHelperBot.Persistence.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialStartClean : Migration
+    public partial class InitialStartClean2 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -25,6 +25,18 @@ namespace CJTasksHelperBot.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "TaskStatus",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false),
+                    DisplayName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TaskStatus", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
                 {
@@ -37,52 +49,6 @@ namespace CJTasksHelperBot.Persistence.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Homework",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Subject = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Task = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    Deadline = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CompletedAd = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<long>(type: "bigint", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Homework", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Homework_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Tasks",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Status = table.Column<int>(type: "int", nullable: false),
-                    Deadline = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CompletedAd = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<long>(type: "bigint", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Tasks", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Tasks_Users_UserId",
-                        column: x => x.UserId,
-                        principalTable: "Users",
-                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -109,10 +75,102 @@ namespace CJTasksHelperBot.Persistence.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Homework",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Subject = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Task = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StatusId = table.Column<int>(type: "int", nullable: false),
+                    Deadline = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CompletedAd = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserChatUserId = table.Column<long>(type: "bigint", nullable: true),
+                    UserChatChatId = table.Column<long>(type: "bigint", nullable: true),
+                    UserId = table.Column<long>(type: "bigint", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Homework", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Homework_TaskStatus_StatusId",
+                        column: x => x.StatusId,
+                        principalTable: "TaskStatus",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Homework_UserChats_UserChatUserId_UserChatChatId",
+                        columns: x => new { x.UserChatUserId, x.UserChatChatId },
+                        principalTable: "UserChats",
+                        principalColumns: new[] { "UserId", "ChatId" });
+                    table.ForeignKey(
+                        name: "FK_Homework_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Tasks",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StatusId = table.Column<int>(type: "int", nullable: false),
+                    Deadline = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CompletedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserChatUserId = table.Column<long>(type: "bigint", nullable: true),
+                    UserChatChatId = table.Column<long>(type: "bigint", nullable: true),
+                    UserId = table.Column<long>(type: "bigint", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Tasks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Tasks_TaskStatus_StatusId",
+                        column: x => x.StatusId,
+                        principalTable: "TaskStatus",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Tasks_UserChats_UserChatUserId_UserChatChatId",
+                        columns: x => new { x.UserChatUserId, x.UserChatChatId },
+                        principalTable: "UserChats",
+                        principalColumns: new[] { "UserId", "ChatId" });
+                    table.ForeignKey(
+                        name: "FK_Tasks_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Homework_StatusId",
+                table: "Homework",
+                column: "StatusId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Homework_UserChatUserId_UserChatChatId",
+                table: "Homework",
+                columns: new[] { "UserChatUserId", "UserChatChatId" });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Homework_UserId",
                 table: "Homework",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tasks_StatusId",
+                table: "Tasks",
+                column: "StatusId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Tasks_UserChatUserId_UserChatChatId",
+                table: "Tasks",
+                columns: new[] { "UserChatUserId", "UserChatChatId" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tasks_UserId",
@@ -133,6 +191,9 @@ namespace CJTasksHelperBot.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Tasks");
+
+            migrationBuilder.DropTable(
+                name: "TaskStatus");
 
             migrationBuilder.DropTable(
                 name: "UserChats");

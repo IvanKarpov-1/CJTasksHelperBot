@@ -28,7 +28,7 @@ public class CreateTaskCommandHandler : IRequestHandler<CreateTaskCommand, Resul
 			return Result<Unit>.Failure(new[] { "TaskDto is null" });
 		}
 
-		await _unitOfWork.GetRepository<Domain.Entities.Task>().AddAsync(_mapper.Map(request.CreateTaskDto));
+		_unitOfWork.GetRepository<Domain.Entities.Task>().Attach(_mapper.Map(request.CreateTaskDto));
 
 		var result = await _unitOfWork.CommitAsync();
 

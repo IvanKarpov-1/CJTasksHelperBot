@@ -13,9 +13,9 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 		_context = context;
 	}
 
-	public async Task<TEntity?> FindAsync(Expression<Func<TEntity, bool>> predicate)
+	public async Task<TEntity?> FindAsync(Expression<Func<TEntity, bool>> predicate, bool tracking = true)
 	{
-		return await _context.Set<TEntity>().FirstOrDefaultAsync(predicate);
+		return await GetQuery(tracking).FirstOrDefaultAsync(predicate);
 	}
 
 	public async Task<TEntity?> GetByApplicationIdAsync(Guid id)
@@ -23,23 +23,46 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 		return await _context.Set<TEntity>().FindAsync(id);
 	}
 
-	public async Task<IEnumerable<TEntity>> GetAllAsync()
+	public async Task<IEnumerable<TEntity>> GetAllAsync(bool tracking = true)
 	{
-		return await _context.Set<TEntity>().ToListAsync();
+		return await GetQuery(tracking).ToListAsync();
 	}
 
-	public async Task<IEnumerable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate)
+	public async Task<IEnumerable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate, bool tracking = true)
 	{
-		return await _context.Set<TEntity>().Where(predicate).ToListAsync();
+		return await GetQuery(tracking).Where(predicate).ToListAsync();
 	}
 
-	public async Task AddAsync(TEntity entity)
+	public void Add(TEntity entity)
 	{
-		await _context.Set<TEntity>().AddAsync(entity);
+		try
+		{
+			_context.Set<TEntity>().Add(entity);
+		}
+		catch (Exception e)
+		{
+			Console.BackgroundColor = ConsoleColor.Red;
+			Console.WriteLine($"{e}");
+			Console.ResetColor();
+		}
+	}
+
+	public void Attach(TEntity entity)
+	{
+		_context.Set<TEntity>().Attach(entity);
 	}
 
 	public void Delete(TEntity entity)
 	{
 		_context.Set<TEntity>().Remove(entity);
+	}
+
+	private IQueryable<TEntity> GetQuery(bool tracking = false)
+	{
+		var query = _context.Set<TEntity>().AsQueryable();
+
+		if (tracking == false) query = query.AsNoTracking();
+
+		return query;
 	}
 }

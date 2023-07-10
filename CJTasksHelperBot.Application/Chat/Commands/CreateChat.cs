@@ -30,7 +30,7 @@ public class CreateChatCommandHandler : IRequestHandler<CreateChatCommand, Resul
 			return Result<Unit>.Failure(new[] { "ChatDto is null" });
 		}
 
-		await _unitOfWork.GetRepository<Domain.Entities.Chat>().AddAsync(_mapper.Map(request.ChatDto));
+		_unitOfWork.GetRepository<Domain.Entities.Chat>().Add(_mapper.Map(request.ChatDto));
 
 		if (request.UserId != null)
 		{
@@ -41,7 +41,7 @@ public class CreateChatCommandHandler : IRequestHandler<CreateChatCommand, Resul
 				ChatDto = request.ChatDto
 			};
 
-			await _unitOfWork.GetRepository<Domain.Entities.UserChat>().AddAsync(_mapper.Map(userChatDto));
+			_unitOfWork.GetRepository<Domain.Entities.UserChat>().Add(_mapper.Map(userChatDto));
 		}
 
 		var result = await _unitOfWork.CommitAsync();

@@ -30,7 +30,17 @@ public class UnitOfWork : IUnitOfWork
 
 	public async Task<int> CommitAsync()
 	{
-		return await DbContext.SaveChangeAsync();
+		try
+		{
+			return await DbContext.SaveChangeAsync();
+		}
+		catch (Exception e)
+		{
+			Console.BackgroundColor = ConsoleColor.Red;
+			Console.WriteLine(e);
+			Console.ResetColor();
+			return await Task.FromResult(-1);
+		}
 	}
 
 	public void Dispose()
