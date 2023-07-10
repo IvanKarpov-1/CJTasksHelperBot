@@ -8,6 +8,6 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	Task<TEntity?> GetByApplicationIdAsync(Guid id);
 	Task<IEnumerable<TEntity>> GetAllAsync();
 	Task<IEnumerable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate);
-	Task<System.Threading.Tasks.Task> AddAsync(TEntity entity);
+	System.Threading.Tasks.Task AddAsync(TEntity entity);
 	void Delete(TEntity entity);
 }

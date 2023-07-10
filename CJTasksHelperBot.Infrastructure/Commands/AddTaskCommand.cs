@@ -32,7 +32,9 @@ public class AddTaskCommand : ICommand
 
 		await _botClient.SendTextMessageAsync(
 			chatId: chatDto.Id,
-			text: "Введіть назву завдання",
+			text: "Щоб перервати виконання команди, напишіть /stop\n" +
+			      "\n" +
+			      "Введіть назву завдання",
 			cancellationToken: cancellationToken);
 	}
 }

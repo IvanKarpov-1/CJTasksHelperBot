@@ -1,6 +1,5 @@
 ﻿using CJTasksHelperBot.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Task = CJTasksHelperBot.Domain.Entities.Task;
 
 namespace CJTasksHelperBot.Application.Common.Interfaces;
 
