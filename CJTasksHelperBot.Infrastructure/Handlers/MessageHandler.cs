@@ -1,4 +1,5 @@
-﻿using CJTasksHelperBot.Infrastructure.Common.Interfaces.Handlers;
+﻿using CJTasksHelperBot.Application.Common.Models;
+using CJTasksHelperBot.Infrastructure.Common.Interfaces.Handlers;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces.Services;
 using Telegram.Bot.Types;
 
@@ -36,24 +37,32 @@ public class MessageHandler : IMessageHandler
 
 	public async Task HandleTextMessageAsync(Message message, CancellationToken cancellationToken)
 	{
-		var user = await _userService.GetUserFromTelegramModelAsync(message.From);
-		var chat = await _chatService.GetChatFromTelegramModelAsync(message.Chat);
-		await _userChatService.CreateUserChatAsync(user.Id, chat.Id);
-
 		await _commandService.InitializeAsync();
 
 		if (_commandService.IsCommand(message.Text!))
 		{
-			await _commandService.HandleTextCommandAsync(user, chat, message.Text!, cancellationToken);
+			var (userDto, chatDto) = await GetUserAndChat(message.From, message.Chat);
+
+			await _commandService.HandleTextCommandAsync(userDto, chatDto, message.Text!, cancellationToken);
 		}
-		else if (_commandStateService.CheckStateObjectExisting(user.Id, chat.Id))
+		else if (_commandStateService.CheckStateObjectExisting(message.From.Id, message.Chat.Id))
 		{
-			await _stepService.HandleTextCommandStepAsync(user, chat, message.Text!, cancellationToken);
+			var (userDto, chatDto) = await GetUserAndChat(message.From, message.Chat);
+
+			await _stepService.HandleTextCommandStepAsync(userDto, chatDto, message.Text!, cancellationToken);
 		}
 	}
 
 	public Task HandleUnknownMessageType(Message message, CancellationToken cancellationToken)
 	{
 		return Task.CompletedTask;
+	}
+
+	private async Task<(UserDto, ChatDto)> GetUserAndChat(User user, Chat chat)
+	{
+		var userDto = await _userService.GetUserFromTelegramModelAsync(user);
+		var chatDto = await _chatService.GetChatFromTelegramModelAsync(chat);
+		await _userChatService.CreateUserChatAsync(user.Id, chat.Id);
+		return (userDto, chatDto);
 	}
 }
