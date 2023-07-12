@@ -18,7 +18,8 @@ public class AddTaskCommand : ICommand
 		_commandStateService = commandStateService;
 	}
 
-	public CommandType CommandType { get; set; } = CommandType.AddTask;
+	public CommandType CommandType => CommandType.AddTask;
+	public bool IsAllowCommandLineArguments => true;
 
 	public async Task ExecuteAsync(UserDto userDto, ChatDto chatDto, CancellationToken cancellationToken)
 	{
@@ -36,5 +37,11 @@ public class AddTaskCommand : ICommand
 			      "\n" +
 			      "Введіть назву завдання",
 			cancellationToken: cancellationToken);
+	}
+
+	public Task ExecuteWithCommandLineArguments(UserDto userDto, ChatDto chatDto, Dictionary<string, string> arguments,
+		CancellationToken cancellationToken)
+	{
+		
 	}
 }

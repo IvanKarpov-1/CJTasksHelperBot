@@ -15,18 +15,26 @@ public class StartCommand : ICommand
 		_botClient = botClient;
 	}
 
-	public CommandType CommandType { get; set; } = CommandType.StartCommand;
+	public CommandType CommandType => CommandType.StartCommand;
+	public bool IsAllowCommandLineArguments => false;
 
 	public async Task ExecuteAsync(UserDto userDto, ChatDto chatDto, CancellationToken cancellationToken)
 	{
 		const string usage = "Використання:\n" +
-		                     "/start\t\t- показати доступні команди\n" +
-		                     "/get_current_user\t- отримати ім'я та фамілію поточного користувача\n";
+		                     "/start - показати доступні команди\n" +
+		                     "/get_current_user - отримати ім'я та фамілію поточного користувача\n" +
+		                     "/add_task - додати завдання\n";
 
 		await _botClient.SendTextMessageAsync(
 			chatId: chatDto.Id,
 			text: usage,
 			replyMarkup: new ReplyKeyboardRemove(),
 			cancellationToken: cancellationToken);
+	}
+
+	public async Task ExecuteWithCommandLineArguments(UserDto userDto, ChatDto chatDto, Dictionary<string, string> arguments,
+		CancellationToken cancellationToken)
+	{
+		await ExecuteAsync(userDto, chatDto, cancellationToken);
 	}
 }
