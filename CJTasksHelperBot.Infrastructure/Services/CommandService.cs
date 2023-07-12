@@ -22,7 +22,7 @@ public partial class CommandService : ICommandService
 		_botClient = botClient;
 	}
 
-	[GeneratedRegex("((?'parameter'[-]{1}[\\w]{1})|(?'parameter'[-]{2}[\\w]+))((?'argument' [^-]+)|())")]
+	[GeneratedRegex("((?'parameter'[-]{1}[\\w]{1}(?!\\S))|(?'parameter'([-]{2}|[—]{1})[\\w]+))((?'argument' [^-—]+)|())")]
 	private static partial Regex GetCommandLineArgumentRegex();
 
 	public async Task InitializeAsync()
@@ -42,13 +42,14 @@ public partial class CommandService : ICommandService
 			return false;
 		}
 
-		var parsedCommand = ParseCommand(_commandRegex!.Match(command).ToString());
+		var parsedCommand = ParseCommand(command);
 
 		return CommandType.GetAll().Any(x => x.DisplayName == parsedCommand);
 	}
 
-	private static string ParseCommand(string command)
+	private string ParseCommand(string command)
 	{
+		command = _commandRegex!.Match(command).ToString();
 		var isContainsAt = command.Contains('@');
 		if (isContainsAt)
 		{
@@ -69,23 +70,26 @@ public partial class CommandService : ICommandService
 		var arguments = new Dictionary<string, string>();
 		foreach (var m in matches.Cast<Match>())
 		{
-			arguments[m.Groups["parameter"].Value] = m.Groups["argument"].Value;
+			var parameter = m.Groups["parameter"].Value.Replace("—", "--");
+			arguments[parameter] = m.Groups["argument"].Value.Trim();
 		}
 
 		return arguments;
 	}
 
-	public Task HandleTextCommandAsync(UserDto userDto, ChatDto chatDto, string command, CancellationToken cancellationToken)
+	public async Task HandleTextCommandAsync(UserDto userDto, ChatDto chatDto, string command, CancellationToken cancellationToken)
 	{
 		var parsedCommand = ParseCommand(command);
 		var botCommand = GetCommand(parsedCommand);
-		if (botCommand is { IsAllowCommandLineArguments: true } && IsCommandHaveCommandLineArguments(command))
+		if (botCommand == null) return;
+		if (botCommand.IsAllowCommandLineArguments && IsCommandHaveCommandLineArguments(command))
 		{
 			var arguments = ParseCommandLineArguments(command);
-			botCommand.ExecuteWithCommandLineArguments(userDto, chatDto, arguments, cancellationToken);
+			await botCommand.ExecuteWithCommandLineArguments(userDto, chatDto, arguments, cancellationToken);
+			return;
 		}
-		botCommand?.ExecuteAsync(userDto, chatDto, cancellationToken);
-		return Task.CompletedTask;
+
+		await botCommand.ExecuteAsync(userDto, chatDto, cancellationToken);
 	}
 
 	private ICommand? GetCommand(string command)
