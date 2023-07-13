@@ -22,7 +22,7 @@ public partial class CommandService : ICommandService
 		_botClient = botClient;
 	}
 
-	[GeneratedRegex("((?'parameter'[-]{1}[\\w]{1}(?!\\S))|(?'parameter'([-]{2}|[—]{1})[\\w]+))((?'argument' [^-—]+)|())")]
+	[GeneratedRegex("(?<parameter>(?<=\\s{1})([-]{1}[\\w]{1}(?=\\s))|(?<-dashes>(?'dashes'[-]{2}|[—]{1})[\\w]{2,}))(?<argument> ([^-—]+(?<-any>(?<=[^\\s])(?<any>-+[^-—]+))*|[^-—]+)|)")]
 	private static partial Regex GetCommandLineArgumentRegex();
 
 	public async Task InitializeAsync()
@@ -79,6 +79,7 @@ public partial class CommandService : ICommandService
 
 	public async Task HandleTextCommandAsync(UserDto userDto, ChatDto chatDto, string command, CancellationToken cancellationToken)
 	{
+		command += " ";
 		var parsedCommand = ParseCommand(command);
 		var botCommand = GetCommand(parsedCommand);
 		if (botCommand == null) return;
