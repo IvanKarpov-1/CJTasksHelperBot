@@ -11,10 +11,10 @@ public class MessageHandler : IMessageHandler
 	private readonly IUserService _userService;
 	private readonly IChatService _chatService;
 	private readonly IUserChatService _userChatService;
-	private readonly ICommandStateService _commandStateService;
+	private readonly ICacheService _commandStateService;
 	private readonly IStepService _stepService;
 
-	public MessageHandler(ICommandService commandService, IUserService userService, IChatService chatService, IUserChatService userChatService, ICommandStateService commandStateService, IStepService stepService)
+	public MessageHandler(ICommandService commandService, IUserService userService, IChatService chatService, IUserChatService userChatService, ICacheService commandStateService, IStepService stepService)
 	{
 		_commandService = commandService;
 		_userService = userService;
@@ -45,7 +45,7 @@ public class MessageHandler : IMessageHandler
 
 			await _commandService.HandleTextCommandAsync(userDto, chatDto, message.Text!, cancellationToken);
 		}
-		else if (_commandStateService.CheckStateObjectExisting(message.From.Id, message.Chat.Id))
+		else if (_commandStateService.CheckExisting(message.From.Id, message.Chat.Id))
 		{
 			var (userDto, chatDto) = await GetUserAndChat(message.From, message.Chat);
 

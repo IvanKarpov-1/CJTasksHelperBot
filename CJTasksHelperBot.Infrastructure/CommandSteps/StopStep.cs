@@ -10,9 +10,9 @@ namespace CJTasksHelperBot.Infrastructure.CommandSteps;
 public class StopStep : IStep
 {
 	private readonly ITelegramBotClient _botClient;
-	private readonly ICommandStateService _commandStateService;
+	private readonly ICacheService _commandStateService;
 
-	public StopStep(ITelegramBotClient botClient, ICommandStateService commandStateService)
+	public StopStep(ITelegramBotClient botClient, ICacheService commandStateService)
 	{
 		_botClient = botClient;
 		_commandStateService = commandStateService;
@@ -22,10 +22,10 @@ public class StopStep : IStep
 
 	public async Task PerformStepAsync(UserDto userDto, ChatDto chatDto, string text, CancellationToken cancellationToken)
 	{
-		var stateObject = _commandStateService.GetStateObject<StateObject>(userDto.Id, chatDto.Id);
+		var stateObject = _commandStateService.Get<StateObject>(userDto.Id, chatDto.Id);
 		var command = stateObject?.CallingCommand;
 
-		_commandStateService.DeleteStateObject<StateObject>(userDto.Id, chatDto.Id);
+		_commandStateService.Delete<StateObject>(userDto.Id, chatDto.Id);
 
 		await _botClient.SendTextMessageAsync(
 			chatId: chatDto.Id,

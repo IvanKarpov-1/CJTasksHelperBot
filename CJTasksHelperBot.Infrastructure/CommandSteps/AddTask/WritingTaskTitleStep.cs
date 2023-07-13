@@ -10,9 +10,9 @@ namespace CJTasksHelperBot.Infrastructure.CommandSteps.AddTask;
 public class WritingTaskTitleStep : IStep
 {
 	private readonly ITelegramBotClient _botClient;
-	private readonly ICommandStateService _commandStateService;
+	private readonly ICacheService _commandStateService;
 
-	public WritingTaskTitleStep(ITelegramBotClient botClient, ICommandStateService commandStateService)
+	public WritingTaskTitleStep(ITelegramBotClient botClient, ICacheService commandStateService)
 	{
 		_botClient = botClient;
 		_commandStateService = commandStateService;

@@ -9,9 +9,9 @@ namespace CJTasksHelperBot.Infrastructure.Services;
 public class StepService : IStepService
 {
 	private readonly IEnumerable<IStep> _steps;
-	private readonly ICommandStateService _commandStateService;
+	private readonly ICacheService _commandStateService;
 
-	public StepService(IEnumerable<IStep> steps, ICommandStateService commandStateService)
+	public StepService(IEnumerable<IStep> steps, ICacheService commandStateService)
 	{
 		_steps = steps;
 		_commandStateService = commandStateService;
@@ -19,7 +19,7 @@ public class StepService : IStepService
 
 	public Task HandleTextCommandStepAsync(UserDto userDto, ChatDto chatDto, string text, CancellationToken cancellationToken)
 	{
-		var stateObject = _commandStateService.GetStateObject<StateObject>(userDto.Id, chatDto.Id);
+		var stateObject = _commandStateService.Get<StateObject>(userDto.Id, chatDto.Id);
 		var stepName = text == CommandStep.Stop.DisplayName ? text : stateObject?.CurrentStep!;
 		var commandStep =  GetStep(stepName);
 		commandStep?.PerformStepAsync(userDto, chatDto, text, cancellationToken);

@@ -3,18 +3,18 @@ using Microsoft.Extensions.Caching.Memory;
 
 namespace CJTasksHelperBot.Infrastructure.Services;
 
-public class CommandStateService : ICommandStateService
+public class CacheService : ICacheService
 {
 	private readonly IMemoryCache _memoryCache;
 	private const int AbsoluteExpirationHours = 1;
 	private const int SlidingExpirationMinutes = 20;
 
-	public CommandStateService(IMemoryCache memoryCache)
+	public CacheService(IMemoryCache memoryCache)
 	{
 		_memoryCache = memoryCache;
 	}
 
-	public void AddStateObject<T>(long userId, long chatId, T stateObject)
+	public void Add<T>(long userId, long chatId, T stateObject)
 	{
 		var key = GenerateKey(userId, chatId);
 
@@ -34,14 +34,14 @@ public class CommandStateService : ICommandStateService
 		});
 	}
 
-	public T? GetStateObject<T>(long userId, long chatId)
+	public T? Get<T>(long userId, long chatId)
 	{
 		var key = GenerateKey(userId, chatId);
 		var entity = _memoryCache.Get<CachingEntity<T>>(key);
 		return entity != null ? entity.Object : default;
 	}
 
-	public void UpdateStateObject<T>(long userId, long chatId, T stateObject)
+	public void Update<T>(long userId, long chatId, T stateObject)
 	{
 		var key = GenerateKey(userId, chatId);
 
@@ -58,13 +58,13 @@ public class CommandStateService : ICommandStateService
 		});
 	}
 
-	public void DeleteStateObject<T>(long userId, long chatId)
+	public void Delete<T>(long userId, long chatId)
 	{
 		var key = GenerateKey(userId, chatId);
 		_memoryCache.Remove(key);
 	}
 
-	public bool CheckStateObjectExisting(long userId, long chatId)
+	public bool CheckExisting(long userId, long chatId)
 	{
 		var key = GenerateKey(userId, chatId);
 		var entity = _memoryCache.Get(key);

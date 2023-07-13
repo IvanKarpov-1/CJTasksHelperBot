@@ -15,10 +15,10 @@ namespace CJTasksHelperBot.Infrastructure.Commands;
 public class AddTaskCommand : ICommand
 {
 	private readonly ITelegramBotClient _botClient;
-	private readonly ICommandStateService _commandStateService;
+	private readonly ICacheService _commandStateService;
 	private readonly IMediator _mediator;
 
-	public AddTaskCommand(ITelegramBotClient botClient, ICommandStateService commandStateService, IMediator mediator)
+	public AddTaskCommand(ITelegramBotClient botClient, ICacheService commandStateService, IMediator mediator)
 	{
 		_botClient = botClient;
 		_commandStateService = commandStateService;
@@ -36,7 +36,7 @@ public class AddTaskCommand : ICommand
 			CurrentStep = CommandStep.WritingTaskTitle.DisplayName
 		};
 
-		_commandStateService.AddStateObject(userDto.Id, chatDto.Id, stateObject);
+		_commandStateService.Add(userDto.Id, chatDto.Id, stateObject);
 
 		await _botClient.SendTextMessageAsync(
 			chatId: chatDto.Id,
