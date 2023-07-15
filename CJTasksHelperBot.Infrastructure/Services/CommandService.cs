@@ -3,6 +3,7 @@ using CJTasksHelperBot.Infrastructure.Common.Enums;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces.Services;
 using System.Text.RegularExpressions;
+using CJTasksHelperBot.Infrastructure.Common.Extensions;
 using Microsoft.EntityFrameworkCore.Design.Internal;
 using Telegram.Bot;
 
@@ -12,17 +13,19 @@ public partial class CommandService : ICommandService
 {
 	private readonly IEnumerable<ICommand> _commands;
 	private readonly ITelegramBotClient _botClient;
+	private readonly ICommandHelpService _commandHelpService;
 
 	private Regex? _commandRegex;
 	private Regex? _commandLineArgumentsRegex;
 
-	public CommandService(IEnumerable<ICommand> commands, ITelegramBotClient botClient)
+	public CommandService(IEnumerable<ICommand> commands, ITelegramBotClient botClient, ICommandHelpService commandHelpService)
 	{
 		_commands = commands;
 		_botClient = botClient;
+		_commandHelpService = commandHelpService;
 	}
 
-	[GeneratedRegex("(?<parameter>(?<=\\s{1})([-]{1}[\\w]{1}(?=\\s))|(?<-dashes>(?'dashes'[-]{2}|[—]{1})[\\w]{2,}))(?<argument> ([^-—]+(?<-any>(?<=[^\\s])(?<any>-+[^-—]+))*|[^-—]+)|)")]
+	[GeneratedRegex("(?<parameter>(?<=\\s{1})([-]{1}[\\w]{1}(?=\\s))|(([-]{2}|[—]{1})[\\w]{2,}))(?<argument> ([^-—]+((?<=[^\\s])(-+[^-—]+))*|[^-—]+)|)")]
 	private static partial Regex GetCommandLineArgumentRegex();
 
 	public async Task InitializeAsync()
@@ -86,6 +89,13 @@ public partial class CommandService : ICommandService
 		if (botCommand.IsAllowCommandLineArguments && IsCommandHaveCommandLineArguments(command))
 		{
 			var arguments = ParseCommandLineArguments(command);
+			var isContainsHelp = arguments.ContainsKey(CommandLineArgument.Help);
+			if (isContainsHelp)
+			{
+				await _commandHelpService.DisplayHelpAsync(chatDto.Id, CommandType.FromDisplayName(parsedCommand), cancellationToken);
+				return;
+			}
+
 			await botCommand.ExecuteWithCommandLineArguments(userDto, chatDto, arguments, cancellationToken);
 			return;
 		}

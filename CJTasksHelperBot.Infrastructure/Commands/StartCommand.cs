@@ -15,7 +15,7 @@ public class StartCommand : ICommand
 		_botClient = botClient;
 	}
 
-	public CommandType CommandType => CommandType.StartCommand;
+	public CommandType CommandType => CommandType.Start;
 	public bool IsAllowCommandLineArguments => false;
 
 	public async Task ExecuteAsync(UserDto userDto, ChatDto chatDto, CancellationToken cancellationToken)

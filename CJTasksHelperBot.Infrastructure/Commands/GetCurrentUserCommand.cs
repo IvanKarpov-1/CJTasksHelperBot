@@ -14,7 +14,7 @@ public class GetCurrentUserCommand : ICommand
 		_botClient = botClient;
 	}
 
-	public CommandType CommandType => CommandType.GetCurrentUserCommand;
+	public CommandType CommandType => CommandType.GetCurrentUser;
 	public bool IsAllowCommandLineArguments => false;
 
 	public async Task ExecuteAsync(UserDto userDto, ChatDto chatDto, CancellationToken cancellationToken)

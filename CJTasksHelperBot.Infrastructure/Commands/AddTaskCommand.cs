@@ -5,10 +5,10 @@ using CJTasksHelperBot.Infrastructure.Common.Enums;
 using CJTasksHelperBot.Infrastructure.Common.Extensions;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces.Services;
-using System.Globalization;
 using MediatR;
+using System.Globalization;
 using Telegram.Bot;
-using static System.Net.Mime.MediaTypeNames;
+using Telegram.Bot.Types.Enums;
 
 namespace CJTasksHelperBot.Infrastructure.Commands;
 
@@ -58,8 +58,9 @@ public class AddTaskCommand : ICommand
 		{
 			await _botClient.SendTextMessageAsync(
 				chatId: chatDto.Id,
-				text: $"Потрібно ввести назву задачі {CommandLineArgument.Title}",
-			cancellationToken: cancellationToken);
+				text: $"Потрібно ввести назву задачі `{CommandLineArgument.Title.DisplayName}`",
+				parseMode: ParseMode.MarkdownV2,
+				cancellationToken: cancellationToken);
 			
 			return;
 		}

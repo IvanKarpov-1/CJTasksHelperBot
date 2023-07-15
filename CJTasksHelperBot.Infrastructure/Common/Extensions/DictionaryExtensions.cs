@@ -15,12 +15,36 @@ public static class DictionaryExtensions
 			case true:
 			{
 				var keys = key.Split('|');
-				if (dictionary.ContainsKey(keys[0])) return dictionary[keys[0]];
-				if (dictionary.ContainsKey(keys[1])) return dictionary[keys[1]];
+				foreach (var s in keys)
+				{
+					if (dictionary.ContainsKey(s)) return dictionary[s];
+				}
 				break;
 			}
 		}
 
 		return string.Empty;
+	}
+
+	public static bool ContainsKey(this Dictionary<string, string> dictionary, CommandLineArgument parameter)
+	{
+		var key = parameter.DisplayName;
+		var isContainsVerticalRisk = key.Contains('|');
+		switch (isContainsVerticalRisk)
+		{
+			case false when dictionary.ContainsKey(key):
+				return true;
+			case true:
+			{
+				var keys = key.Split('|');
+				if (keys.Any(dictionary.ContainsKey))
+				{
+					return true;
+				}
+				break;
+			}
+		}
+
+		return false;
 	}
 }

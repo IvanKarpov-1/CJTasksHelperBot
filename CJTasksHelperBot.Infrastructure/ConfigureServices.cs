@@ -19,6 +19,7 @@ public static class ConfigureServices
 		services.AddTransient<ICommandService, CommandService>();
 		services.AddTransient<ICacheService, CacheService>();
 		services.AddTransient<IStepService, StepService>();
+		services.AddTransient<ICommandHelpService, CommandHelpService>();
 
 		services.AddTransient<IUpdateHandler, UpdateHandler>();
 		services.AddTransient<IMessageHandler, MessageHandler>();
