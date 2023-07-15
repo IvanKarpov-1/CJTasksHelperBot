@@ -3,15 +3,15 @@ using CJTasksHelperBot.Application.Common.Mapping;
 using CJTasksHelperBot.Application.Common.Models;
 using MediatR;
 using System.Linq.Expressions;
-using TaskStatus1 = CJTasksHelperBot.Domain.Enums.TaskStatus1;
+using TaskStatusCustomEnum = CJTasksHelperBot.Domain.Enums.TaskStatusCustomEnum;
 
 namespace CJTasksHelperBot.Application.Task.Queries;
 
 public class GetTasksQuery : IRequest<Result<List<GetTaskDto>>>
 {
-	public long UserId { get; set; }
+	public long? UserId { get; set; }
 	public long? ChatId { get; set; }
-	public TaskStatus1? Status { get; set; } 
+	public TaskStatusCustomEnum? Status { get; set; } 
 }
 
 public class GetTasksQueryHandler : IRequestHandler<GetTasksQuery, Result<List<GetTaskDto>>>
@@ -28,9 +28,9 @@ public class GetTasksQueryHandler : IRequestHandler<GetTasksQuery, Result<List<G
 	public async Task<Result<List<GetTaskDto>>> Handle(GetTasksQuery request, CancellationToken cancellationToken)
 	{
 		Expression<Func<Domain.Entities.Task, bool>> predicate = x =>
-			x.UserChat!.UserId == request.UserId &&
-			(request.ChatId == null || x.UserChat.ChatId == request.ChatId) &&
-			(request.Status == null || x.Status.CompareTo(request.Status) == 0);
+			(request.UserId == null || x.UserChat!.UserId == request.UserId) &&
+			(request.ChatId == null || x.UserChat!.ChatId == request.ChatId) &&
+			(request.Status == null || x.Status.CompareTo(request.Status.Id) == 0);
 
 		var tasks = await _unitOfWork.GetRepository<Domain.Entities.Task>().GetWhereAsync(predicate);
 
