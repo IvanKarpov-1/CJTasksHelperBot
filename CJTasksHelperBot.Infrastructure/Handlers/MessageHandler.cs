@@ -1,6 +1,7 @@
 ﻿using CJTasksHelperBot.Application.Common.Models;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces.Handlers;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces.Services;
+using CJTasksHelperBot.Infrastructure.Common.Mapping;
 using Telegram.Bot.Types;
 
 namespace CJTasksHelperBot.Infrastructure.Handlers;
@@ -13,8 +14,9 @@ public class MessageHandler : IMessageHandler
 	private readonly IUserChatService _userChatService;
 	private readonly ICacheService _commandStateService;
 	private readonly IStepService _stepService;
+	private readonly MapperlyMapper _mapper;
 
-	public MessageHandler(ICommandService commandService, IUserService userService, IChatService chatService, IUserChatService userChatService, ICacheService commandStateService, IStepService stepService)
+	public MessageHandler(ICommandService commandService, IUserService userService, IChatService chatService, IUserChatService userChatService, ICacheService commandStateService, IStepService stepService, MapperlyMapper mapper)
 	{
 		_commandService = commandService;
 		_userService = userService;
@@ -22,6 +24,7 @@ public class MessageHandler : IMessageHandler
 		_userChatService = userChatService;
 		_commandStateService = commandStateService;
 		_stepService = stepService;
+		_mapper = mapper;
 	}
 
 	public async Task HandleMessageAsync(Message message, CancellationToken cancellationToken)
@@ -60,9 +63,13 @@ public class MessageHandler : IMessageHandler
 
 	private async Task<(UserDto, ChatDto)> GetUserAndChat(User user, Chat chat)
 	{
+		var userChat = await _userChatService.FindUserChatByIdsAsync(user.Id, chat.Id);
+		if (userChat != null) return (_mapper.Map(user), _mapper.Map(chat));
+
 		var userDto = await _userService.GetUserFromTelegramModelAsync(user);
 		var chatDto = await _chatService.GetChatFromTelegramModelAsync(chat);
-		await _userChatService.CreateUserChatAsync(user.Id, chat.Id);
+		await _userChatService.CreateUserChatAsync(user.Id, chat.Id, false);
+
 		return (userDto, chatDto);
 	}
 }

@@ -22,10 +22,15 @@ public class UserChatService : IUserChatService
 		return result.Value;
 	}
 
-	public async Task CreateUserChatAsync(long userId, long chatId)
+	public async Task CreateUserChatAsync(long userId, long chatId, bool checkExistence)
 	{
-		var userChatDto = await FindUserChatByIdsAsync(userId, chatId);
-		if (userChatDto != null) return;
+		UserChatDto? userChatDto;
+
+		if (checkExistence)
+		{
+			userChatDto = await FindUserChatByIdsAsync(userId, chatId);
+			if (userChatDto != null) return;
+		}
 
 		userChatDto = new UserChatDto
 		{
