@@ -25,7 +25,7 @@ public partial class CommandService : ICommandService
 		_commandHelpService = commandHelpService;
 	}
 
-	[GeneratedRegex("(?<parameter>(?<=\\s{1})([-]{1}[\\w]{1}(?=\\s))|(([-]{2}|[—]{1})[\\w]{2,}))(?<argument> ([^-—]+((?<=[^\\s])(-+[^-—]+))*|[^-—]+)|)")]
+	[GeneratedRegex("(?<parameter>(?<=\\s{1})([-]{1}[\\w]{1}(?=\\s))|(([-]{2}|[—]{1})[\\w]{2,}))(?<argument> ([^-—]+((?<=[^\\s])([-—]+[^-—]+))*|[^-—]+)|)")]
 	private static partial Regex GetCommandLineArgumentRegex();
 
 	public async Task InitializeAsync()

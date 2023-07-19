@@ -27,10 +27,10 @@ public class WritingTaskDeadlineStep : IStep
 
 	public async Task PerformStepAsync(UserDto userDto, ChatDto chatDto, string text, CancellationToken cancellationToken)
 	{
-		const string format = "dd.MM.yyyy HH:mm";
+		var formats = new[] { "dd.MM.yyyy HH:mm", "dd.MM.yyyy" };
 		var provider = CultureInfo.InvariantCulture;
 
-		var result = DateTime.TryParseExact(text, format, provider, DateTimeStyles.None, out var deadline);
+		var result = DateTime.TryParseExact(text, formats, provider, DateTimeStyles.None, out var deadline);
 
 		if (result == false)
 		{

@@ -65,12 +65,12 @@ public class AddTaskCommand : ICommand
 			return;
 		}
 
-		const string format = "dd.MM.yyyy HH:mm";
+		var formats = new[] { "dd.MM.yyyy HH:mm", "dd.MM.yyyy" };
 		var provider = CultureInfo.InvariantCulture;
 
 		if (deadline != string.Empty)
 		{
-			var result = DateTime.TryParseExact(deadline, format, provider, DateTimeStyles.None, out deadlineDt);
+			var result = DateTime.TryParseExact(deadline, formats, provider, DateTimeStyles.None, out deadlineDt);
 			
 			if (result == false)
 			{

@@ -27,13 +27,13 @@ public class HelpCommand : ICommand
 			text: "Привіт\\! Я — CJTasksHelperBot\\. Я допоможу організувати ваші задачі та домашні завдання\\.\n\n" +
 			      "Деякі команди виконуються в декілька кроків, тому потрібно не переривати ввід потрібної інформації або ж скасувати виконання команди\\.\n\n" +
 			      "Деякі команди підтримують аргументи командного рядка з прапорцями\\. " +
-			      $"Для деталей додайте прапорець `{CommandLineArgument.Help.GetDisplayNameWithEscapingCharacter()}` до команди \\(через пробіл\\)\\. " +
+			      $"Для деталей додайте прапорець `{CommandLineArgument.Help.DisplayName.EscapeCharacters()}` до команди \\(через пробіл\\)\\. " +
 			      "Даний прапорець має пріоритет над іншими, тому інші буде проігноровано\\.\n\n" +
 			      "Щоб взаємодіяти зі мною, використовуйте такі команди:\n" +
-			      $"{CommandType.Help.GetDisplayNameWithEscapingCharacter()} \\- показати цю підказку\n" +
-			      $"{CommandType.AddTask.GetDisplayNameWithEscapingCharacter()} \\- додати завдання\n" +
+			      $"{CommandType.Help.DisplayName.EscapeCharacters()} \\- показати цю підказку\n" +
+			      $"{CommandType.AddTask.DisplayName.EscapeCharacters()} \\- додати завдання\n" +
 			      "\n" +
-			      $"{CommandStep.Stop.GetDisplayNameWithEscapingCharacter()} \\- зупинити поточну команду",
+			      $"{CommandStep.Stop.DisplayName.EscapeCharacters()} \\- зупинити поточну команду",
 			parseMode: ParseMode.MarkdownV2,
 			cancellationToken: cancellationToken);
 	}
