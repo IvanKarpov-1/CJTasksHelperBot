@@ -8,15 +8,15 @@ public class UpdateHandler : IUpdateHandler
 {
 	private readonly ILogger<UpdateHandler> _logger;
 	private readonly IMessageHandler _messageHandler;
-	//private readonly ICallbackQueryHandler _callbackQueryHandler;
+	private readonly ICallbackQueryHandler _callbackQueryHandler;
 	//private readonly IInlineQueryHandler _inlineQueryHandler;
 	//private readonly IChosenInlineResultHandler _chosenInlineResultHandler;
 
-	public UpdateHandler(ILogger<UpdateHandler> logger, IMessageHandler messageHandler/*, ICallbackQueryHandler callbackQueryHandler, IInlineQueryHandler inlineQueryHandler, IChosenInlineResultHandler chosenInlineResultHandler*/)
+	public UpdateHandler(ILogger<UpdateHandler> logger, IMessageHandler messageHandler, ICallbackQueryHandler callbackQueryHandler/*, IInlineQueryHandler inlineQueryHandler, IChosenInlineResultHandler chosenInlineResultHandler*/)
 	{
 		_logger = logger;
 		_messageHandler = messageHandler;
-		//_callbackQueryHandler = callbackQueryHandler;
+		_callbackQueryHandler = callbackQueryHandler;
 		//_inlineQueryHandler = inlineQueryHandler;
 		//_chosenInlineResultHandler = chosenInlineResultHandler;
 	}
@@ -28,8 +28,8 @@ public class UpdateHandler : IUpdateHandler
 			var handler = update switch
 			{
 				{ Message: { } message } => _messageHandler.HandleMessageAsync(message, cancellationToken),
-				//{ CallbackQuery: { } callbackQuery } => _callbackQueryHandler.HandleCallbackQueryAsync(callbackQuery,
-				//	cancellationToken),
+				{ CallbackQuery: { } callbackQuery } => _callbackQueryHandler.HandleCallbackQueryAsync(callbackQuery,
+					cancellationToken),
 				//{ InlineQuery: { } inlineQuery } => _inlineQueryHandler.HandleInlineQueryAsync(inlineQuery,
 				//	cancellationToken),
 				//{ ChosenInlineResult: { } chosenInlineResult } => _chosenInlineResultHandler

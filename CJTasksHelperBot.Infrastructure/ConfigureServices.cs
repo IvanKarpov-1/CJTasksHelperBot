@@ -1,4 +1,4 @@
-﻿using CJTasksHelperBot.Infrastructure.Common.Extensions;
+using CJTasksHelperBot.Infrastructure.Common.Extensions;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces.Handlers;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces.Services;
@@ -20,12 +20,15 @@ public static class ConfigureServices
 		services.AddTransient<ICacheService, CacheService>();
 		services.AddTransient<IStepService, StepService>();
 		services.AddTransient<ICommandHelpService, CommandHelpService>();
+		services.AddTransient<ICallbackQueryService, CallbackQueryService>();
 
 		services.AddTransient<IUpdateHandler, UpdateHandler>();
 		services.AddTransient<IMessageHandler, MessageHandler>();
+		services.AddTransient<ICallbackQueryHandler, CallbackQueryHandler>();
 
 		services.RegisterAsTransient<ICommand>();
 		services.RegisterAsTransient<IStep>();
+		services.RegisterAsTransient<ICallbackQuery>();
 
 		services.AddScoped<MapperlyMapper>();
 

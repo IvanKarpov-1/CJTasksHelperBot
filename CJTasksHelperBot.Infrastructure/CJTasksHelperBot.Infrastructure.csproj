@@ -18,6 +18,7 @@
     <Folder Include="Common\Mapping\" />
     <Folder Include="Handlers\" />
     <Folder Include="Commands\" />
+    <Folder Include="CallbackQueries\" />
   </ItemGroup>
 
   <ItemGroup>
