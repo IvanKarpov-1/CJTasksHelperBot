@@ -25,7 +25,7 @@ public class StopStep : IStep
 		var stateObject = _commandStateService.Get<StateObject>(userDto.Id, chatDto.Id);
 		var command = stateObject?.CallingCommand;
 
-		_commandStateService.Delete<StateObject>(userDto.Id, chatDto.Id);
+		_commandStateService.Delete(userDto.Id, chatDto.Id);
 
 		await _botClient.SendTextMessageAsync(
 			chatId: chatDto.Id,

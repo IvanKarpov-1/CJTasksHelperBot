@@ -44,7 +44,7 @@ public class WritingTaskDeadlineStep : IStep
 
 		var stateObject = _commandStateService.Get<StateObject>(userDto.Id, chatDto.Id);
 
-		_commandStateService.Delete<StateObject>(userDto.Id, chatDto.Id);
+		_commandStateService.Delete(userDto.Id, chatDto.Id);
 
 		if (stateObject == null)
 		{

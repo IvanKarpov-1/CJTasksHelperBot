@@ -14,17 +14,39 @@ public class CacheService : ICacheService
 		_memoryCache = memoryCache;
 	}
 
-	public void Add<T>(long userId, long chatId, T stateObject)
+	public void Add<T>(long userId, long chatId, T data)
 	{
 		var key = GenerateKey(userId, chatId);
+		Add(key, data);
+	}
 
+	public T? Get<T>(long userId, long chatId)
+	{
+		var key = GenerateKey(userId, chatId);
+		return Get<T>(key);
+	}
+
+	public void Update<T>(long userId, long chatId, T data)
+	{
+		var key = GenerateKey(userId, chatId);
+		Update(key, data);
+	}
+
+	public void Delete(long userId, long chatId)
+	{
+		var key = GenerateKey(userId, chatId);
+		_memoryCache.Remove(key);
+	}
+
+	public void Add<T>(string key, T data)
+	{
 		var absoluteExpiration = DateTimeOffset.Now.AddHours(AbsoluteExpirationHours);
 
 		var entity = new CachingEntity<T>
 		{
 			InitialAbsoluteExpiration = absoluteExpiration,
 			InitialSlidingExpiration = TimeSpan.FromMinutes(SlidingExpirationMinutes),
-			Object = stateObject
+			Object = data
 		};
 
 		_memoryCache.Set(key, entity, new MemoryCacheEntryOptions
@@ -34,17 +56,14 @@ public class CacheService : ICacheService
 		});
 	}
 
-	public T? Get<T>(long userId, long chatId)
+	public T? Get<T>(string key)
 	{
-		var key = GenerateKey(userId, chatId);
 		var entity = _memoryCache.Get<CachingEntity<T>>(key);
 		return entity != null ? entity.Object : default;
 	}
 
-	public void Update<T>(long userId, long chatId, T stateObject)
+	public void Update<T>(string key, T data)
 	{
-		var key = GenerateKey(userId, chatId);
-
 		var entity = _memoryCache.Get<CachingEntity<T>>(key);
 
 		if (entity == null) return;
@@ -58,22 +77,31 @@ public class CacheService : ICacheService
 		});
 	}
 
-	public void Delete<T>(long userId, long chatId)
+	public void Delete(string key)
 	{
-		var key = GenerateKey(userId, chatId);
 		_memoryCache.Remove(key);
 	}
 
 	public bool CheckExisting(long userId, long chatId)
 	{
 		var key = GenerateKey(userId, chatId);
+		return CheckExisting(key);
+	}
+
+	public bool CheckExisting(string key)
+	{
 		var entity = _memoryCache.Get(key);
 		return entity != null;
 	}
 
-	private static string GenerateKey(long userId, long chatId)
+	public string GenerateKey(long userId, long chatId)
 	{
 		return $"{userId}{chatId}";
+	}
+
+	public string GenerateKey()
+	{
+		return new Random().Next().ToString();
 	}
 
 	private class CachingEntity<T>
