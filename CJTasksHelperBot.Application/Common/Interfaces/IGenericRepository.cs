@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using Microsoft.EntityFrameworkCore;
 
 namespace CJTasksHelperBot.Application.Common.Interfaces;
 
@@ -11,4 +12,5 @@ public interface IGenericRepository<TEntity> where TEntity : class
 	void Add(TEntity entity);
 	void Attach(TEntity entity);
 	void Delete(TEntity entity);
+	IQueryable<TEntity> GetQueryable();
 }

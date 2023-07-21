@@ -10,21 +10,30 @@ namespace CJTasksHelperBot.Infrastructure.Services;
 public class CallbackQueryService : ICallbackQueryService
 {
 	private const string QueryTypeKey = "Query";
+	private const string QuerySender = "User";
 
 	private readonly IEnumerable<ICallbackQuery> _callbackQueries;
 	private readonly MapperlyMapper _mapper;
+	private readonly ICacheService _cacheService;
 
-	public CallbackQueryService(IEnumerable<ICallbackQuery> callbackQueries, MapperlyMapper mapper)
+	public CallbackQueryService(IEnumerable<ICallbackQuery> callbackQueries, MapperlyMapper mapper, ICacheService cacheService)
 	{
 		_callbackQueries = callbackQueries;
 		_mapper = mapper;
+		_cacheService = cacheService;
 	}
 
 	public string CreateQuery<T>(UserDto user, params (string key, object value)[] args) where T : ICallbackQuery
 	{
 		var data = args.ToDictionary(k => k.key, v => v.value);
-		data.Add(QueryTypeKey, typeof(T));
-		return JsonConvert.SerializeObject(data);
+		data.Add(QueryTypeKey, typeof(T).Name);
+		data.Add(QuerySender, user.Id);
+		var serializedObject = JsonConvert.SerializeObject(data);
+
+		var key = _cacheService.GenerateKey();
+		_cacheService.Add(key, serializedObject);
+
+		return key;
 	}
 
 	public async Task HandleCallBackQueryAsync(CallbackQuery callbackQuery, CancellationToken cancellationToken)
@@ -42,12 +51,20 @@ public class CallbackQueryService : ICallbackQueryService
 		var userDto = _mapper.Map(callbackQuery.From);
 		var chatDto = _mapper.Map(callbackQuery.Message!.Chat);
 
+		if (query.IsRequireCallbackQuery)
+		{
+			query.SetCallbackQuery(callbackQuery);
+		}
+
 		await query.ExecuteAsync(userDto, chatDto, data, cancellationToken);
 	}
 
 	private Dictionary<string, object>? ParseQueryData(string data)
 	{
-		return JsonConvert.DeserializeObject<Dictionary<string, object>>(data);
+		var serializedObject = _cacheService.Get<string>(data);
+		return serializedObject != null
+			? JsonConvert.DeserializeObject<Dictionary<string, object>>(serializedObject)
+			: null;
 	}
 
 	private ICallbackQuery? GetCallbackQuery(IReadOnlyDictionary<string, object> data)

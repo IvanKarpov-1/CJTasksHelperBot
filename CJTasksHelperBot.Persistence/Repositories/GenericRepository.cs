@@ -57,6 +57,11 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 		_context.Set<TEntity>().Remove(entity);
 	}
 
+	public IQueryable<TEntity> GetQueryable()
+	{
+		return _context.Set<TEntity>().AsQueryable();
+	}
+
 	private IQueryable<TEntity> GetQuery(bool tracking = false)
 	{
 		var query = _context.Set<TEntity>().AsQueryable();
