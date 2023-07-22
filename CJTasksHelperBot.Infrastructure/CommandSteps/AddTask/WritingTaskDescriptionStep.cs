@@ -11,19 +11,19 @@ namespace CJTasksHelperBot.Infrastructure.CommandSteps.AddTask;
 public class WritingTaskDescriptionStep : IStep
 {
 	private readonly ITelegramBotClient _botClient;
-	private readonly ICacheService _commandStateService;
+	private readonly ICacheService _cacheService;
 
-	public WritingTaskDescriptionStep(ITelegramBotClient botClient, ICacheService commandStateService)
+	public WritingTaskDescriptionStep(ITelegramBotClient botClient, ICacheService cacheService)
 	{
 		_botClient = botClient;
-		_commandStateService = commandStateService;
+		_cacheService = cacheService;
 	}
 
 	public CommandStep CommandStep { get; set; } = CommandStep.WritingTaskDescription;
 
 	public async Task PerformStepAsync(UserDto userDto, ChatDto chatDto, string text, CancellationToken cancellationToken)
 	{
-		_commandStateService.AddValueToDictionaryOfExistingStateObject(userDto.Id, chatDto.Id, CommandStep.DisplayName, text,
+		_cacheService.AddValueToDictionaryOfExistingStateObject(userDto.Id, chatDto.Id, CommandStep.DisplayName, text,
 			CommandStep.WritingTaskDeadline);
 
 		var example = "(Приклад: 09.07.2023 16:45)".EscapeCharacters();

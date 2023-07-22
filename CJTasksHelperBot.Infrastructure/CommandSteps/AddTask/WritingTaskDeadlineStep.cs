@@ -13,13 +13,13 @@ namespace CJTasksHelperBot.Infrastructure.CommandSteps.AddTask;
 public class WritingTaskDeadlineStep : IStep
 {
 	private readonly ITelegramBotClient _botClient;
-	private readonly ICacheService _commandStateService;
+	private readonly ICacheService _cacheService;
 	private readonly IMediator _mediator;
 
-	public WritingTaskDeadlineStep(ITelegramBotClient botClient, ICacheService commandStateService, IMediator mediator)
+	public WritingTaskDeadlineStep(ITelegramBotClient botClient, ICacheService cacheService, IMediator mediator)
 	{
 		_botClient = botClient;
-		_commandStateService = commandStateService;
+		_cacheService = cacheService;
 		_mediator = mediator;
 	}
 
@@ -42,9 +42,9 @@ public class WritingTaskDeadlineStep : IStep
 			return;
 		}
 
-		var stateObject = _commandStateService.Get<StateObject>(userDto.Id, chatDto.Id);
+		var stateObject = _cacheService.Get<StateObject>(userDto.Id, chatDto.Id);
 
-		_commandStateService.Delete(userDto.Id, chatDto.Id);
+		_cacheService.Delete(userDto.Id, chatDto.Id);
 
 		if (stateObject == null)
 		{
