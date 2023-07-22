@@ -70,6 +70,8 @@ public class CacheService : ICacheService
 
 		_memoryCache.Remove(key);
 
+		entity.Object = data;
+
 		_memoryCache.Set(key, entity, new MemoryCacheEntryOptions
 		{
 			AbsoluteExpiration = entity.InitialAbsoluteExpiration,
@@ -108,6 +110,6 @@ public class CacheService : ICacheService
 	{
 		public DateTimeOffset? InitialAbsoluteExpiration { get; init; }
 		public TimeSpan? InitialSlidingExpiration { get; init; }
-		public T? Object { get; init; }
+		public T? Object { get; set; }
 	}
 }
