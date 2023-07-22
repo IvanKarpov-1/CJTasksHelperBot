@@ -130,12 +130,12 @@ public class GetTasksCommand : ICommand
 
 	private InlineKeyboardMarkup ConstructInlineKeyboard(List<ChatDto> items, UserDto userDto)
 	{
-		const int maxButtonWidth = 10;
-		var availableWidth = Math.Min(4096, maxButtonWidth * 2);
+		const int maxButtonWidth = 30;
+		var availableWidth = Math.Min(4096, maxButtonWidth * 4);
 		var inlineKeyboard = new List<List<InlineKeyboardButton>>();
 		var currentRowWidth = 0;
 
-		var flag = _isNeedDrawTable ? "✅" : "❌";
+		var flag = _isNeedDrawTable ? StringConstant.ToggleOn.DisplayName : StringConstant.ToggleOff.DisplayName;
 
 		var currentRow = new List<InlineKeyboardButton>
 		{
@@ -151,6 +151,7 @@ public class GetTasksCommand : ICommand
 		};
 
 		inlineKeyboard.Add(currentRow);
+		currentRow = new List<InlineKeyboardButton>();
 
 		foreach (var item in items)
 		{
