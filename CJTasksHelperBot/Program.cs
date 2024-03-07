@@ -3,9 +3,8 @@ using CJTasksHelperBot.Application;
 using CJTasksHelperBot.Controllers;
 using CJTasksHelperBot.Extensions;
 using CJTasksHelperBot.Infrastructure;
+using CJTasksHelperBot.Middlewares;
 using CJTasksHelperBot.Persistence;
-using CJTasksHelperBot.Services;
-using Telegram.Bot;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +24,9 @@ if (app.Environment.IsDevelopment())
 app.MapBotWebhookRoute<BotController>(route: botConfiguration!.Route);
 
 app.UseRequestLocalization();
+
+app.UseLocalizationMiddleware();
+
 app.MapControllers();
 
 app.Run();

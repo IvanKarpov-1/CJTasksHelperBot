@@ -1,4 +1,7 @@
-﻿using Microsoft.Extensions.Options;
+﻿using System.Text;
+using Microsoft.Extensions.Options;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace CJTasksHelperBot.Extensions;
 
@@ -25,5 +28,22 @@ public static class Extensions
                 controller = controllerName,
                 action = actionName
             });
+    }
+    
+    public static async Task<JObject?> GetRequestBodyAsync(this HttpRequest request)
+    {
+        request.EnableBuffering();
+
+        using var reader = new StreamReader(
+            request.Body,
+            Encoding.UTF8,
+            detectEncodingFromByteOrderMarks: false,
+            leaveOpen: true);
+        var strRequestBody = await reader.ReadToEndAsync();
+        var objRequestBody = JsonConvert.DeserializeObject<JObject>(strRequestBody);
+
+        request.Body.Position = 0;
+
+        return objRequestBody;
     }
 }
