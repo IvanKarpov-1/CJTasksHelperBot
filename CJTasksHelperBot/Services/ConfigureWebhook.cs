@@ -27,6 +27,7 @@ public class ConfigureWebhook : IHostedService
 		_logger.LogInformation("Setting webhook: {WebhookAddress}", webhookAddress);
 
 		await botClient.SetWebhookAsync(
+			dropPendingUpdates: true,
 			url: webhookAddress,
 			allowedUpdates: Array.Empty<UpdateType>(),
 			secretToken: _botConfiguration.SecretToken,
