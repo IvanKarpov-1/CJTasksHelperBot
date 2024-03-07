@@ -24,6 +24,7 @@ if (app.Environment.IsDevelopment())
 
 app.MapBotWebhookRoute<BotController>(route: botConfiguration!.Route);
 
+app.UseRequestLocalization();
 app.MapControllers();
 
 app.Run();

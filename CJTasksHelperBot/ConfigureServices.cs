@@ -1,5 +1,7 @@
+using System.Globalization;
 using CJTasksHelperBot.Extensions;
 using CJTasksHelperBot.Services;
+using Microsoft.AspNetCore.Localization;
 using Telegram.Bot;
 
 namespace CJTasksHelperBot;
@@ -27,6 +29,23 @@ public static class ConfigureServices
             });
 
         services.AddHostedService<ConfigureWebhook>();
+
+        services.AddLocalization();
+
+        services.Configure<RequestLocalizationOptions>(options =>
+        {
+            var supportedCultures = new List<CultureInfo>
+            {
+                new("uk"),
+                new("en-US"),
+            };
+
+            options.DefaultRequestCulture = new RequestCulture("uk", "uk");
+            options.SupportedCultures = supportedCultures;
+            options.SupportedUICultures = supportedCultures;
+            options.RequestCultureProviders.Clear();
+        });
+        
         return services;
     }
 }
