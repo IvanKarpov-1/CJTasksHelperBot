@@ -1,4 +1,6 @@
-﻿namespace CJTasksHelperBot.Domain.Entities;
+﻿using CJTasksHelperBot.Domain.Enums;
+
+namespace CJTasksHelperBot.Domain.Entities;
 
 public class UserChat
 {
@@ -6,4 +8,5 @@ public class UserChat
 	public User? User { get; set; }
 	public long ChatId { get; set; }
 	public Chat? Chat { get; set; }
+	public LanguageCode LanguageCode = LanguageCode.Uk;
 }
