@@ -1,0 +1,31 @@
+using CJTasksHelperBot.Application.Common.Interfaces;
+using CJTasksHelperBot.Application.Common.Models;
+using CJTasksHelperBot.Domain.Enums;
+using MediatR;
+
+namespace CJTasksHelperBot.Application.LanguageCode.Queries;
+
+public class GetChatLanguageCodeQuery : IRequest<Result<Domain.Enums.LanguageCodeCustomEnum>>
+{
+    public long ChatId { get; set; }
+}
+
+public class GetChatLanguageCodeQueryHandler : IRequestHandler<GetChatLanguageCodeQuery, Result<LanguageCodeCustomEnum>>
+{
+    private readonly IUnitOfWork _unitOfWork;
+
+    public GetChatLanguageCodeQueryHandler(IUnitOfWork unitOfWork)
+    {
+        _unitOfWork = unitOfWork;
+    }
+
+    public async Task<Result<LanguageCodeCustomEnum>> Handle(GetChatLanguageCodeQuery request, CancellationToken cancellationToken)
+    {
+        var chat = await _unitOfWork.GetRepository<Domain.Entities.Chat>()
+            .FindAsync(x => x.Id == request.ChatId, false);
+
+        return chat == null
+            ? Result<LanguageCodeCustomEnum>.Failure(new[] { $"Chat with id {request.ChatId} not found" })
+            : Result<LanguageCodeCustomEnum>.Success(LanguageCodeCustomEnum.FromValue((int)chat.LanguageCode));
+    }
+}

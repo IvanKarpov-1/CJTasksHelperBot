@@ -1,4 +1,6 @@
-﻿namespace CJTasksHelperBot.Domain.Entities;
+﻿using CJTasksHelperBot.Domain.Enums;
+
+namespace CJTasksHelperBot.Domain.Entities;
 
 public class User
 {
@@ -10,4 +12,5 @@ public class User
 	public ICollection<Task> Tasks { get; set; } = new List<Task>();
 	public ICollection<Homework> Homeworks { get; set; } = new List<Homework>();
 	public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+	public LanguageCode LanguageCode = LanguageCode.Uk;
 }

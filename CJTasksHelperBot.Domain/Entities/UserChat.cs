@@ -8,5 +8,4 @@ public class UserChat
 	public User? User { get; set; }
 	public long ChatId { get; set; }
 	public Chat? Chat { get; set; }
-	public LanguageCode LanguageCode = LanguageCode.Uk;
 }

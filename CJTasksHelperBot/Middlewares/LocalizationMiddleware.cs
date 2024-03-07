@@ -1,6 +1,8 @@
 using System.Globalization;
 using System.Text.Json;
 using CJTasksHelperBot.Application.Common.Interfaces;
+using CJTasksHelperBot.Application.Common.Models;
+using CJTasksHelperBot.Application.LanguageCode.Queries;
 using CJTasksHelperBot.Application.UserChat.Queries;
 using CJTasksHelperBot.Domain.Entities;
 using CJTasksHelperBot.Domain.Enums;
@@ -32,19 +34,28 @@ public class LocalizationMiddleware
             userId = (long)(body.SelectToken("message.from.id") ?? userId);
             chatId = (long)(body.SelectToken("message.chat.id") ?? chatId);
         }
+
+        Result<LanguageCodeCustomEnum> result;
         
-        var result = await mediator.Send(new GetUserChatQuery { UserId = userId, ChatId = chatId });
+        if (userId == chatId)
+        {
+            result = await mediator.Send(new GetUserLanguageCodeQuery { UserId = userId });
+        }
+        else
+        {
+            result = await mediator.Send(new GetChatLanguageCodeQuery { ChatId = userId });
+        }
     
         CultureInfo cultureInfo;
 
         if (result.IsSuccess)
         {
-            var langCode = result.Value!.LanguageCode;
-            cultureInfo = new CultureInfo(LanguageCodeCustomEnum.FromValue((int)langCode).DisplayName);
+            var langCode = result.Value!.DisplayName;
+            cultureInfo = new CultureInfo(langCode);
         }
         else
         {
-            cultureInfo = new CultureInfo(LanguageCodeCustomEnum.EnUs.DisplayName);
+            cultureInfo = new CultureInfo(LanguageCodeCustomEnum.Uk.DisplayName);
         }
 
         CultureInfo.CurrentCulture = cultureInfo;

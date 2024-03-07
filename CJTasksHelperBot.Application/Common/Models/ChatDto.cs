@@ -1,4 +1,6 @@
-﻿namespace CJTasksHelperBot.Application.Common.Models;
+﻿using CJTasksHelperBot.Domain.Enums;
+
+namespace CJTasksHelperBot.Application.Common.Models;
 
 public class ChatDto
 {

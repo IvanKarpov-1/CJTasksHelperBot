@@ -8,5 +8,4 @@ public class UserChatDto
 	public UserDto? UserDto { get; set; }
 	public long ChatId { get; set; }
 	public ChatDto? ChatDto { get; set; }
-	public LanguageCode LanguageCode { get; set; }
 }
