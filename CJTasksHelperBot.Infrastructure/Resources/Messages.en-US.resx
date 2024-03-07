@@ -19,6 +19,16 @@
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
     <data name="help_message" xml:space="preserve">
-        <value>2</value>
+        <value>Hello, I am &lt;b&gt;CJTasksHelperBot&lt;/b&gt;. I will help you organize your tasks and homework.
+            
+Some commands are executed in several steps, so you need to keep entering the necessary information or cancel the command.
+            
+Some commands support command line arguments with checkboxes. For details, add the &lt;code&gt;-h|--help&lt;/code&gt; flag to the command (separated by a space). This flag takes precedence over other flags, so others will be ignored.
+            
+To interact with me, use the following commands:
+/help - show this help
+/add_task - add a task
+
+/stop - stop the current command</value>
     </data>
 </root>
