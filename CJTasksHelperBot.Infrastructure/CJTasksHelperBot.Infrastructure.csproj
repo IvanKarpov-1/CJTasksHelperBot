@@ -8,17 +8,15 @@
 
   <ItemGroup>
     <PackageReference Include="Alba.CsConsoleFormat" Version="1.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.1" />
-    <PackageReference Include="Telegram.Bot" Version="19.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0-preview.1.24080.9" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.0-preview.1.24080.9" />
+    <PackageReference Include="Telegram.Bot" Version="20.0.0-alpha.1" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Common\Helpers\" />
     <Folder Include="Common\Mapping\" />
     <Folder Include="Handlers\" />
-    <Folder Include="Commands\" />
-    <Folder Include="CallbackQueries\" />
   </ItemGroup>
 
   <ItemGroup>

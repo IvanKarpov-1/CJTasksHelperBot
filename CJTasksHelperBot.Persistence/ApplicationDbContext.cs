@@ -2,14 +2,23 @@
 using CJTasksHelperBot.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using Microsoft.Extensions.Configuration;
 using Task = CJTasksHelperBot.Domain.Entities.Task;
 
 namespace CJTasksHelperBot.Persistence;
 
 public class ApplicationDbContext : DbContext, IApplicationDbContext
 {
-	public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : base(options)
+	protected readonly IConfiguration Configuration;
+
+	public ApplicationDbContext(IConfiguration configuration)
 	{
+		Configuration = configuration;
+	}
+
+	protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+	{
+		optionsBuilder.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"));
 	}
 
 	public DbSet<Chat> Chats => Set<Chat>();
