@@ -117,9 +117,9 @@ public class GetTasksCommand : ICommand
 	{
 		var chats = await _mediator.Send(new GetChatsWithTasksQuery { UserId = userDto.Id }, cancellationToken);
 
-		if (chats.Value == null) return;
-
-		var inlineKeyboard = ConstructInlineKeyboard(chats.Value, userDto);
+		var inlineKeyboard = chats.Value == null
+			? new InlineKeyboardMarkup(ConstructGeneralButtons(userDto))
+			: ConstructInlineKeyboard(chats.Value, userDto);
 
 		await _botClient.SendTextMessageAsync(
 			chatId: chatDto.Id,
@@ -135,20 +135,7 @@ public class GetTasksCommand : ICommand
 		var inlineKeyboard = new List<List<InlineKeyboardButton>>();
 		var currentRowWidth = 0;
 
-		var flag = _isNeedDrawTable ? StringConstant.ToggleOn.DisplayName : StringConstant.ToggleOff.DisplayName;
-
-		var currentRow = new List<InlineKeyboardButton>
-		{
-			InlineKeyboardButton.WithCallbackData(
-				text: "Особисті",
-				_callbackQueryService.CreateQuery<CallbackQueries.GetTasksQuery>(userDto,
-					(CallbackQueriesDataKey.TelegramId.DisplayName, userDto.Id),
-					(CallbackQueriesDataKey.IsNeedDrawTable.DisplayName, _isNeedDrawTable))),
-			InlineKeyboardButton.WithCallbackData(
-				text: $"У вигляді таблиці: {flag}",
-				callbackData: _callbackQueryService.CreateQuery<CallbackQueries.GetTasksQuery>(userDto,
-					(CallbackQueriesDataKey.Toggle.DisplayName, _isNeedDrawTable)))
-		};
+		var currentRow = ConstructGeneralButtons(userDto);
 
 		inlineKeyboard.Add(currentRow);
 		currentRow = new List<InlineKeyboardButton>();
@@ -177,5 +164,24 @@ public class GetTasksCommand : ICommand
 		if (currentRow.Count > 0) inlineKeyboard.Add(currentRow);
 
 		return new InlineKeyboardMarkup(inlineKeyboard);
+	}
+
+	private List<InlineKeyboardButton> ConstructGeneralButtons(UserDto userDto)
+	{
+		var flag = _isNeedDrawTable ? StringConstant.ToggleOn.DisplayName : StringConstant.ToggleOff.DisplayName;
+
+		return
+		[
+			InlineKeyboardButton.WithCallbackData(
+				text: "Особисті",
+				_callbackQueryService.CreateQuery<CallbackQueries.GetTasksQuery>(userDto,
+					(CallbackQueriesDataKey.TelegramId.DisplayName, userDto.Id),
+					(CallbackQueriesDataKey.IsNeedDrawTable.DisplayName, _isNeedDrawTable))),
+
+			InlineKeyboardButton.WithCallbackData(
+				text: $"У вигляді таблиці: {flag}",
+				callbackData: _callbackQueryService.CreateQuery<CallbackQueries.GetTasksQuery>(userDto,
+					(CallbackQueriesDataKey.Toggle.DisplayName, _isNeedDrawTable)))
+		];
 	}
 }
