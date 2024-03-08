@@ -7,4 +7,5 @@ public record CallbackQueriesDataKey(int Id, string DisplayName) : Enumeration<C
 	public static readonly CallbackQueriesDataKey TelegramId = new(1, "TelegramId");
 	public static readonly CallbackQueriesDataKey IsNeedDrawTable = new(2, "IsNeedDrawTable");
 	public static readonly CallbackQueriesDataKey Toggle = new(3, "Toggle");
+	public static readonly CallbackQueriesDataKey LangCode = new(4, "LangCode");
 }

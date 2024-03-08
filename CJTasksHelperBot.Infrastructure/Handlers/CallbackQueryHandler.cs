@@ -18,10 +18,10 @@ public class CallbackQueryHandler : ICallbackQueryHandler
 
 	public async Task HandleCallbackQueryAsync(CallbackQuery callbackQuery, CancellationToken cancellationToken)
 	{
-		await _botClient.AnswerCallbackQueryAsync(
-			callbackQueryId: callbackQuery.Id,
-			text: callbackQuery.Data,
-			cancellationToken: cancellationToken);
+		// await _botClient.AnswerCallbackQueryAsync(
+		// 	callbackQueryId: callbackQuery.Id,
+		// 	text: callbackQuery.Data,
+		// 	cancellationToken: cancellationToken);
 
 		await _callbackQueryService.HandleCallBackQueryAsync(callbackQuery, cancellationToken);
 	}

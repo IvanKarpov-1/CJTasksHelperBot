@@ -9,4 +9,6 @@ public record CommandStep(int Id, string DisplayName) : Enumeration<CommandStep>
 	public static readonly CommandStep WritingTaskTitle = new(1, "WritingTaskTitle");
 	public static readonly CommandStep WritingTaskDescription = new(2, "WritingTaskDescription");
 	public static readonly CommandStep WritingTaskDeadline = new(3, "WritingTaskDeadline");
+
+	public static readonly CommandStep WritingLanguageCode = new(4, "WritingLanguageCode");
 }
