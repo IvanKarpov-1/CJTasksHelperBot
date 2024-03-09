@@ -3,6 +3,8 @@ using CJTasksHelperBot.Infrastructure.Common;
 using CJTasksHelperBot.Infrastructure.Common.Enums;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces.Services;
+using CJTasksHelperBot.Infrastructure.Resources;
+using Microsoft.Extensions.Localization;
 using Telegram.Bot;
 
 namespace CJTasksHelperBot.Infrastructure.CommandSteps;
@@ -11,11 +13,13 @@ public class StopStep : IStep
 {
 	private readonly ITelegramBotClient _botClient;
 	private readonly ICacheService _commandStateService;
+	private readonly IStringLocalizer<Messages> _localizer;
 
-	public StopStep(ITelegramBotClient botClient, ICacheService commandStateService)
+	public StopStep(ITelegramBotClient botClient, ICacheService commandStateService, IStringLocalizer<Messages> localizer)
 	{
 		_botClient = botClient;
 		_commandStateService = commandStateService;
+		_localizer = localizer;
 	}
 
 	public CommandStep CommandStep { get; set; } = CommandStep.Stop;
@@ -29,7 +33,7 @@ public class StopStep : IStep
 
 		await _botClient.SendTextMessageAsync(
 			chatId: chatDto.Id,
-			text: $"Команда {command} успішно перервана",
+			text: $"{_localizer["comm_succ_int"]}: {command}",
 			cancellationToken: cancellationToken);
 	}
 }

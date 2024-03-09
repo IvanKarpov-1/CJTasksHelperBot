@@ -8,6 +8,8 @@ using CJTasksHelperBot.Infrastructure.Common.Interfaces;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces.Services;
 using MediatR;
 using System.Text;
+using CJTasksHelperBot.Infrastructure.Resources;
+using Microsoft.Extensions.Localization;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -20,14 +22,16 @@ public class GetTasksCommand : ICommand
 	private readonly IMediator _mediator;
 	private readonly ITableService _tableService;
 	private readonly ICallbackQueryService _callbackQueryService;
+	private readonly IStringLocalizer<Messages> _localizer;
 	private bool _isNeedDrawTable;
 
-	public GetTasksCommand(ITelegramBotClient botClient, IMediator mediator, ITableService tableService, ICallbackQueryService callbackQueryService)
+	public GetTasksCommand(ITelegramBotClient botClient, IMediator mediator, ITableService tableService, ICallbackQueryService callbackQueryService, IStringLocalizer<Messages> localizer)
 	{
 		_botClient = botClient;
 		_mediator = mediator;
 		_tableService = tableService;
 		_callbackQueryService = callbackQueryService;
+		_localizer = localizer;
 	}
 
 	public CommandType CommandType => CommandType.GetTasks;
@@ -61,7 +65,9 @@ public class GetTasksCommand : ICommand
 			{
 				var tasks = await GetTasks(chatDto, cancellationToken);
 
-				var table = tasks != null ? "`" + _tableService.GetTable(tasks).EscapeCharacters() + "`" : "Немає завдань";
+				var table = tasks != null 
+					? "`" + _tableService.GetTable(tasks).EscapeCharacters() + "`" 
+					: _localizer["no_tasks"];
 
 				await _botClient.SendTextMessageAsync(
 					chatId: chatDto.Id,
@@ -92,12 +98,15 @@ public class GetTasksCommand : ICommand
 			foreach (var task in tasks)
 			{
 				tasksInfo.AppendLine(
-					$"{i++}) {task.Title} | До: {task.Deadline} | {task.Description} | Статус: {TaskStatusCustomEnum.FromValue((int)task.Status).DisplayName};\n");
+					$"{i++}) {task.Title} |" +
+					$" {_localizer["word_by"]}: {task.Deadline} |" +
+					$" {task.Description} |" +
+					$" {_localizer["word_status"]}: {TaskStatusCustomEnum.FromValue((int)task.Status).DisplayName};\n");
 			}
 		}
 		else
 		{
-			tasksInfo.AppendLine("Немає завдань");
+			tasksInfo.AppendLine(_localizer["no_tasks"]);
 		}
 
 		await _botClient.SendTextMessageAsync(
@@ -173,13 +182,13 @@ public class GetTasksCommand : ICommand
 		return
 		[
 			InlineKeyboardButton.WithCallbackData(
-				text: "Особисті",
+				text: _localizer["word_personal"],
 				_callbackQueryService.CreateQuery<CallbackQueries.GetTasksQuery>(userDto,
 					(CallbackQueriesDataKey.TelegramId.DisplayName, userDto.Id),
 					(CallbackQueriesDataKey.IsNeedDrawTable.DisplayName, _isNeedDrawTable))),
 
 			InlineKeyboardButton.WithCallbackData(
-				text: $"У вигляді таблиці: {flag}",
+				text: $"{_localizer["in_table_view"]} {flag}",
 				callbackData: _callbackQueryService.CreateQuery<CallbackQueries.GetTasksQuery>(userDto,
 					(CallbackQueriesDataKey.Toggle.DisplayName, _isNeedDrawTable)))
 		];

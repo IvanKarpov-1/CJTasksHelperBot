@@ -6,7 +6,9 @@ using CJTasksHelperBot.Infrastructure.Common.Enums;
 using CJTasksHelperBot.Infrastructure.Common.Extensions;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces.Services;
+using CJTasksHelperBot.Infrastructure.Resources;
 using MediatR;
+using Microsoft.Extensions.Localization;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
@@ -19,13 +21,15 @@ public class ChangeLanguageCommand : ICommand
     private readonly ICacheService _cacheService;
     private readonly IMediator _mediator;
     private readonly ICallbackQueryService _callbackQueryService;
+    private readonly IStringLocalizer<Messages> _localizer;
 
-    public ChangeLanguageCommand(ITelegramBotClient botClient, ICacheService cacheService, IMediator mediator, ICallbackQueryService callbackQueryService)
+    public ChangeLanguageCommand(ITelegramBotClient botClient, ICacheService cacheService, IMediator mediator, ICallbackQueryService callbackQueryService, IStringLocalizer<Messages> localizer)
     {
         _botClient = botClient;
         _cacheService = cacheService;
         _mediator = mediator;
         _callbackQueryService = callbackQueryService;
+        _localizer = localizer;
     }
 
     public CommandType CommandType => CommandType.ChangeLanguage;
@@ -51,7 +55,7 @@ public class ChangeLanguageCommand : ICommand
         {
             await _botClient.SendTextMessageAsync(
                 chatId: chatDto.Id,
-                text: $"Потрібно ввести код мови `{CommandLineArgument.Language.DisplayName}`",
+                text: $"{_localizer["need_enter_lang_code"]} `{CommandLineArgument.Language.DisplayName}`",
                 parseMode: ParseMode.MarkdownV2,
                 cancellationToken: cancellationToken);
 			
@@ -71,7 +75,7 @@ public class ChangeLanguageCommand : ICommand
         {
             await _botClient.SendTextMessageAsync(
                 chatId: chatDto.Id,
-                text: $"Введено невірне значення. Спробуйте ще раз",
+                text: _localizer["wrng_val_enter_again"],
                 parseMode: ParseMode.MarkdownV2,
                 cancellationToken: cancellationToken);
         }
@@ -89,9 +93,7 @@ public class ChangeLanguageCommand : ICommand
 
         var availableLangCodes = LanguageCodeCustomEnum.GetAll().Select(x => x.DisplayName);
 
-        var message = "Щоб перервати виконання команди, напишіть /stop\n" +
-                          "\n" +
-                          "Введіть код мови. Доступні коди: ".EscapeCharacters();
+        var message = $"{_localizer["to_int_enter"]}\n\n{_localizer["enter_lang_code"]}".EscapeCharacters();
 
         message += '`' + string.Join("`, `", availableLangCodes) + '`';
         
@@ -136,7 +138,7 @@ public class ChangeLanguageCommand : ICommand
         
         await _botClient.SendTextMessageAsync(
             chatId: chatDto.Id,
-            text: "Виберіть мову",
+            text: _localizer["choose_lang"],
             replyMarkup: new InlineKeyboardMarkup(inlineKeyboard),
             cancellationToken: cancellationToken);
     }

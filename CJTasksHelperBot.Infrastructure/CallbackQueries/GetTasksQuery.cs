@@ -7,6 +7,8 @@ using CJTasksHelperBot.Infrastructure.Common.Interfaces.Services;
 using MediatR;
 using Newtonsoft.Json;
 using System.Text;
+using CJTasksHelperBot.Infrastructure.Resources;
+using Microsoft.Extensions.Localization;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -20,13 +22,15 @@ public class GetTasksQuery : ICallbackQuery
 	private readonly ICacheService _cacheService;
 	private readonly IMediator _mediator;
 	private readonly ITableService _tableService;
+	private readonly IStringLocalizer<Messages> _localizer;
 
-	public GetTasksQuery(ITelegramBotClient botClient, ICacheService cacheService, IMediator mediator, ITableService tableService)
+	public GetTasksQuery(ITelegramBotClient botClient, ICacheService cacheService, IMediator mediator, ITableService tableService, IStringLocalizer<Messages> localizer)
 	{
 		_botClient = botClient;
 		_cacheService = cacheService;
 		_mediator = mediator;
 		_tableService = tableService;
+		_localizer = localizer;
 	}
 
 	public bool IsRequireCallbackQuery => true;
@@ -93,7 +97,7 @@ public class GetTasksQuery : ICallbackQuery
 					var toggle = !(bool)data[CallbackQueriesDataKey.Toggle.DisplayName];
 					deserializeObject[CallbackQueriesDataKey.Toggle.DisplayName] = toggle;
 					var flag = toggle ? StringConstant.ToggleOn.DisplayName : StringConstant.ToggleOff.DisplayName;
-					button.Text = $"{StringConstant.InTableView.DisplayName} {flag}";
+					button.Text = $"{_localizer["in_table_view"]} {flag}";
 				}
 
 				serializedObject = JsonConvert.SerializeObject(deserializeObject);
@@ -120,7 +124,7 @@ public class GetTasksQuery : ICallbackQuery
 		var id = long.Parse(data[CallbackQueriesDataKey.TelegramId.DisplayName].ToString()!);
 		var tasks = await GetTasks(id, cancellationToken);
 
-		var table = tasks != null ? "`" + _tableService.GetTable(tasks).EscapeCharacters() + "`" : "Немає завдань";
+		var table = tasks != null ? "`" + _tableService.GetTable(tasks).EscapeCharacters() + "`" : _localizer["no_tasks"];
 
 		await _botClient.EditMessageTextAsync(
 			chatId: _callbackQuery!.Message!.Chat.Id,
@@ -144,12 +148,15 @@ public class GetTasksQuery : ICallbackQuery
 			foreach (var task in tasks)
 			{
 				tasksInfo.AppendLine(
-					$"{i++}) {task.Title} | До: {task.Deadline} | {task.Description} | Статус: {TaskStatusCustomEnum.FromValue((int)task.Status).DisplayName};\n");
+					$"{i++}) {task.Title} |" +
+					$" {_localizer["word_by"]}: {task.Deadline} |" +
+					$" {task.Description} |" +
+					$" {_localizer["word_status"]}: {TaskStatusCustomEnum.FromValue((int)task.Status).DisplayName};\n");
 			}
 		}
 		else
 		{
-			tasksInfo.AppendLine("Немає завдань");
+			tasksInfo.AppendLine(_localizer["no_tasks"]);
 		}
 
 		await _botClient.EditMessageTextAsync(

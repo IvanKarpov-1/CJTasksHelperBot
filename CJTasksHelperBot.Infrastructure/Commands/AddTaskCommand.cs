@@ -7,6 +7,8 @@ using CJTasksHelperBot.Infrastructure.Common.Interfaces;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces.Services;
 using MediatR;
 using System.Globalization;
+using CJTasksHelperBot.Infrastructure.Resources;
+using Microsoft.Extensions.Localization;
 using Telegram.Bot;
 using Telegram.Bot.Types.Enums;
 
@@ -17,12 +19,14 @@ public class AddTaskCommand : ICommand
 	private readonly ITelegramBotClient _botClient;
 	private readonly ICacheService _cacheService;
 	private readonly IMediator _mediator;
+	private readonly IStringLocalizer<Messages> _localizer;
 
-	public AddTaskCommand(ITelegramBotClient botClient, ICacheService cacheService, IMediator mediator)
+	public AddTaskCommand(ITelegramBotClient botClient, ICacheService cacheService, IMediator mediator, IStringLocalizer<Messages> localizer)
 	{
 		_botClient = botClient;
 		_cacheService = cacheService;
 		_mediator = mediator;
+		_localizer = localizer;
 	}
 
 	public CommandType CommandType => CommandType.AddTask;
@@ -40,9 +44,7 @@ public class AddTaskCommand : ICommand
 
 		await _botClient.SendTextMessageAsync(
 			chatId: chatDto.Id,
-			text: "Щоб перервати виконання команди, напишіть /stop\n" +
-			      "\n" +
-			      "Введіть назву завдання",
+			text: $"{_localizer["to_int_enter"]}\n\n{_localizer["enter_task_name"]}",
 			cancellationToken: cancellationToken);
 	}
 
@@ -58,7 +60,7 @@ public class AddTaskCommand : ICommand
 		{
 			await _botClient.SendTextMessageAsync(
 				chatId: chatDto.Id,
-				text: $"Потрібно ввести назву задачі `{CommandLineArgument.Title.DisplayName}`",
+				text: $"{_localizer["need_enter_task_name"]} `{CommandLineArgument.Title.DisplayName}`",
 				parseMode: ParseMode.MarkdownV2,
 				cancellationToken: cancellationToken);
 			
@@ -76,7 +78,7 @@ public class AddTaskCommand : ICommand
 			{
 				await _botClient.SendTextMessageAsync(
 					chatId: chatDto.Id,
-					text: "Неправильно введені дата та час. Спробуйте ще раз",
+					text: _localizer["wrong_datetime_try_again"],
 					cancellationToken: cancellationToken);
 
 				return;
@@ -101,7 +103,7 @@ public class AddTaskCommand : ICommand
 
 		await _botClient.SendTextMessageAsync(
 			chatId: chatDto.Id,
-			text: "Задачу було успішно створено",
+			text: _localizer["task_created"],
 			cancellationToken: cancellationToken);
 	}
 }

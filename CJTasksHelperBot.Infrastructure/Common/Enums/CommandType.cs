@@ -9,5 +9,5 @@ public record CommandType(int Id, string DisplayName) : Enumeration<CommandType>
     public static readonly CommandType GetCurrentUser = new(2, "/get_current_user");
     public static readonly CommandType AddTask = new(3, "/add_task");
     public static readonly CommandType GetTasks = new(4, "/get_tasks");
-    public static readonly CommandType ChangeLanguage = new(5, "/chlang");
+    public static readonly CommandType ChangeLanguage = new(5, "/ch_lang");
 }

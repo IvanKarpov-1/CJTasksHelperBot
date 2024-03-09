@@ -2,6 +2,8 @@
 using Alba.CsConsoleFormat;
 using CJTasksHelperBot.Application.Common.Models;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces.Services;
+using CJTasksHelperBot.Infrastructure.Resources;
+using Microsoft.Extensions.Localization;
 
 namespace CJTasksHelperBot.Infrastructure.Services;
 
@@ -9,7 +11,14 @@ public class TableService : ITableService
 {
 	private static readonly LineThickness StrokeHeader = new LineThickness(LineWidth.None, LineWidth.Double);
 	private static readonly LineThickness StrokeRight = new LineThickness(LineWidth.None, LineWidth.None, LineWidth.Single, LineWidth.None);
-	
+
+	private readonly IStringLocalizer<Messages> _localizer;
+
+	public TableService(IStringLocalizer<Messages> localizer)
+	{
+		_localizer = localizer;
+	}
+
 	public string GetTable(IEnumerable<GetTaskDto> items)
 	{
 		var i = 1;
@@ -28,9 +37,9 @@ public class TableService : ITableService
 				Children =
 				{
 					new Cell("№") {Stroke = StrokeHeader},
-					new Cell("Назва") {Stroke = StrokeHeader},
-					new Cell("Дедлайн") {Stroke = StrokeHeader},
-					new Cell("Опис") {Stroke = StrokeHeader},
+					new Cell(_localizer["table_service_name"]) {Stroke = StrokeHeader},
+					new Cell(_localizer["table_service_deadline"]) {Stroke = StrokeHeader},
+					new Cell(_localizer["table_cell_description"]) {Stroke = StrokeHeader},
 					items.Select(item => new[]
 					{
 						new Cell(i++) {Stroke = StrokeRight},

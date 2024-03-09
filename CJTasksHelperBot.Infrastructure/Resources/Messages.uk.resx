@@ -18,17 +18,98 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
-    <data name="help_message" xml:space="preserve">
+    <data name="help_message">
         <value>Привіт! Я — &lt;b&gt;CJTasksHelperBot&lt;/b&gt;. Я допоможу організувати ваші задачі та домашні завдання.
-            
+
 Деякі команди виконуються в декілька кроків, тому потрібно не переривати ввід потрібної інформації або ж скасувати виконання команди.
-            
+
 Деякі команди підтримують аргументи командного рядка з прапорцями. Для деталей додайте прапорець &lt;code&gt;-h|--help&lt;/code&gt; до команди (через пробіл). Даний прапорець має пріоритет над іншими, тому інші буде проігноровано.
-            
+
 Щоб взаємодіяти зі мною, використовуйте такі команди:
 /help - показати цю підказку
 /add_task - додати завдання
 
 /stop - зупинити поточну команду</value>
+    </data>
+    
+    <data name="table_cell_name">
+        <value>Назва</value>
+    </data>
+    <data name="table_cell_deadline">
+        <value>Дедлайн</value>
+    </data>
+    <data name="table_cell_description">
+        <value>Опис</value>
+    </data>
+    <data name="in_table_view">
+        <value>У вигляді таблиці:</value>
+    </data>
+    
+    <data name="wrng_val_enter_again">
+        <value>Введено невірне значення. Спробуйте ще раз</value>
+    </data>
+    
+    <data name="comm_succ_int">
+        <value>Команда успішно перервана</value>
+    </data>
+    <data name="enter_task_desc">
+        <value>Введіть опис завдання</value>
+    </data>
+    <data name="enter_task_deadline">
+        <value>Введіть дедлайн завдання у форматі `dd.MM.yyyy HH:mm` або `dd.MM.yyyy`</value>
+    </data>
+    <data name="word_example">
+        <value>Приклад</value>
+    </data>
+    <data name="wrong_datetime_try_again">
+        <value>Неправильно введені дата та час. Спробуйте ще раз</value>
+    </data>
+    <data name="err_creat_task_try_again">
+        <value>Трапилась помилка під час створення завдання. Спробуйте ще раз заново</value>
+    </data>
+    <data name="task_created">
+        <value>Задачу було успішно створено</value>
+    </data>
+    
+    <data name="usage">
+        <value>Використання:
+
+/start - показати доступні команди
+/get_current_user - отримати ім'я та фамілію поточного користувача
+/add_task - додати завдання</value>
+    </data>
+
+    <data name="no_tasks">
+        <value>Немає завдань</value>
+    </data>
+    <data name="word_by">
+        <value>До</value>
+    </data>
+    <data name="word_status">
+        <value>Статус</value>
+    </data>
+    <data name="word_personal">
+        <value>Особисті</value>
+    </data>
+
+    <data name="to_int_enter">
+        <value>Щоб перервати виконання команди, напишіть /stop</value>
+    </data>
+
+    <data name="need_enter_lang_code">
+        <value>Потрібно ввести код мови</value>
+    </data>
+    <data name="enter_lang_code">
+        <value>Введіть код мови. Доступні коди: </value>
+    </data>
+    <data name="choose_lang">
+        <value>Виберіть мову</value>
+    </data>
+    <data name="enter_task_name">
+        <value>Введіть назву завдання</value>
+    </data>
+    
+    <data name="need_enter_task_name">
+        <value>Потрібно ввести назву задачі</value>
     </data>
 </root>

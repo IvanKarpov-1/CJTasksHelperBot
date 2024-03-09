@@ -18,7 +18,7 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
-    <data name="help_message" xml:space="preserve">
+    <data name="help_message">
         <value>Hello, I am &lt;b&gt;CJTasksHelperBot&lt;/b&gt;. I will help you organize your tasks and homework.
             
 Some commands are executed in several steps, so you need to keep entering the necessary information or cancel the command.
@@ -30,5 +30,86 @@ To interact with me, use the following commands:
 /add_task - add a task
 
 /stop - stop the current command</value>
+    </data>
+    
+    <data name="table_cell_name">
+        <value>Name</value>
+    </data>
+    <data name="table_cell_deadline">
+        <value>Deadline</value>
+    </data>
+    <data name="table_cell_description">
+        <value>Description</value>
+    </data>
+    <data name="in_table_view">
+        <value>In table view:</value>
+    </data>
+    
+    <data name="wrng_val_enter_again">
+        <value>An invalid value was entered. Please try again</value>
+    </data>
+    
+    <data name="comm_succ_int">
+        <value>Command successfully interrupted</value>
+    </data>
+    <data name="enter_task_desc">
+        <value>Enter task description</value>
+    </data>
+    <data name="enter_task_deadline">
+        <value>Enter the task deadline in the format `dd.MM.yyyy HH:mm` or `dd.MM.yyyy`</value>
+    </data>
+    <data name="word_example">
+        <value>Example</value>
+    </data>
+    <data name="wrong_datetime_try_again">
+        <value>The date and time are incorrect. Please try again</value>
+    </data>
+    <data name="err_creat_task_try_again">
+        <value>An error occurred while creating a task. Please try again</value>
+    </data>
+    <data name="task_created">
+        <value>The task was successfully created</value>
+    </data>
+
+    <data name="usage">
+        <value>Usage:
+
+/start - show available commands
+/get_current_user - get the name and surname of the current user
+/add_task - add a task</value>
+    </data>
+    
+    <data name="no_tasks">
+        <value>No tasks</value>
+    </data>
+    <data name="word_by">
+        <value>By</value>
+    </data>
+    <data name="word_status">
+        <value>Status</value>
+    </data>
+    <data name="word_personal">
+        <value>Personal</value>
+    </data>
+
+    <data name="to_int_enter">
+        <value>To interrupt the command, write /stop</value>
+    </data>
+    
+    <data name="need_enter_lang_code">
+        <value>You need to enter the language code</value>
+    </data>
+    <data name="enter_lang_code">
+        <value>Enter the language code. Available codes: </value>
+    </data>
+    <data name="choose_lang">
+        <value>Choose language</value>
+    </data>
+    <data name="enter_task_name">
+        <value>Enter task name</value>
+    </data>
+
+    <data name="need_enter_task_name">
+        <value>You need to enter task name</value>
     </data>
 </root>

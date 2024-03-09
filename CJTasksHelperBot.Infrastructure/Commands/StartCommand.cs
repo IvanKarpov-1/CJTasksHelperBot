@@ -1,6 +1,8 @@
 ﻿using CJTasksHelperBot.Application.Common.Models;
 using CJTasksHelperBot.Infrastructure.Common.Enums;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces;
+using CJTasksHelperBot.Infrastructure.Resources;
+using Microsoft.Extensions.Localization;
 using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -9,10 +11,12 @@ namespace CJTasksHelperBot.Infrastructure.Commands;
 public class StartCommand : ICommand
 {
 	private readonly ITelegramBotClient _botClient;
+	private readonly IStringLocalizer<Messages> _localizer;
 
-	public StartCommand(ITelegramBotClient botClient)
+	public StartCommand(ITelegramBotClient botClient, IStringLocalizer<Messages> localizer)
 	{
 		_botClient = botClient;
+		_localizer = localizer;
 	}
 
 	public CommandType CommandType => CommandType.Start;
@@ -20,14 +24,9 @@ public class StartCommand : ICommand
 
 	public async Task ExecuteAsync(UserDto userDto, ChatDto chatDto, CancellationToken cancellationToken)
 	{
-		const string usage = "Використання:\n" +
-		                     "/start - показати доступні команди\n" +
-		                     "/get_current_user - отримати ім'я та фамілію поточного користувача\n" +
-		                     "/add_task - додати завдання\n";
-
 		await _botClient.SendTextMessageAsync(
 			chatId: chatDto.Id,
-			text: usage,
+			text: _localizer["usage"],
 			replyMarkup: new ReplyKeyboardRemove(),
 			cancellationToken: cancellationToken);
 	}
