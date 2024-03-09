@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CJTasksHelperBot.Persistence.Migrations.SqliteMigrations
 {
     [DbContext(typeof(SqliteApplicationDbContext))]
-    [Migration("20240308154051_Initial")]
-    partial class Initial
+    [Migration("20240309145808_Initial3")]
+    partial class Initial3
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -27,6 +27,9 @@ namespace CJTasksHelperBot.Persistence.Migrations.SqliteMigrations
 
                     b.Property<DateTime>("CreatedAt")
                         .HasColumnType("TEXT");
+
+                    b.Property<int>("LanguageCode")
+                        .HasColumnType("INTEGER");
 
                     b.Property<string>("Title")
                         .HasColumnType("TEXT");

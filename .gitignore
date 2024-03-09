@@ -6,6 +6,9 @@
 appsettings.json
 appsettings.Development.json
 
+*.db
+*.db*
+
 # User-specific files
 *.rsuser
 *.suo
