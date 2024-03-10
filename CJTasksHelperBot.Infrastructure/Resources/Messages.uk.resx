@@ -112,4 +112,8 @@
     <data name="need_enter_task_name">
         <value>Потрібно ввести назву задачі</value>
     </data>
+    
+    <data name="only_for_admins">
+        <value>Команда дозволена тільки для адміністраторів групи</value>
+    </data>
 </root>

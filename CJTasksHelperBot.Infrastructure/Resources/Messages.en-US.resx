@@ -112,4 +112,8 @@ To interact with me, use the following commands:
     <data name="need_enter_task_name">
         <value>You need to enter task name</value>
     </data>
+
+    <data name="only_for_admins">
+        <value>The command is allowed only for group administrators</value>
+    </data>
 </root>

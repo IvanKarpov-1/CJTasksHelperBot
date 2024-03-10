@@ -188,5 +188,11 @@ namespace CJTasksHelperBot.Infrastructure.Resources {
                 return ResourceManager.GetString("need_enter_task_name", resourceCulture);
             }
         }
+        
+        internal static string only_for_admins {
+            get {
+                return ResourceManager.GetString("only_for_admins", resourceCulture);
+            }
+        }
     }
 }

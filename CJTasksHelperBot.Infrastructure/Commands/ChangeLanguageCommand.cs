@@ -23,7 +23,8 @@ public class ChangeLanguageCommand : ICommand
     private readonly ICallbackQueryService _callbackQueryService;
     private readonly IStringLocalizer<Messages> _localizer;
 
-    public ChangeLanguageCommand(ITelegramBotClient botClient, ICacheService cacheService, IMediator mediator, ICallbackQueryService callbackQueryService, IStringLocalizer<Messages> localizer)
+    public ChangeLanguageCommand(ITelegramBotClient botClient, ICacheService cacheService, IMediator mediator,
+        ICallbackQueryService callbackQueryService, IStringLocalizer<Messages> localizer)
     {
         _botClient = botClient;
         _cacheService = cacheService;
@@ -34,6 +35,7 @@ public class ChangeLanguageCommand : ICommand
 
     public CommandType CommandType => CommandType.ChangeLanguage;
     public bool IsAllowCommandLineArguments => true;
+
     public async Task ExecuteAsync(UserDto userDto, ChatDto chatDto, CancellationToken cancellationToken)
     {
         if (userDto.Id != chatDto.Id)
@@ -46,7 +48,8 @@ public class ChangeLanguageCommand : ICommand
         }
     }
 
-    public async Task ExecuteWithCommandLineArguments(UserDto userDto, ChatDto chatDto, Dictionary<string, string> arguments,
+    public async Task ExecuteWithCommandLineArguments(UserDto userDto, ChatDto chatDto,
+        Dictionary<string, string> arguments,
         CancellationToken cancellationToken)
     {
         var language = arguments.GetArgument(CommandLineArgument.Language);
@@ -58,7 +61,7 @@ public class ChangeLanguageCommand : ICommand
                 text: $"{_localizer["need_enter_lang_code"]} `{CommandLineArgument.Language.DisplayName}`",
                 parseMode: ParseMode.MarkdownV2,
                 cancellationToken: cancellationToken);
-			
+
             return;
         }
 
@@ -68,7 +71,9 @@ public class ChangeLanguageCommand : ICommand
 
             if (Enum.IsDefined(typeof(LanguageCode), langId))
             {
-                await _mediator.Send(new ChangeChatLanguageCodeQuery { ChatId = chatDto.Id, LanguageCode = (LanguageCode)langId }, cancellationToken);
+                await _mediator.Send(
+                    new ChangeChatLanguageCodeQuery { ChatId = chatDto.Id, LanguageCode = (LanguageCode)langId },
+                    cancellationToken);
             }
         }
         catch (InvalidOperationException)
@@ -83,6 +88,18 @@ public class ChangeLanguageCommand : ICommand
 
     private async Task SendMessage(UserDto userDto, ChatDto chatDto, CancellationToken cancellationToken)
     {
+        var admins = await _botClient.GetChatAdministratorsAsync(chatDto.Id, cancellationToken);
+
+        if (admins.Any(x => x.User.Id == userDto.Id) == false)
+        {
+            await _botClient.SendTextMessageAsync(
+                chatId: chatDto.Id,
+                text: _localizer["only_for_admins"],
+                parseMode: ParseMode.MarkdownV2,
+                cancellationToken: cancellationToken);
+            return;
+        }
+
         var stateObject = new StateObject
         {
             CallingCommand = CommandType.DisplayName,
@@ -96,7 +113,7 @@ public class ChangeLanguageCommand : ICommand
         var message = $"{_localizer["to_int_enter"]}\n\n{_localizer["enter_lang_code"]}".EscapeCharacters();
 
         message += '`' + string.Join("`, `", availableLangCodes) + '`';
-        
+
         await _botClient.SendTextMessageAsync(
             chatId: chatDto.Id,
             text: message,
@@ -107,7 +124,7 @@ public class ChangeLanguageCommand : ICommand
     private async Task SendInlineKeyboard(UserDto userDto, ChatDto chatDto, CancellationToken cancellationToken)
     {
         var availableLangCodes = LanguageCodeCustomEnum.GetAll().Select(x => x.DisplayName);
-        
+
         const int maxButtonWidth = 30;
         var availableWidth = Math.Min(4096, maxButtonWidth * 4);
         var inlineKeyboard = new List<List<InlineKeyboardButton>>();
@@ -117,7 +134,7 @@ public class ChangeLanguageCommand : ICommand
         foreach (var langCode in availableLangCodes)
         {
             var buttonWidth = langCode.Length;
-            
+
             if (currentRowWidth + buttonWidth > availableWidth)
             {
                 inlineKeyboard.Add(currentRow);
@@ -133,9 +150,9 @@ public class ChangeLanguageCommand : ICommand
             currentRow.Add(button);
             currentRowWidth += buttonWidth;
         }
-        
+
         if (currentRow.Count > 0) inlineKeyboard.Add(currentRow);
-        
+
         await _botClient.SendTextMessageAsync(
             chatId: chatDto.Id,
             text: _localizer["choose_lang"],
