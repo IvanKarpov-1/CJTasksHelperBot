@@ -2,6 +2,7 @@
 
 public interface ICacheService
 {
+	void SetExpiration(int absoluteExpirationHours, int? slidingExpirationMinutes = null);
 	void Add<T>(long userId, long chatId, T data);
 	T? Get<T>(long userId, long chatId);
 	void Update<T>(long userId, long chatId, T data);

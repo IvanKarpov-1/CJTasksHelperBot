@@ -6,12 +6,19 @@ namespace CJTasksHelperBot.Infrastructure.Services;
 public class CacheService : ICacheService
 {
 	private readonly IMemoryCache _memoryCache;
-	private const int AbsoluteExpirationHours = 1;
-	private const int SlidingExpirationMinutes = 20;
+	private int _absoluteExpirationHours = 1;
+	private int _slidingExpirationMinutes = 20;
 
 	public CacheService(IMemoryCache memoryCache)
 	{
 		_memoryCache = memoryCache;
+	}
+
+	public void SetExpiration(int absoluteExpirationHours, int? slidingExpirationMinutes = null)
+	{
+		_absoluteExpirationHours = absoluteExpirationHours;
+		slidingExpirationMinutes ??= absoluteExpirationHours * 60;
+		_slidingExpirationMinutes = (int)slidingExpirationMinutes;
 	}
 
 	public void Add<T>(long userId, long chatId, T data)
@@ -40,19 +47,20 @@ public class CacheService : ICacheService
 
 	public void Add<T>(string key, T data)
 	{
-		var absoluteExpiration = DateTimeOffset.Now.AddHours(AbsoluteExpirationHours);
+		var absoluteExpiration = DateTimeOffset.Now.AddHours(_absoluteExpirationHours);
+		var slidingExpirationMinutes = TimeSpan.FromMinutes(_slidingExpirationMinutes);
 
 		var entity = new CachingEntity<T>
 		{
 			InitialAbsoluteExpiration = absoluteExpiration,
-			InitialSlidingExpiration = TimeSpan.FromMinutes(SlidingExpirationMinutes),
+			InitialSlidingExpiration = slidingExpirationMinutes,
 			Object = data
 		};
 
 		_memoryCache.Set(key, entity, new MemoryCacheEntryOptions
 		{
 			AbsoluteExpiration = absoluteExpiration,
-			SlidingExpiration = TimeSpan.FromMinutes(SlidingExpirationMinutes)
+			SlidingExpiration = slidingExpirationMinutes
 		});
 	}
 
