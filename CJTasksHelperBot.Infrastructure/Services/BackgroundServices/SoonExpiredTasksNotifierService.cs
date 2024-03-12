@@ -47,12 +47,6 @@ public class SoonExpiredTasksNotifierService : BackgroundService
                     .ThenInclude(x => x!.User)
                     .Where(x => x.Deadline < DateTime.UtcNow.AddDays((int)x.NotificationLevel) &&
                         x.Deadline > DateTime.UtcNow &&
-                           new[]
-                           {
-                               TaskStatus.NotStarted, 
-                               TaskStatus.InProgress, 
-                               TaskStatus.AlmostDone
-                           }.Contains(x.Status) &&
                            x.NotificationLevel != NotificationLevel.Never)
                     .ToListAsync(stoppingToken);
 

@@ -26,6 +26,7 @@ public class ApplicationDbContext : DbContext, IApplicationDbContext
 	public DbSet<Task> Tasks => Set<Task>();
 	public DbSet<User> Users => Set<User>();
 	public DbSet<UserChat> UserChats => Set<UserChat>();
+	public DbSet<UserTaskStatus> UserTaskStatuses => Set<UserTaskStatus>();
 
 	protected override void OnModelCreating(ModelBuilder modelBuilder)
 	{

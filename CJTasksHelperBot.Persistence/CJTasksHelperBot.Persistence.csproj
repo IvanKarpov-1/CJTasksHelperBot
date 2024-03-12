@@ -23,8 +23,4 @@
     <ProjectReference Include="..\CJTasksHelperBot.Application\CJTasksHelperBot.Application.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Configurations\" />
-  </ItemGroup>
-
 </Project>

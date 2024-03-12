@@ -150,8 +150,8 @@ public class GetTasksQuery : ICallbackQuery
 				tasksInfo.AppendLine(
 					$"{i++}) {task.Title} |" +
 					$" {_localizer["word_by"]}: {task.Deadline} |" +
-					$" {task.Description} |" +
-					$" {_localizer["word_status"]}: {TaskStatusCustomEnum.FromValue((int)task.Status).DisplayName};\n");
+					$" {task.Description} |" /* +
+					$" {_localizer["word_status"]}: {TaskStatusCustomEnum.FromValue((int)task.Status).DisplayName};\n" */);
 			}
 		}
 		else

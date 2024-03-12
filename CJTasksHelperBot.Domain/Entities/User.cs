@@ -9,7 +9,7 @@ public class User
 	public string? FirstName { get; set; }
 	public string? LastName { get; set; }
 	public ICollection<Chat> Chats { get; set; } = new List<Chat>();
-	public ICollection<Task> Tasks { get; set; } = new List<Task>();
+	public ICollection<UserTaskStatus> UserTaskStatuses { get; set; } = new List<UserTaskStatus>();
 	public ICollection<Homework> Homeworks { get; set; } = new List<Homework>();
 	public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }
