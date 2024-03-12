@@ -105,7 +105,7 @@ public class SoonExpiredTasksNotifierService : BackgroundService
             }
             catch (Exception ex)
             {
-                _logger.LogInformation("Failed to execute {serviceName} with exception message: {message}", GetType(), ex.Message);
+                _logger.LogError("Failed to execute {serviceName} with exception message: {message}", GetType(), ex.Message);
             }
         }
     }
