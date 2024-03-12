@@ -5,6 +5,7 @@ using CJTasksHelperBot.Infrastructure.Common.Interfaces.Services;
 using CJTasksHelperBot.Infrastructure.Common.Mapping;
 using CJTasksHelperBot.Infrastructure.Handlers;
 using CJTasksHelperBot.Infrastructure.Services;
+using CJTasksHelperBot.Infrastructure.Services.BackgroundServices;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CJTasksHelperBot.Infrastructure;
@@ -34,6 +35,8 @@ public static class ConfigureServices
 		services.AddScoped<MapperlyMapper>();
 
 		services.AddMemoryCache();
+
+		services.AddHostedService<SoonExpiredTasksNotifierService>();
 
 		return services;
 	}
