@@ -1,6 +1,7 @@
 ﻿using CJTasksHelperBot.Application.Common.Interfaces;
 using CJTasksHelperBot.Application.Common.Mapping;
 using CJTasksHelperBot.Application.Common.Models;
+using CJTasksHelperBot.Domain.Enums;
 using MediatR;
 
 namespace CJTasksHelperBot.Application.Task.Commands;
@@ -28,7 +29,12 @@ public class CreateTaskCommandHandler : IRequestHandler<CreateTaskCommand, Resul
 			return Result<Unit>.Failure(new[] { "TaskDto is null" });
 		}
 
-		_unitOfWork.GetRepository<Domain.Entities.Task>().Attach(_mapper.Map(request.CreateTaskDto));
+		var task = _mapper.Map(request.CreateTaskDto);
+		
+		while (task.Deadline < DateTime.UtcNow.AddDays((int)task.NotificationLevel))
+			task.SetNotificationLevel();
+
+		_unitOfWork.GetRepository<Domain.Entities.Task>().Attach(task);
 
 		var result = await _unitOfWork.CommitAsync();
 
