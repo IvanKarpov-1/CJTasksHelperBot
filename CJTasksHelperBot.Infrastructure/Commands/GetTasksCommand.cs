@@ -88,12 +88,12 @@ public class GetTasksCommand : ICommand
 
 	private async Task ShowNotInTable(ChatDto chatDto, CancellationToken cancellationToken)
 	{
-		var tasks = await GetTasks(chatDto, cancellationToken);
+		var tasks = (await GetTasks(chatDto, cancellationToken) ?? Array.Empty<GetTaskDto>()).ToList();
 
 		var tasksInfo = new StringBuilder();
 		var i = 1;
 
-		if (tasks != null)
+		if (tasks.Count != 0)
 		{
 			foreach (var task in tasks)
 			{

@@ -138,12 +138,12 @@ public class GetTasksQuery : ICallbackQuery
 	private async Task ShowNotInTable(IReadOnlyDictionary<string, object> data, CancellationToken cancellationToken)
 	{
 		var id = long.Parse(data[CallbackQueriesDataKey.TelegramId.DisplayName].ToString()!);
-		var tasks = await GetTasks(id, cancellationToken);
+		var tasks = (await GetTasks(id, cancellationToken) ?? Array.Empty<GetTaskDto>()).ToList();
 
 		var tasksInfo = new StringBuilder();
 		var i = 1;
 
-		if (tasks != null)
+		if (tasks.Count != 0)
 		{
 			foreach (var task in tasks)
 			{
