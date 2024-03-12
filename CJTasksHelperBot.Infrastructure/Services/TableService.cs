@@ -37,8 +37,8 @@ public class TableService : ITableService
 				Children =
 				{
 					new Cell("№") {Stroke = StrokeHeader},
-					new Cell(_localizer["table_service_name"]) {Stroke = StrokeHeader},
-					new Cell(_localizer["table_service_deadline"]) {Stroke = StrokeHeader},
+					new Cell(_localizer["table_cell_name"]) {Stroke = StrokeHeader},
+					new Cell(_localizer["table_cell_deadline"]) {Stroke = StrokeHeader},
 					new Cell(_localizer["table_cell_description"]) {Stroke = StrokeHeader},
 					items.Select(item => new[]
 					{
