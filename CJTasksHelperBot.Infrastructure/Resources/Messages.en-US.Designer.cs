@@ -194,5 +194,35 @@ namespace CJTasksHelperBot.Infrastructure.Resources {
                 return ResourceManager.GetString("only_for_admins", resourceCulture);
             }
         }
+        
+        internal static string NotLevelWeek {
+            get {
+                return ResourceManager.GetString("NotLevelWeek", resourceCulture);
+            }
+        }
+        
+        internal static string NotLevelTwoDays {
+            get {
+                return ResourceManager.GetString("NotLevelTwoDays", resourceCulture);
+            }
+        }
+        
+        internal static string NotLevelDay {
+            get {
+                return ResourceManager.GetString("NotLevelDay", resourceCulture);
+            }
+        }
+        
+        internal static string deadline_notification_reminder {
+            get {
+                return ResourceManager.GetString("deadline_notification_reminder", resourceCulture);
+            }
+        }
+        
+        internal static string word_group {
+            get {
+                return ResourceManager.GetString("word_group", resourceCulture);
+            }
+        }
     }
 }

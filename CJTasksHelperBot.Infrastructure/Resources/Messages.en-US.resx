@@ -116,4 +116,21 @@ To interact with me, use the following commands:
     <data name="only_for_admins">
         <value>The command is allowed only for group administrators</value>
     </data>
+
+    <data name="NotLevelWeek">
+        <value>Tasks with a deadline in week</value>
+    </data>
+    <data name="NotLevelTwoDays">
+        <value>Tasks with a deadline in two days</value>
+    </data>
+    <data name="NotLevelDay">
+        <value>Tasks with a deadline in one day</value>
+    </data>
+
+    <data name="deadline_notification_reminder">
+        <value>Reminder of upcoming deadlines</value>
+    </data>
+    <data name="word_group">
+        <value>Group</value>
+    </data>
 </root>

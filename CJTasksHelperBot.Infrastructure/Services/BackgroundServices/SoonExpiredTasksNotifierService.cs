@@ -1,5 +1,9 @@
+using System.Text;
 using CJTasksHelperBot.Application.Common.Models;
 using CJTasksHelperBot.Application.Task.Queries;
+using CJTasksHelperBot.Domain.Enums;
+using CJTasksHelperBot.Infrastructure.Common.Extensions;
+using CJTasksHelperBot.Infrastructure.Common.Interfaces.Services;
 using CJTasksHelperBot.Infrastructure.Resources;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -7,24 +11,27 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Localization;
 using Microsoft.Extensions.Logging;
 using Telegram.Bot;
+using Telegram.Bot.Types.Enums;
 using Task = System.Threading.Tasks.Task;
 
 namespace CJTasksHelperBot.Infrastructure.Services.BackgroundServices;
 
 public class SoonExpiredTasksNotifierService : BackgroundService
 {
-    private readonly TimeSpan _period = TimeSpan.FromSeconds(1);
+    private readonly TimeSpan _period = TimeSpan.FromHours(8);
     private readonly IServiceProvider _serviceProvider;
     private readonly ILogger<SoonExpiredTasksNotifierService> _logger;
     private readonly ITelegramBotClient _botClient;
     private readonly IStringLocalizer<Messages> _localizer;
+    private readonly IDataPresentationService _dataPresentationService;
 
-    public SoonExpiredTasksNotifierService(IServiceProvider serviceProvider, ILogger<SoonExpiredTasksNotifierService> logger, ITelegramBotClient botClient, IStringLocalizer<Messages> localizer)
+    public SoonExpiredTasksNotifierService(IServiceProvider serviceProvider, ILogger<SoonExpiredTasksNotifierService> logger, ITelegramBotClient botClient, IStringLocalizer<Messages> localizer, IDataPresentationService dataPresentationService)
     {
         _serviceProvider = serviceProvider;
         _logger = logger;
         _botClient = botClient;
         _localizer = localizer;
+        _dataPresentationService = dataPresentationService;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -59,33 +66,107 @@ public class SoonExpiredTasksNotifierService : BackgroundService
         }
     }
     
-    private async Task NotifyGroupAsync(long chatId, List<GetTaskDto> tasks, CancellationToken cancellationToken)
+    private async Task NotifyGroupAsync(long chatId, IEnumerable<GetTaskDto> tasks, CancellationToken cancellationToken)
     {
-        await Task.CompletedTask;
+        var stringBuilder = GetBasicPopulatedStringBuilder();
+        
+        PopulateStringBuilderGroupedByNotLevelTasks(ref stringBuilder, tasks, _dataPresentationService.GetPlainTextRepresentation);
+
+        try
+        {
+            await _botClient.SendTextMessageAsync(
+                chatId: chatId,
+                text: stringBuilder.ToString(),
+                parseMode: ParseMode.MarkdownV2,
+                cancellationToken: cancellationToken);
+        }
+        catch (Exception)
+        {
+            // Ignore
+        }
     }
     
     private async Task NotifyUserAsync(long userId, Dictionary<string, List<GetTaskDto>> tasks, CancellationToken cancellationToken)
     {
+        try
+        {
+            await _botClient.SendTextMessageAsync(
+                chatId: userId,
+                text: GetBasicPopulatedStringBuilder().ToString(),
+                parseMode: ParseMode.MarkdownV2,
+                cancellationToken: cancellationToken);
+        }
+        catch (Exception)
+        {
+            // Ignore
+        }
+        
         foreach (var tuple in tasks)
         {
+            var stringBuilder = new StringBuilder();
+            
             var title = tuple.Key == string.Empty
                 ? _localizer["word_personal"]
                 : tuple.Key;
-
-            foreach (var task in tuple.Value)
+            
+            stringBuilder.Append('*');
+            stringBuilder.Append(_localizer["from_group"].Value.EscapeCharacters());
+            stringBuilder.Append(": ".EscapeCharacters());
+            stringBuilder.Append(title.EscapeCharacters());
+            stringBuilder.AppendLine("*\n");
+            
+            PopulateStringBuilderGroupedByNotLevelTasks(ref stringBuilder,
+                tuple.Value, 
+                _dataPresentationService.GetTabledTextRepresentation, 
+                true);
+            
+            try
             {
-                try
-                {
-                    await _botClient.SendTextMessageAsync(
-                        chatId: userId,
-                        text: $"{title}: {task.Title}",
-                        cancellationToken: cancellationToken);
-                }
-                catch (Exception)
-                {
-                    // Ignore
-                }
+                await _botClient.SendTextMessageAsync(
+                    chatId: userId,
+                    text: stringBuilder.ToString(),
+                    parseMode: ParseMode.MarkdownV2,
+                    cancellationToken: cancellationToken);
             }
+            catch (Exception)
+            {
+                // Ignore
+            }
+        }
+    }
+
+    private StringBuilder GetBasicPopulatedStringBuilder()
+    {
+        var stringBuilder = new StringBuilder();
+        
+        var reminder = _localizer["deadline_notification_reminder"].Value.EscapeCharacters();
+
+        stringBuilder.Append('*');
+        stringBuilder.Append(reminder);
+        stringBuilder.AppendLine("*\n");
+
+        return stringBuilder;
+    }
+
+    private void PopulateStringBuilderGroupedByNotLevelTasks(ref StringBuilder stringBuilder,
+        IEnumerable<GetTaskDto> tasks, Func<IEnumerable<GetTaskDto>, string> dataPresentationMethod,
+        bool tableView = false)
+    {
+        var tasksGroupedByNotificationLevel = tasks.GroupBy(x => x.NotificationLevel);
+
+        foreach (var grouping in tasksGroupedByNotificationLevel)
+        {
+            var header = _localizer[NotificationLevelCustomEnum.FromValue((int)grouping.Key).DisplayName].Value
+                .EscapeCharacters();
+            var plainText = dataPresentationMethod(grouping).EscapeCharacters();
+
+            stringBuilder.Append('*');
+            stringBuilder.Append(header);
+            stringBuilder.AppendLine("*");
+            if (tableView) stringBuilder.Append("```");
+            stringBuilder.AppendLine(plainText);
+            if (tableView) stringBuilder.Append("```");
+            stringBuilder.AppendLine();
         }
     }
 }

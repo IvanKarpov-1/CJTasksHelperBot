@@ -116,4 +116,21 @@
     <data name="only_for_admins">
         <value>Команда дозволена тільки для адміністраторів групи</value>
     </data>
+
+    <data name="NotLevelWeek">
+        <value>Завдання, дедлайн яких спливає через тиждень</value>
+    </data>
+    <data name="NotLevelTwoDays">
+        <value>Завдання, дедлайн яких спливає через два дні</value>
+    </data>
+    <data name="NotLevelDay">
+        <value>Завдання, дедлайн яких спливає через одинь день</value>
+    </data>
+    
+    <data name="deadline_notification_reminder">
+        <value>Нагадування про дедлайни, що спливають</value>
+    </data>
+    <data name="word_group">
+        <value>Група</value>
+    </data>
 </root>
