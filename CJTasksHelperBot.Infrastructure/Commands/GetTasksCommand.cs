@@ -20,16 +20,16 @@ public class GetTasksCommand : ICommand
 {
 	private readonly ITelegramBotClient _botClient;
 	private readonly IMediator _mediator;
-	private readonly ITableService _tableService;
+	private readonly IDataPresentationService _dataPresentationService;
 	private readonly ICallbackQueryService _callbackQueryService;
 	private readonly IStringLocalizer<Messages> _localizer;
 	private bool _isNeedDrawTable;
 
-	public GetTasksCommand(ITelegramBotClient botClient, IMediator mediator, ITableService tableService, ICallbackQueryService callbackQueryService, IStringLocalizer<Messages> localizer)
+	public GetTasksCommand(ITelegramBotClient botClient, IMediator mediator, IDataPresentationService dataPresentationService, ICallbackQueryService callbackQueryService, IStringLocalizer<Messages> localizer)
 	{
 		_botClient = botClient;
 		_mediator = mediator;
-		_tableService = tableService;
+		_dataPresentationService = dataPresentationService;
 		_callbackQueryService = callbackQueryService;
 		_localizer = localizer;
 	}
@@ -66,7 +66,7 @@ public class GetTasksCommand : ICommand
 				var tasks = await GetTasks(chatDto, cancellationToken);
 
 				var table = tasks != null 
-					? "`" + _tableService.GetTable(tasks).EscapeCharacters() + "`" 
+					? "```" + _dataPresentationService.GetTabledTextRepresentation(tasks).EscapeCharacters() + "```" 
 					: _localizer["no_tasks"];
 
 				await _botClient.SendTextMessageAsync(
@@ -90,28 +90,11 @@ public class GetTasksCommand : ICommand
 	{
 		var tasks = (await GetTasks(chatDto, cancellationToken) ?? Array.Empty<GetTaskDto>()).ToList();
 
-		var tasksInfo = new StringBuilder();
-		var i = 1;
-
-		if (tasks.Count != 0)
-		{
-			foreach (var task in tasks)
-			{
-				tasksInfo.AppendLine(
-					$"{i++}) {task.Title} |" +
-					$" {_localizer["word_by"]}: {task.Deadline} |" +
-					$" {task.Description} |" /* +
-					$" {_localizer["word_status"]}: {TaskStatusCustomEnum.FromValue((int)task.Status).DisplayName};\n" */);
-			}
-		}
-		else
-		{
-			tasksInfo.AppendLine(_localizer["no_tasks"]);
-		}
+		var plainText = _dataPresentationService.GetPlainTextRepresentation(tasks);
 
 		await _botClient.SendTextMessageAsync(
 			chatId: chatDto.Id,
-			text: tasksInfo.ToString(),
+			text: plainText,
 			cancellationToken: cancellationToken);
 	}
 

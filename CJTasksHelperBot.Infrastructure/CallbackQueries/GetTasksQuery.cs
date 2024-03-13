@@ -21,15 +21,15 @@ public class GetTasksQuery : ICallbackQuery
 	private readonly ITelegramBotClient _botClient;
 	private readonly ICacheService _cacheService;
 	private readonly IMediator _mediator;
-	private readonly ITableService _tableService;
+	private readonly IDataPresentationService _dataPresentationService;
 	private readonly IStringLocalizer<Messages> _localizer;
 
-	public GetTasksQuery(ITelegramBotClient botClient, ICacheService cacheService, IMediator mediator, ITableService tableService, IStringLocalizer<Messages> localizer)
+	public GetTasksQuery(ITelegramBotClient botClient, ICacheService cacheService, IMediator mediator, IDataPresentationService dataPresentationService, IStringLocalizer<Messages> localizer)
 	{
 		_botClient = botClient;
 		_cacheService = cacheService;
 		_mediator = mediator;
-		_tableService = tableService;
+		_dataPresentationService = dataPresentationService;
 		_localizer = localizer;
 	}
 
@@ -122,9 +122,11 @@ public class GetTasksQuery : ICallbackQuery
 	private async Task ShowInTable(IReadOnlyDictionary<string, object> data, CancellationToken cancellationToken)
 	{
 		var id = long.Parse(data[CallbackQueriesDataKey.TelegramId.DisplayName].ToString()!);
-		var tasks = await GetTasks(id, cancellationToken);
+		var tasks = (await GetTasks(id, cancellationToken))?.ToList();
 
-		var table = tasks != null ? "`" + _tableService.GetTable(tasks).EscapeCharacters() + "`" : _localizer["no_tasks"];
+		var table = tasks != null && tasks.Count != 0 
+			? "```" + _dataPresentationService.GetTabledTextRepresentation(tasks).EscapeCharacters() + "```"
+			: _localizer["no_tasks"];
 
 		await _botClient.EditMessageTextAsync(
 			chatId: _callbackQuery!.Message!.Chat.Id,
@@ -140,29 +142,12 @@ public class GetTasksQuery : ICallbackQuery
 		var id = long.Parse(data[CallbackQueriesDataKey.TelegramId.DisplayName].ToString()!);
 		var tasks = (await GetTasks(id, cancellationToken) ?? Array.Empty<GetTaskDto>()).ToList();
 
-		var tasksInfo = new StringBuilder();
-		var i = 1;
-
-		if (tasks.Count != 0)
-		{
-			foreach (var task in tasks)
-			{
-				tasksInfo.AppendLine(
-					$"{i++}) {task.Title} |" +
-					$" {_localizer["word_by"]}: {task.Deadline} |" +
-					$" {task.Description} |" /* +
-					$" {_localizer["word_status"]}: {TaskStatusCustomEnum.FromValue((int)task.Status).DisplayName};\n" */);
-			}
-		}
-		else
-		{
-			tasksInfo.AppendLine(_localizer["no_tasks"]);
-		}
+		var plainText = _dataPresentationService.GetPlainTextRepresentation(tasks);
 
 		await _botClient.EditMessageTextAsync(
 			chatId: _callbackQuery!.Message!.Chat.Id,
 			messageId: _callbackQuery.Message.MessageId,
-			text: tasksInfo.ToString(),
+			text: plainText,
 			replyMarkup: _callbackQuery.Message.ReplyMarkup,
 			cancellationToken: cancellationToken);
 	}

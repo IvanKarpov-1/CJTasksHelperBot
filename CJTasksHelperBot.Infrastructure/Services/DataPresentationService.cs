@@ -7,20 +7,22 @@ using Microsoft.Extensions.Localization;
 
 namespace CJTasksHelperBot.Infrastructure.Services;
 
-public class TableService : ITableService
+public class DataPresentationService : IDataPresentationService
 {
-	private static readonly LineThickness StrokeHeader = new LineThickness(LineWidth.None, LineWidth.Double);
-	private static readonly LineThickness StrokeRight = new LineThickness(LineWidth.None, LineWidth.None, LineWidth.Single, LineWidth.None);
+	private static readonly LineThickness StrokeHeader = new(LineWidth.None, LineWidth.Double);
+	private static readonly LineThickness StrokeRight = new(LineWidth.None, LineWidth.None, LineWidth.Single, LineWidth.None);
 
 	private readonly IStringLocalizer<Messages> _localizer;
 
-	public TableService(IStringLocalizer<Messages> localizer)
+	public DataPresentationService(IStringLocalizer<Messages> localizer)
 	{
 		_localizer = localizer;
 	}
 
-	public string GetTable(IEnumerable<GetTaskDto> items)
+	public string GetTabledTextRepresentation(IEnumerable<GetTaskDto> items)
 	{
+		var tasks = items.ToList();
+		
 		var i = 1;
 
 		var document = new Document(
@@ -40,12 +42,12 @@ public class TableService : ITableService
 					new Cell(_localizer["table_cell_name"]) {Stroke = StrokeHeader},
 					new Cell(_localizer["table_cell_deadline"]) {Stroke = StrokeHeader},
 					new Cell(_localizer["table_cell_description"]) {Stroke = StrokeHeader},
-					items.Select(item => new[]
+					tasks.Select(task => new[]
 					{
 						new Cell(i++) {Stroke = StrokeRight},
-						new Cell(item.Title) {Stroke = StrokeRight},
-						new Cell(item.Deadline.ToString("dd.MM.yyyy HH:mm")) {Stroke = StrokeRight, Align = Align.Center},
-						new Cell(item.Description) {Stroke = LineThickness.None},
+						new Cell(task.Title) {Stroke = StrokeRight},
+						new Cell(task.Deadline.ToString("dd.MM.yyyy HH:mm")) {Stroke = StrokeRight, Align = Align.Center},
+						new Cell(task.Description) {Stroke = LineThickness.None},
 					})
 				}
 			});
@@ -63,5 +65,31 @@ public class TableService : ITableService
 		}
 
 		return table.ToString();
+	}
+
+	public string GetPlainTextRepresentation(IEnumerable<GetTaskDto> items)
+	{
+		var tasks = items.ToList();
+		
+		var tasksInfo = new StringBuilder();
+		var i = 1;
+
+		if (tasks.Count != 0)
+		{
+			foreach (var task in tasks)
+			{
+				tasksInfo.AppendLine(
+					$"{i++}) {task.Title} |" +
+					$" {_localizer["word_by"]}: {task.Deadline} |" +
+					$" {task.Description} |" /* +
+					$" {_localizer["word_status"]}: {TaskStatusCustomEnum.FromValue((int)task.Status).DisplayName};\n" */);
+			}
+		}
+		else
+		{
+			tasksInfo.AppendLine(_localizer["no_tasks"]);
+		}
+
+		return tasksInfo.ToString();
 	}
 }

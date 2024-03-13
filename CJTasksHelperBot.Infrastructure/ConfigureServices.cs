@@ -21,7 +21,7 @@ public static class ConfigureServices
 		services.AddTransient<ICacheService, CacheService>();
 		services.AddTransient<IStepService, StepService>();
 		services.AddTransient<ICommandHelpService, CommandHelpService>();
-		services.AddTransient<ITableService, TableService>();
+		services.AddTransient<IDataPresentationService, DataPresentationService>();
 		services.AddTransient<ICallbackQueryService, CallbackQueryService>();
 
 		services.AddTransient<IUpdateHandler, UpdateHandler>();
