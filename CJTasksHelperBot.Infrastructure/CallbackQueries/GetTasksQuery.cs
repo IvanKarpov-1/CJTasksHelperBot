@@ -1,12 +1,10 @@
 ﻿using CJTasksHelperBot.Application.Common.Models;
-using CJTasksHelperBot.Domain.Enums;
 using CJTasksHelperBot.Infrastructure.Common.Enums;
 using CJTasksHelperBot.Infrastructure.Common.Extensions;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces.Services;
 using MediatR;
 using Newtonsoft.Json;
-using System.Text;
 using CJTasksHelperBot.Infrastructure.Resources;
 using Microsoft.Extensions.Localization;
 using Telegram.Bot;

@@ -2,7 +2,6 @@
 using CJTasksHelperBot.Application.Common.Mapping;
 using CJTasksHelperBot.Application.Common.Models;
 using CJTasksHelperBot.Domain.Entities;
-using CJTasksHelperBot.Domain.Enums;
 using MediatR;
 
 namespace CJTasksHelperBot.Application.Task.Commands;
