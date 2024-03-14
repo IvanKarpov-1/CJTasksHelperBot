@@ -15,12 +15,14 @@ public class CallbackQueryService : ICallbackQueryService
 	private readonly IEnumerable<ICallbackQuery> _callbackQueries;
 	private readonly MapperlyMapper _mapper;
 	private readonly ICacheService _cacheService;
+	private readonly ILocalizationService _localizationService;
 
-	public CallbackQueryService(IEnumerable<ICallbackQuery> callbackQueries, MapperlyMapper mapper, ICacheService cacheService)
+	public CallbackQueryService(IEnumerable<ICallbackQuery> callbackQueries, MapperlyMapper mapper, ICacheService cacheService, ILocalizationService localizationService)
 	{
 		_callbackQueries = callbackQueries;
 		_mapper = mapper;
 		_cacheService = cacheService;
+		_localizationService = localizationService;
 	}
 
 	public string CreateQuery<T>(UserDto user, params (string key, object value)[] args) where T : ICallbackQuery
@@ -51,6 +53,8 @@ public class CallbackQueryService : ICallbackQueryService
 		var userDto = _mapper.Map(callbackQuery.From);
 		var chatDto = _mapper.Map(callbackQuery.Message!.Chat);
 
+		_localizationService.SetLocalization(chatDto.Id);
+		
 		if (query.IsRequireCallbackQuery)
 		{
 			query.SetCallbackQuery(callbackQuery);

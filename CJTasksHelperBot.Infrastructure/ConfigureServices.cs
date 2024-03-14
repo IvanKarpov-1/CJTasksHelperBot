@@ -23,6 +23,7 @@ public static class ConfigureServices
 		services.AddTransient<ICommandHelpService, CommandHelpService>();
 		services.AddTransient<IDataPresentationService, DataPresentationService>();
 		services.AddTransient<ICallbackQueryService, CallbackQueryService>();
+		services.AddTransient<ILocalizationService, LocalizationService>();
 
 		services.AddTransient<IUpdateHandler, UpdateHandler>();
 		services.AddTransient<IMessageHandler, MessageHandler>();

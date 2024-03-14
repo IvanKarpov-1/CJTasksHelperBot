@@ -1,4 +1,5 @@
-﻿using CJTasksHelperBot.Application.Common.Models;
+﻿using System.Globalization;
+using CJTasksHelperBot.Application.Common.Models;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces.Handlers;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces.Services;
 using CJTasksHelperBot.Infrastructure.Common.Mapping;
@@ -14,9 +15,10 @@ public class MessageHandler : IMessageHandler
 	private readonly IUserChatService _userChatService;
 	private readonly ICacheService _commandStateService;
 	private readonly IStepService _stepService;
+	private readonly ILocalizationService _localizationService;
 	private readonly MapperlyMapper _mapper;
 
-	public MessageHandler(ICommandService commandService, IUserService userService, IChatService chatService, IUserChatService userChatService, ICacheService commandStateService, IStepService stepService, MapperlyMapper mapper)
+	public MessageHandler(ICommandService commandService, IUserService userService, IChatService chatService, IUserChatService userChatService, ICacheService commandStateService, IStepService stepService, MapperlyMapper mapper, ILocalizationService localizationService)
 	{
 		_commandService = commandService;
 		_userService = userService;
@@ -25,6 +27,7 @@ public class MessageHandler : IMessageHandler
 		_commandStateService = commandStateService;
 		_stepService = stepService;
 		_mapper = mapper;
+		_localizationService = localizationService;
 	}
 
 	public async Task HandleMessageAsync(Message message, CancellationToken cancellationToken)
@@ -44,12 +47,16 @@ public class MessageHandler : IMessageHandler
 
 		if (_commandService.IsCommand(message.Text!))
 		{
+			_localizationService.SetLocalization(message.Chat.Id);
+			
 			var (userDto, chatDto) = await GetUserAndChat(message.From, message.Chat);
 
 			await _commandService.HandleTextCommandAsync(userDto, chatDto, message.Text!, cancellationToken);
 		}
 		else if (_commandStateService.CheckExisting(message.From.Id, message.Chat.Id))
 		{
+			_localizationService.SetLocalization(message.Chat.Id);
+			
 			var (userDto, chatDto) = await GetUserAndChat(message.From, message.Chat);
 
 			await _stepService.HandleTextCommandStepAsync(userDto, chatDto, message.Text!, cancellationToken);
