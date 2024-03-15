@@ -2,7 +2,6 @@
 using CJTasksHelperBot.Application.Common.Mapping;
 using CJTasksHelperBot.Application.Common.Models;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 
 namespace CJTasksHelperBot.Application.Chat.Queries;
 
@@ -24,23 +23,14 @@ public class GetChatsWithTasksQueryHandler : IRequestHandler<GetChatsWithTasksQu
 
 	public async Task<Result<List<ChatDto>>> Handle(GetChatsWithTasksQuery request, CancellationToken cancellationToken)
 	{
-		var chats = await (from userChat in _unitOfWork.GetRepository<Domain.Entities.UserChat>().GetQueryable()
-				join chat in _unitOfWork.GetRepository<Domain.Entities.Chat>().GetQueryable() on userChat.ChatId equals chat.Id
-				join task in _unitOfWork.GetRepository<Domain.Entities.Task>().GetQueryable() on chat.Id equals task.UserChat!.ChatId
-				where userChat.UserId == request.UserId && task.UserChat!.ChatId != request.UserId
-				select new ChatDto
-				{
-					Id = chat.Id,
-					Title = chat.Title
-				})
-			.GroupBy(x => x.Id)
-			.Select(x => new ChatDto{Id = x.Key, Title = x.First().Title })
-			.ToListAsync(cancellationToken);
+		var chats = await _unitOfWork.ChatRepository.GetChatsWithTasksAsync(request.UserId, cancellationToken);
 
+		var chatDtos = chats.Select(_mapper.Map).ToList();
+		
 		//chats = chats.DistinctBy(x => x.Id).ToList();
 		
 				return chats.Capacity <= 0
 			? Result<List<ChatDto>>.Failure(new[] { $"Chats with tasks for User Id {request.UserId} not found" })
-			: Result<List<ChatDto>>.Success(chats);
+			: Result<List<ChatDto>>.Success(chatDtos);
 	}
 }

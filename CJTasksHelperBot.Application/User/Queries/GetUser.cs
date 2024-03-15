@@ -23,8 +23,7 @@ public class GetUserQueryHandler : IRequestHandler<GetUserQuery, Result<UserDto>
 
 	public async Task<Result<UserDto>> Handle(GetUserQuery request, CancellationToken cancellationToken)
 	{
-		var user = await _unitOfWork.GetRepository<Domain.Entities.User>()
-			.FindAsync(x => x.Id == request.UserId, false);
+		var user = await _unitOfWork.UserRepository.FindAsync(x => x.Id == request.UserId, false);
 
 		return user == null
 			? Result<UserDto>.Failure(new[] { $"User with id {request.UserId} not found" })

@@ -21,8 +21,7 @@ public class GetChatLanguageCodeQueryHandler : IRequestHandler<GetChatLanguageCo
 
     public async Task<Result<LanguageCodeCustomEnum>> Handle(GetChatLanguageCodeQuery request, CancellationToken cancellationToken)
     {
-        var chat = await _unitOfWork.GetRepository<Domain.Entities.Chat>()
-            .FindAsync(x => x.Id == request.ChatId, false);
+        var chat = await _unitOfWork.ChatRepository.FindAsync(x => x.Id == request.ChatId, false);
 
         return chat == null
             ? Result<LanguageCodeCustomEnum>.Failure(new[] { $"Chat with id {request.ChatId} not found" })

@@ -21,14 +21,14 @@ public class ChangeChatLanguageCodeQueryHandler : IRequestHandler<ChangeChatLang
 
     public async Task<Result<Unit>> Handle(ChangeChatLanguageCodeQuery request, CancellationToken cancellationToken)
     {
-        var chat = await _unitOfWork
-            .GetRepository<Domain.Entities.Chat>()
-            .FindAsync(x => x.Id == request.ChatId);
+        var chat = await _unitOfWork.ChatRepository.FindAsync(x => x.Id == request.ChatId);
 
         if (chat == null) return Result<Unit>.Failure([$"User with id {request.ChatId} not found"]);
         
         chat.LanguageCode = request.LanguageCode;
+        
         await _unitOfWork.CommitAsync();
+        
         return Result<Unit>.Success(Unit.Value);
     }
 }

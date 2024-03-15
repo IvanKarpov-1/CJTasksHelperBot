@@ -23,7 +23,7 @@ public class GetTaskQueryHandler : IRequestHandler<GetTaskQuery, Result<GetTaskD
 
 	public async Task<Result<GetTaskDto>> Handle(GetTaskQuery request, CancellationToken cancellationToken)
 	{
-		var task = await _unitOfWork.GetRepository<Domain.Entities.Task>().GetByApplicationIdAsync(request.Id);
+		var task = await _unitOfWork.TaskRepository.GetByApplicationIdAsync(request.Id);
 
 		return task == null
 			? Result<GetTaskDto>.Failure(new[] { $"Task with Id {request.Id} not found" })

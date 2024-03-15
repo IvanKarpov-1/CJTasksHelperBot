@@ -2,6 +2,10 @@
 
 public interface IUnitOfWork : IDisposable
 {
-	IGenericRepository<TEntity> GetRepository<TEntity>() where TEntity : class;
+	IChatRepository ChatRepository { get; }
+	IUserRepository UserRepository { get; }
+	IUserChatRepository UserChatRepository { get; }
+	ITaskRepository TaskRepository { get; }
+	IUserTaskStatusRepository UserTaskStatusRepository { get; }
 	Task<int> CommitAsync();
 }

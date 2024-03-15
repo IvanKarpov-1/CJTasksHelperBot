@@ -1,7 +1,6 @@
 ﻿using CJTasksHelperBot.Application.Common.Interfaces;
 using CJTasksHelperBot.Application.Common.Mapping;
 using CJTasksHelperBot.Application.Common.Models;
-using CJTasksHelperBot.Domain.Entities;
 using MediatR;
 
 namespace CJTasksHelperBot.Application.Chat.Commands;
@@ -30,7 +29,7 @@ public class CreateChatCommandHandler : IRequestHandler<CreateChatCommand, Resul
 			return Result<Unit>.Failure(new[] { "ChatDto is null" });
 		}
 
-		_unitOfWork.GetRepository<Domain.Entities.Chat>().Add(_mapper.Map(request.ChatDto));
+		_unitOfWork.ChatRepository.Add(_mapper.Map(request.ChatDto));
 
 		if (request.UserId != null)
 		{
@@ -41,7 +40,7 @@ public class CreateChatCommandHandler : IRequestHandler<CreateChatCommand, Resul
 				ChatDto = request.ChatDto
 			};
 
-			_unitOfWork.GetRepository<Domain.Entities.UserChat>().Add(_mapper.Map(userChatDto));
+			_unitOfWork.UserChatRepository.Add(_mapper.Map(userChatDto));
 		}
 
 		var result = await _unitOfWork.CommitAsync();

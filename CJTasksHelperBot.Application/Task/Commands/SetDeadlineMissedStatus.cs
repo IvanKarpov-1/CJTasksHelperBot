@@ -21,16 +21,7 @@ public class SetDeadlineMissedStatusCommandHandler : IRequestHandler<SetDeadline
 
     public async Task<Result<Unit>> Handle(SetDeadlineMissedStatusCommand request, CancellationToken cancellationToken)
     {
-        var taskStatuses = await _unitOfWork
-            .GetRepository<UserTaskStatus>()
-            .GetWhereAsync(x => x.Task != null &&
-                                x.Task.Deadline < DateTime.UtcNow &&
-                                new[]
-                                {
-                                    TaskStatus.AlmostDone,
-                                    TaskStatus.InProgress,
-                                    TaskStatus.NotStarted
-                                }.Contains(x.TaskStatus));
+        var taskStatuses = await _unitOfWork.UserTaskStatusRepository.GetTasksWithMissedDeadlinesAsync();
 
         foreach (var taskStatus in taskStatuses)
         {

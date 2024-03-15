@@ -9,7 +9,6 @@
   <ItemGroup>
     <Folder Include="Chat\Commands\" />
     <Folder Include="Chat\Queries\" />
-    <Folder Include="Common\Interfaces\" />
     <Folder Include="Common\Behaviours\" />
     <Folder Include="Common\Mapping\" />
     <Folder Include="UserChat\Commands\" />

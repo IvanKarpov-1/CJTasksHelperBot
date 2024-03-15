@@ -31,19 +31,7 @@ public class GetSoonExpiredTasksQueryHandler : IRequestHandler<GetSoonExpiredTas
             Dictionary<long, Dictionary<string, List<GetTaskDto>>>)>> Handle(GetSoonExpiredTasksQuery request,
             CancellationToken cancellationToken)
     {
-        var tasks = await _unitOfWork
-            .GetRepository<Domain.Entities.Task>()
-            .GetQueryable()
-            .Include(x => x.UserChat)
-            .ThenInclude(x => x!.Chat)
-            .Include(x => x.UserChat)
-            .ThenInclude(x => x!.User)
-            .Include(x => x.UserTaskStatuses)
-            .Where(
-                x => x.Deadline < DateTime.UtcNow.AddDays((int)x.NotificationLevel) &&
-                     x.Deadline > DateTime.UtcNow &&
-                     x.NotificationLevel != NotificationLevel.Never)
-            .ToListAsync(cancellationToken);
+        var tasks = await _unitOfWork.TaskRepository.GetSoonExpiredTasksAsync();
 
         var groupedTasks = tasks
             .GroupBy(x => new { x.UserChat!.User, x.UserChat.Chat })

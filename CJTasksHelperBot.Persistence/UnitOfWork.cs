@@ -5,28 +5,30 @@ namespace CJTasksHelperBot.Persistence;
 
 public class UnitOfWork : IUnitOfWork
 {
+	private readonly Lazy<IChatRepository> _chatRepository;
+	private readonly Lazy<IUserRepository> _userRepository;
+	private readonly Lazy<IUserChatRepository> _userChatRepository;
+	private readonly Lazy<ITaskRepository> _taskRepository;
+	private readonly Lazy<IUserTaskStatusRepository> _userTaskStatusRepository;
 	private bool _disposed;
-	private Dictionary<Type, object>? _repositories;
 
 	public UnitOfWork(ApplicationDbContext dbContext)
 	{
 		DbContext = dbContext;
+		_chatRepository = new Lazy<IChatRepository>(() => new ChatRepository(dbContext));
+		_userRepository = new Lazy<IUserRepository>(() => new UserRepository(dbContext));
+		_userChatRepository = new Lazy<IUserChatRepository>(() => new UserChatRepository(dbContext));
+		_taskRepository = new Lazy<ITaskRepository>(() => new TaskRepository(dbContext));
+		_userTaskStatusRepository = new Lazy<IUserTaskStatusRepository>(() => new UserTaskStatusRepository(dbContext));
 	}
 
-	public ApplicationDbContext DbContext { get; set; } 
+	private ApplicationDbContext DbContext { get; set; } 
 
-	public IGenericRepository<TEntity> GetRepository<TEntity>() where TEntity : class
-	{
-		_repositories ??= new Dictionary<Type, object>();
-
-		var type = typeof(TEntity);
-		if (!_repositories.ContainsKey(type))
-		{
-			_repositories[type] = new GenericRepository<TEntity>(DbContext);
-		}
-
-		return (IGenericRepository<TEntity>)_repositories[type];
-	}
+	public IChatRepository ChatRepository => _chatRepository.Value;
+	public IUserRepository UserRepository => _userRepository.Value;
+	public IUserChatRepository UserChatRepository => _userChatRepository.Value;
+	public ITaskRepository TaskRepository => _taskRepository.Value;
+	public IUserTaskStatusRepository UserTaskStatusRepository => _userTaskStatusRepository.Value;
 
 	public async Task<int> CommitAsync()
 	{
@@ -56,8 +58,6 @@ public class UnitOfWork : IUnitOfWork
 		{
 			if (disposing)
 			{
-				_repositories?.Clear();
-
 				DbContext.Dispose();
 			}
 		}

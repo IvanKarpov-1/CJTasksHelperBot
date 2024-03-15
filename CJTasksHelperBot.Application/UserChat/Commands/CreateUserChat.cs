@@ -30,7 +30,7 @@ public class CreateUserChatCommandHandler : IRequestHandler<CreateUserChatComman
 
 		var userChat = _mapper.Map(request.UserChatDto);
 
-		_unitOfWork.GetRepository<Domain.Entities.UserChat>().Add(userChat);
+		_unitOfWork.UserChatRepository.Add(userChat);
 
 		var result = await _unitOfWork.CommitAsync();
 

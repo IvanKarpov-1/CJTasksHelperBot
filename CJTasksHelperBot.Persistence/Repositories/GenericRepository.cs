@@ -6,11 +6,11 @@ namespace CJTasksHelperBot.Persistence.Repositories;
 
 public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
 {
-	private readonly ApplicationDbContext _context;
+	protected readonly DbContext Context;
 
-	public GenericRepository(ApplicationDbContext context)
+	public GenericRepository(DbContext context)
 	{
-		_context = context;
+		Context = context;
 	}
 
 	public async Task<TEntity?> FindAsync(Expression<Func<TEntity, bool>> predicate, bool tracking = true)
@@ -20,15 +20,15 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 
 	public async Task<TEntity?> GetByApplicationIdAsync(Guid id)
 	{
-		return await _context.Set<TEntity>().FindAsync(id);
+		return await Context.Set<TEntity>().FindAsync(id);
 	}
 
-	public async Task<IEnumerable<TEntity>> GetAllAsync(bool tracking = true)
+	public async Task<List<TEntity>> GetAllAsync(bool tracking = true)
 	{
 		return await GetQuery(tracking).ToListAsync();
 	}
 
-	public async Task<IEnumerable<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate, bool tracking = true)
+	public async Task<List<TEntity>> GetWhereAsync(Expression<Func<TEntity, bool>> predicate, bool tracking = true)
 	{
 		return await GetQuery(tracking).Where(predicate).ToListAsync();
 	}
@@ -37,7 +37,7 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 	{
 		try
 		{
-			_context.Set<TEntity>().Add(entity);
+			Context.Set<TEntity>().Add(entity);
 		}
 		catch (Exception e)
 		{
@@ -49,22 +49,27 @@ public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEnt
 
 	public void Attach(TEntity entity)
 	{
-		_context.Set<TEntity>().Attach(entity);
+		Context.Set<TEntity>().Attach(entity);
 	}
 
-	public void Delete(TEntity entity)
+	public void AddRange(IEnumerable<TEntity> entities)
 	{
-		_context.Set<TEntity>().Remove(entity);
+		Context.Set<TEntity>().AddRange(entities);
 	}
 
-	public IQueryable<TEntity> GetQueryable()
+	public void Remove(TEntity entity)
 	{
-		return _context.Set<TEntity>().AsQueryable();
+		Context.Set<TEntity>().Remove(entity);
+	}
+
+	public void RemoveRange(IEnumerable<TEntity> entities)
+	{
+		Context.Set<TEntity>().RemoveRange(entities);
 	}
 
 	private IQueryable<TEntity> GetQuery(bool tracking = false)
 	{
-		var query = _context.Set<TEntity>().AsQueryable();
+		var query = Context.Set<TEntity>().AsQueryable();
 
 		if (tracking == false) query = query.AsNoTracking();
 

@@ -23,8 +23,7 @@ public class GetChatQueryHandler : IRequestHandler<GetChatQuery, Result<ChatDto>
 
 	public async Task<Result<ChatDto>> Handle(GetChatQuery request, CancellationToken cancellationToken)
 	{
-		var chat = await _unitOfWork.GetRepository<Domain.Entities.Chat>()
-			.FindAsync(x => x.Id == request.ChatId, false);
+		var chat = await _unitOfWork.ChatRepository.FindAsync(x => x.Id == request.ChatId, false);
 
 		return chat == null
 			? Result<ChatDto>.Failure(new[] { $"User with id {request.ChatId} not found" })

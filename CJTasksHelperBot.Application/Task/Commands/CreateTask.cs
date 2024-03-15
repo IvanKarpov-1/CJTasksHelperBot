@@ -42,7 +42,7 @@ public class CreateTaskCommandHandler : IRequestHandler<CreateTaskCommand, Resul
 			User = user
 		});
 
-		_unitOfWork.GetRepository<Domain.Entities.Task>().Attach(task);
+		_unitOfWork.TaskRepository.Attach(task);
 
 		var result = await _unitOfWork.CommitAsync();
 
