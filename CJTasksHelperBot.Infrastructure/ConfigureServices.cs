@@ -38,6 +38,7 @@ public static class ConfigureServices
 		services.AddMemoryCache();
 
 		services.AddHostedService<SoonExpiredTasksNotifierService>();
+		services.AddHostedService<TaskStatusDeadlineMissedSetterService>();
 
 		return services;
 	}
