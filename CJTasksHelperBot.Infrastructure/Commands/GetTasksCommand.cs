@@ -46,7 +46,7 @@ public class GetTasksCommand : ICommand
 
 		if (userDto.Id != chatDto.Id)
 		{
-			await ShowNotInTable(chatDto, cancellationToken);
+			await ShowNotInTable(userDto.Id, chatDto.Id, cancellationToken);
 		}
 		else
 		{
@@ -63,7 +63,7 @@ public class GetTasksCommand : ICommand
 		{
 			if (!_isNeedDrawTable)
 			{
-				var tasks = await GetTasks(chatDto, cancellationToken);
+				var tasks = await GetTasks(userDto.Id, chatDto.Id, cancellationToken);
 
 				var table = tasks != null 
 					? "```" + _dataPresentationService.GetTabledTextRepresentation(tasks).EscapeCharacters() + "```" 
@@ -77,7 +77,7 @@ public class GetTasksCommand : ICommand
 			}
 			else
 			{
-				await ShowNotInTable(chatDto, cancellationToken);
+				await ShowNotInTable(userDto.Id, chatDto.Id, cancellationToken);
 			}
 		}
 		else
@@ -86,21 +86,21 @@ public class GetTasksCommand : ICommand
 		}
 	}
 
-	private async Task ShowNotInTable(ChatDto chatDto, CancellationToken cancellationToken)
+	private async Task ShowNotInTable(long userId, long chatId, CancellationToken cancellationToken)
 	{
-		var tasks = (await GetTasks(chatDto, cancellationToken) ?? Array.Empty<GetTaskDto>()).ToList();
+		var tasks = (await GetTasks(userId, chatId, cancellationToken) ?? Array.Empty<GetTaskDto>()).ToList();
 
 		var plainText = _dataPresentationService.GetPlainTextRepresentation(tasks);
 
 		await _botClient.SendTextMessageAsync(
-			chatId: chatDto.Id,
+			chatId: chatId,
 			text: plainText,
 			cancellationToken: cancellationToken);
 	}
 
-	private async Task<IEnumerable<GetTaskDto>?> GetTasks(ChatDto chatDto, CancellationToken cancellationToken)
+	private async Task<IEnumerable<GetTaskDto>?> GetTasks(long userId, long chatId, CancellationToken cancellationToken)
 	{
-		var result = await _mediator.Send(new GetTasksQuery { ChatId = chatDto.Id }, cancellationToken);
+		var result = await _mediator.Send(new GetTasksQuery { UserId = userId, ChatId = chatId }, cancellationToken);
 		var tasks = result.Value?.OrderBy(x => x.Deadline);
 		return tasks;
 	}

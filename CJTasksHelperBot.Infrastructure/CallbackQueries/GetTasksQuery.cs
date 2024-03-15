@@ -112,7 +112,7 @@ public class GetTasksQuery : ICallbackQuery
 
 	private async Task<IEnumerable<GetTaskDto>?> GetTasks(long id, CancellationToken cancellationToken)
 	{
-		var result = await _mediator.Send(new Application.Task.Queries.GetTasksQuery { ChatId = id }, cancellationToken);
+		var result = await _mediator.Send(new Application.Task.Queries.GetTasksQuery { UserId = id, ChatId = id }, cancellationToken);
 		var tasks = result.Value?.OrderBy(x => x.Deadline);
 		return tasks;
 	}
