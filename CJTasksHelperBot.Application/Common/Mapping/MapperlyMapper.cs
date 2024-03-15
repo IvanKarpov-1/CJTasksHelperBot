@@ -37,8 +37,8 @@ public partial class MapperlyMapper
 	[MapProperty(nameof(CreateTaskDto.UserChatDto), nameof(Domain.Entities.Task.UserChat))]
 	public partial Domain.Entities.Task Map(CreateTaskDto createTaskDto);
 
-	public partial void Map(UserTaskStatus userTaskStatus, UserTaskStatusDto userTaskStatusDto);
-	public partial UserTaskStatusDto Map(UserTaskStatus userTaskStatus);
-	public partial void Map(UserTaskStatusDto userTaskStatusDto, UserTaskStatus userTaskStatus);
-	public partial UserTaskStatus Map(UserTaskStatusDto userTaskStatusDto);
+	public partial void Map(Domain.Entities.UserTaskStatus userTaskStatus, UserTaskStatusDto userTaskStatusDto);
+	public partial UserTaskStatusDto Map(Domain.Entities.UserTaskStatus userTaskStatus);
+	public partial void Map(UserTaskStatusDto userTaskStatusDto, Domain.Entities.UserTaskStatus userTaskStatus);
+	public partial Domain.Entities.UserTaskStatus Map(UserTaskStatusDto userTaskStatusDto);
 }

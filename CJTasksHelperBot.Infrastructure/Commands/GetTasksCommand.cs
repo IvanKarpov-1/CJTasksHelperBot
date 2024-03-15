@@ -1,13 +1,11 @@
 ﻿using CJTasksHelperBot.Application.Chat.Queries;
 using CJTasksHelperBot.Application.Common.Models;
 using CJTasksHelperBot.Application.Task.Queries;
-using CJTasksHelperBot.Domain.Enums;
 using CJTasksHelperBot.Infrastructure.Common.Enums;
 using CJTasksHelperBot.Infrastructure.Common.Extensions;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces.Services;
 using MediatR;
-using System.Text;
 using CJTasksHelperBot.Infrastructure.Resources;
 using Microsoft.Extensions.Localization;
 using Telegram.Bot;
@@ -100,7 +98,7 @@ public class GetTasksCommand : ICommand
 
 	private async Task<IEnumerable<GetTaskDto>?> GetTasks(long userId, long chatId, CancellationToken cancellationToken)
 	{
-		var result = await _mediator.Send(new GetTasksQuery { UserId = userId, ChatId = chatId }, cancellationToken);
+		var result = await _mediator.Send(new GetTasksFromChatQuery { UserId = userId, ChatId = chatId }, cancellationToken);
 		var tasks = result.Value?.OrderBy(x => x.Deadline);
 		return tasks;
 	}

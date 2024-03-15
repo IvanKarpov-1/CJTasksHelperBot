@@ -110,19 +110,19 @@ public class GetTasksQuery : ICallbackQuery
 			cancellationToken: cancellationToken);
 	}
 
-	private async Task<IEnumerable<GetTaskDto>?> GetTasks(long id, CancellationToken cancellationToken)
+	private async Task<IEnumerable<UserTaskStatusDto>?> GetUserTaskStatuses(long id, CancellationToken cancellationToken)
 	{
-		var result = await _mediator.Send(new Application.Task.Queries.GetTasksQuery { UserId = id, ChatId = id }, cancellationToken);
-		var tasks = result.Value?.OrderBy(x => x.Deadline);
-		return tasks;
+		var result = await _mediator.Send(new Application.UserTaskStatus.Queries.GetUserTaskStatusesFromChatForUserQuery { UserId = id, ChatId = id }, cancellationToken);
+		var userTaskStatuses = result.Value?.OrderBy(x => x.Task!.Deadline);
+		return userTaskStatuses;
 	}
 
 	private async Task ShowInTable(IReadOnlyDictionary<string, object> data, CancellationToken cancellationToken)
 	{
 		var id = long.Parse(data[CallbackQueriesDataKey.TelegramId.DisplayName].ToString()!);
-		var tasks = (await GetTasks(id, cancellationToken))?.ToList();
+		var tasks = (await GetUserTaskStatuses(id, cancellationToken) ?? Array.Empty<UserTaskStatusDto>()).ToList();
 
-		var table = tasks != null && tasks.Count != 0 
+		var table = tasks.Count != 0 
 			? "```" + _dataPresentationService.GetTabledTextRepresentation(tasks).EscapeCharacters() + "```"
 			: _localizer["no_tasks"];
 
@@ -138,7 +138,7 @@ public class GetTasksQuery : ICallbackQuery
 	private async Task ShowNotInTable(IReadOnlyDictionary<string, object> data, CancellationToken cancellationToken)
 	{
 		var id = long.Parse(data[CallbackQueriesDataKey.TelegramId.DisplayName].ToString()!);
-		var tasks = (await GetTasks(id, cancellationToken) ?? Array.Empty<GetTaskDto>()).ToList();
+		var tasks = (await GetUserTaskStatuses(id, cancellationToken) ?? Array.Empty<UserTaskStatusDto>()).ToList();
 
 		var plainText = _dataPresentationService.GetPlainTextRepresentation(tasks);
 

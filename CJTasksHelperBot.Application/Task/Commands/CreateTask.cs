@@ -36,7 +36,7 @@ public class CreateTaskCommandHandler : IRequestHandler<CreateTaskCommand, Resul
 
 		var user = _mapper.Map(request.CreateTaskDto.UserChatDto!.UserDto!);
 		
-		task.UserTaskStatuses.Add(new UserTaskStatus
+		task.UserTaskStatuses.Add(new Domain.Entities.UserTaskStatus
 		{
 			Task = task,
 			User = user

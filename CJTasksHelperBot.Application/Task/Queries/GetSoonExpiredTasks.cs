@@ -3,7 +3,6 @@ using CJTasksHelperBot.Application.Common.Mapping;
 using CJTasksHelperBot.Application.Common.Models;
 using CJTasksHelperBot.Domain.Enums;
 using MediatR;
-using Microsoft.EntityFrameworkCore;
 using TaskStatus = CJTasksHelperBot.Domain.Enums.TaskStatus;
 
 namespace CJTasksHelperBot.Application.Task.Queries;
