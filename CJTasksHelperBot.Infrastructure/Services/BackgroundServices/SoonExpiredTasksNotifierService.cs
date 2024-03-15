@@ -110,7 +110,7 @@ public class SoonExpiredTasksNotifierService : BackgroundService
                 : tuple.Key;
             
             stringBuilder.Append('*');
-            stringBuilder.Append(_localizer["from_group"].Value.EscapeCharacters());
+            stringBuilder.Append(_localizer["word_group"].Value.EscapeCharacters());
             stringBuilder.Append(": ".EscapeCharacters());
             stringBuilder.Append(title.EscapeCharacters());
             stringBuilder.AppendLine("*\n");
