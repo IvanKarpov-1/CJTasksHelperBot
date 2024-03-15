@@ -43,6 +43,7 @@ public class SoonExpiredTasksNotifierService : BackgroundService
             {
                 await using var asyncScope = _serviceProvider.CreateAsyncScope();
                 var mediator = asyncScope.ServiceProvider.GetRequiredService<IMediator>();
+                var localizationService = asyncScope.ServiceProvider.GetRequiredService<ILocalizationService>();
 
                 var (tasksPerGroup, tasksPerUser) = (await mediator.Send(new GetSoonExpiredTasksQuery(), stoppingToken)).Value;
                 
@@ -51,11 +52,13 @@ public class SoonExpiredTasksNotifierService : BackgroundService
                     var groupId = grouping.Key;
                     var groupsTasks = grouping.ToList();
 
+                    localizationService.SetLocalization(groupId);
                     await NotifyGroupAsync(groupId, groupsTasks, stoppingToken);
                 }
 
                 foreach (var (userId, tasksPerChat) in tasksPerUser)
                 {
+                    localizationService.SetLocalization(userId);
                     await NotifyUserAsync(userId, tasksPerChat, stoppingToken);
                 }
             }
