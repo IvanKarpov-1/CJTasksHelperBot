@@ -132,7 +132,7 @@ public class DataPresentationService : IDataPresentationService
 			{
 				tasksInfo.AppendLine(
 					$"{i++}) {task.Title} |" +
-					$" {_localizer["word_by"]}: {task.Deadline} |" +
+					$" {_localizer["word_by"]}: {task.Deadline.ToString("dd.MM.yyyy HH:mm")} |" +
 					$" {task.Description} |");
 			}
 		}
@@ -157,7 +157,7 @@ public class DataPresentationService : IDataPresentationService
 			{
 				tasksInfo.AppendLine(
 					$"{i++}) {task.Task!.Title} |" +
-					$" {_localizer["word_by"]}: {task.Task.Deadline} |" +
+					$" {_localizer["word_by"]}: {task.Task.Deadline.ToString("dd.MM.yyyy HH:mm")} |" +
 					$" {task.Task.Description} |" +
 					$" {_localizer["word_status"]}: {TaskStatusCustomEnum.FromValue((int)task.Status).DisplayName};\n");
 			}
