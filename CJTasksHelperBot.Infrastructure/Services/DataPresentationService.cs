@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System.Collections.ObjectModel;
+using System.Text;
 using Alba.CsConsoleFormat;
 using CJTasksHelperBot.Application.Common.Models;
 using CJTasksHelperBot.Domain.Enums;
@@ -10,8 +11,7 @@ namespace CJTasksHelperBot.Infrastructure.Services;
 
 public class DataPresentationService : IDataPresentationService
 {
-	private static readonly LineThickness StrokeHeader = new(LineWidth.None, LineWidth.Double);
-	private static readonly LineThickness StrokeRight = new(LineWidth.None, LineWidth.None, LineWidth.Single, LineWidth.None);
+	private static readonly LineThickness NoStroke = LineThickness.None;
 
 	private readonly IStringLocalizer<Messages> _localizer;
 
@@ -22,131 +22,137 @@ public class DataPresentationService : IDataPresentationService
 
 	public string GetTabledTextRepresentation(IEnumerable<GetTaskDto> items)
 	{
-		var tasks = items.ToList();
-		
-		var i = 1;
-
-		var document = new Document(
-			new Grid
-			{
-				Columns =
-				{
-					GridLength.Auto,
-					GridLength.Char(15),
-					GridLength.Char(16),
-					GridLength.Char(25)
-				},
-				Stroke = StrokeHeader,
-				Children =
-				{
-					new Cell("№") {Stroke = StrokeHeader},
-					new Cell(_localizer["table_cell_name"]) {Stroke = StrokeHeader},
-					new Cell(_localizer["table_cell_deadline"]) {Stroke = StrokeHeader},
-					new Cell(_localizer["table_cell_description"]) {Stroke = StrokeHeader},
-					tasks.Select(task => new[]
-					{
-						new Cell(i++) {Stroke = StrokeRight},
-						new Cell(task.Title) {Stroke = StrokeRight},
-						new Cell(task.Deadline.ToString("dd.MM.yyyy HH:mm")) {Stroke = StrokeRight, Align = Align.Center},
-						new Cell(task.Description) {Stroke = LineThickness.None},
-					})
-				}
-			});
-
-		var textRenderTarget = new TextRenderTarget();
-		ConsoleRenderer.RenderDocumentToText(document, textRenderTarget);
-
-		using var sr = new StringReader(textRenderTarget.OutputText);
-
-		var table = new StringBuilder();
-
-		while (sr.ReadLine() is { } line)
+		var columns = new Collection<GridLength>
 		{
-			table.AppendLine(line.TrimEnd());
-		}
+			GridLength.Auto,
+			GridLength.Char(15),
+			GridLength.Char(11),
+			GridLength.Char(25),
+		};
 
-		return table.ToString();
+		var headers = new List<Cell>
+		{
+			new(" №") { Padding = new Thickness(0, 0, 1, 0) },
+			new(_localizer["table_cell_name"]),
+			new(_localizer["table_cell_deadline"]),
+			new(_localizer["table_cell_description"]),
+		};
+		
+		var table = BuildTable(items, columns, headers, BuildRow);
+		
+		return RenderTableToString(new Document(table));
+
+		Cell[] BuildRow(GetTaskDto task) => 
+		[
+			new Cell(task.Title) { Stroke = NoStroke }, 
+			new Cell(GetFormattedDateTime(task.Deadline)) { Stroke = NoStroke }, 
+			new Cell(task.Description) { Stroke = NoStroke }, 
+		];
 	}
 
 	public string GetTabledTextRepresentation(IEnumerable<UserTaskStatusDto> items)
 	{
-		var tasks = items.ToList();
-		
-		var i = 1;
-
-		var document = new Document(
-			new Grid
-			{
-				Columns =
-				{
-					GridLength.Auto,
-					GridLength.Char(15),
-					GridLength.Char(16),
-					GridLength.Char(25),
-					GridLength.Char(15)
-				},
-				Stroke = StrokeHeader,
-				Children =
-				{
-					new Cell("№") {Stroke = StrokeHeader},
-					new Cell(_localizer["table_cell_name"]) {Stroke = StrokeHeader},
-					new Cell(_localizer["table_cell_deadline"]) {Stroke = StrokeHeader},
-					new Cell(_localizer["table_cell_description"]) {Stroke = StrokeHeader},
-					new Cell(_localizer["table_cell_status"]) {Stroke = StrokeHeader},
-					tasks.Select(task => new[]
-					{
-						new Cell(i++) {Stroke = StrokeRight},
-						new Cell(task.Task!.Title) {Stroke = StrokeRight},
-						new Cell(task.Task.Deadline.ToString("dd.MM.yyyy HH:mm")) {Stroke = StrokeRight, Align = Align.Center},
-						new Cell(task.Task.Description) {Stroke = StrokeRight},
-						new Cell(task.Status) {Stroke = LineThickness.None},
-					})
-				}
-			});
-
-		var textRenderTarget = new TextRenderTarget();
-		ConsoleRenderer.RenderDocumentToText(document, textRenderTarget);
-
-		using var sr = new StringReader(textRenderTarget.OutputText);
-
-		var table = new StringBuilder();
-
-		while (sr.ReadLine() is { } line)
+		var columns = new Collection<GridLength>
 		{
-			table.AppendLine(line.TrimEnd());
-		}
+			GridLength.Auto,
+			GridLength.Char(15),
+			GridLength.Char(11),
+			GridLength.Char(25),
+			GridLength.Char(15),
+		};
 
-		return table.ToString();
+		var headers = new List<Cell>
+		{
+			new(" №") { Padding = new Thickness(0, 0, 1, 0) },
+			new(_localizer["table_cell_name"]),
+			new(_localizer["table_cell_deadline"]),
+			new(_localizer["table_cell_description"]),
+			new(_localizer["table_cell_status"]) { Align = Align.Right },
+		};
+		
+		var table = BuildTable(items, columns, headers, BuildRow);
+		
+		return RenderTableToString(new Document(table));
+
+		Cell[] BuildRow(UserTaskStatusDto task) => 
+		[
+			new Cell(task.Task!.Title), 
+			new Cell(GetFormattedDateTime(task.Task.Deadline)), 
+			new Cell(task.Task.Description), 
+			new Cell(task.Status) { Align = Align.Right }
+		];
 	}
 
 	public string GetPlainTextRepresentation(IEnumerable<GetTaskDto> items)
 	{
 		var tasks = items.ToList();
-		
-		var tasksInfo = new StringBuilder();
-		var i = 1;
-
-		if (tasks.Count != 0)
-		{
-			foreach (var task in tasks)
-			{
-				tasksInfo.AppendLine(
-					$"{i++}) {task.Title} |" +
-					$" {_localizer["word_by"]}: {task.Deadline.ToString("dd.MM.yyyy HH:mm")} |" +
-					$" {task.Description} |");
-			}
-		}
-		else
-		{
-			tasksInfo.AppendLine(_localizer["no_tasks"]);
-		}
-
+		var tasksInfo = BuildPlainText(tasks, task => 
+			$"{task.Title} | " +
+			$"{_localizer["word_by"]}: {GetFormattedDateTime(task.Deadline)} | " +
+			$"{task.Description} |");
 		return tasksInfo.ToString();
 	}
 	
 	public string GetPlainTextRepresentation(IEnumerable<UserTaskStatusDto> items)
 	{
 		var tasks = items.ToList();
+		var tasksInfo = BuildPlainText(tasks, task => 
+			$"{task.Task!.Title} | " +
+			$"{_localizer["word_by"]}: {GetFormattedDateTime(task.Task.Deadline)} | " +
+			$"{task.Task.Description} | " +
+			$"{_localizer["word_status"]}: {TaskStatusCustomEnum.FromValue((int)task.Status).DisplayName};");
+		return tasksInfo.ToString();
+	}
+	
+	private static Grid BuildTable<T>(IEnumerable<T> items, Collection<GridLength> columns, List<Cell> headers, Func<T, Cell[]> buildRow)
+	{
+		var i = 1;
+		return new Grid
+		{
+			Columns =
+			{
+				columns,
+			},
+			Stroke = new LineThickness(LineWidth.None, LineWidth.None, LineWidth.None, LineWidth.None),
+			Children =
+			{
+				headers.Select(cell =>
+				{
+					cell.Stroke = NoStroke;
+					return cell;
+				}),
+				headers.Select(_ => new Cell(" ") {Stroke = NoStroke}),
+				items
+					.Select(item => buildRow(item)
+						.Prepend(new Cell($" {i++:00}") {Padding = new Thickness(0, 0, 1, 0)}))
+					.Select(x => x.Select(cell =>
+					{
+						cell.Stroke = NoStroke;
+						return cell;
+					}))
+			}
+		};
+	}
+	
+	private static string RenderTableToString(Document document)
+	{
+		var textRenderTarget = new TextRenderTarget();
+		ConsoleRenderer.RenderDocumentToText(document, textRenderTarget);
+
+		using var sr = new StringReader(textRenderTarget.OutputText);
+		var table = new StringBuilder();
+
+		while (sr.ReadLine() is { } line)
+		{
+			table.AppendLine(line.TrimEnd());
+		}
+
+		return table.ToString();
+	}
+
+	private StringBuilder BuildPlainText<T>(IEnumerable<T> items, Func<T, string> buildRow)
+	{
+		var tasks = items.ToList();
 		
 		var tasksInfo = new StringBuilder();
 		var i = 1;
@@ -155,11 +161,7 @@ public class DataPresentationService : IDataPresentationService
 		{
 			foreach (var task in tasks)
 			{
-				tasksInfo.AppendLine(
-					$"{i++}) {task.Task!.Title} |" +
-					$" {_localizer["word_by"]}: {task.Task.Deadline.ToString("dd.MM.yyyy HH:mm")} |" +
-					$" {task.Task.Description} |" +
-					$" {_localizer["word_status"]}: {TaskStatusCustomEnum.FromValue((int)task.Status).DisplayName};\n");
+				tasksInfo.AppendLine($"{i++}) {buildRow(task)}\n");
 			}
 		}
 		else
@@ -167,6 +169,14 @@ public class DataPresentationService : IDataPresentationService
 			tasksInfo.AppendLine(_localizer["no_tasks"]);
 		}
 
-		return tasksInfo.ToString();
+		return tasksInfo;
+	}
+
+	private static string GetFormattedDateTime(DateTime dateTime)
+	{
+		return dateTime
+			.ToString(dateTime.TimeOfDay != TimeSpan.Zero 
+				? "dd.MM.yyyy HH:mm"
+				: "dd.MM.yyyy");
 	}
 }
