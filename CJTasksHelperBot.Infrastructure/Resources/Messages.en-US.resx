@@ -41,6 +41,9 @@ To interact with me, use the following commands:
     <data name="table_cell_description">
         <value>Description</value>
     </data>
+    <data name="table_cell_status">
+        <value>Status</value>
+    </data>
     <data name="in_table_view">
         <value>In table view:</value>
     </data>

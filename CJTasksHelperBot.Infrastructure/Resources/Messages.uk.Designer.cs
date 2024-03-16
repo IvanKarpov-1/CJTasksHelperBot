@@ -69,6 +69,12 @@ namespace CJTasksHelperBot.Infrastructure.Resources {
             }
         }
         
+        internal static string table_cell_status {
+            get {
+                return ResourceManager.GetString("table_cell_status", resourceCulture);
+            }
+        }
+        
         internal static string in_table_view {
             get {
                 return ResourceManager.GetString("in_table_view", resourceCulture);

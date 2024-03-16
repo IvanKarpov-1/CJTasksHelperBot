@@ -41,6 +41,9 @@
     <data name="table_cell_description">
         <value>Опис</value>
     </data>
+    <data name="table_cell_status">
+        <value>Статус</value>
+    </data>
     <data name="in_table_view">
         <value>У вигляді таблиці:</value>
     </data>
