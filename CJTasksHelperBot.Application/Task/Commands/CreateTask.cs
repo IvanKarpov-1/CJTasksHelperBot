@@ -26,9 +26,12 @@ public class CreateTaskCommandHandler : IRequestHandler<CreateTaskCommand, Resul
 	{
 		if (request.CreateTaskDto == null)
 		{
-			return Result<Unit>.Failure(new[] { "TaskDto is null" });
+			return Result<Unit>.Failure(["TaskDto is null"]);
 		}
 
+		request.CreateTaskDto.Title = request.CreateTaskDto.Title?.Trim();
+		request.CreateTaskDto.Description = request.CreateTaskDto.Description?.Trim();
+        
 		var task = _mapper.Map(request.CreateTaskDto);
 		
 		while (task.Deadline < DateTime.UtcNow.AddDays((int)task.NotificationLevel))
