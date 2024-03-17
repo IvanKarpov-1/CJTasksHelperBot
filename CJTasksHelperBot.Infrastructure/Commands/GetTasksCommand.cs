@@ -113,7 +113,7 @@ public class GetTasksCommand : ICommand
 
 		await _botClient.SendTextMessageAsync(
 			chatId: chatDto.Id,
-			text: "Test",
+			text: _localizer["choose_chat_or_params"],
 			replyMarkup: inlineKeyboard,
 			cancellationToken: cancellationToken);
 	}
@@ -122,13 +122,13 @@ public class GetTasksCommand : ICommand
 	{
 		const int maxButtonWidth = 30;
 		var availableWidth = Math.Min(4096, maxButtonWidth * 4);
-		var inlineKeyboard = new List<List<InlineKeyboardButton>>();
 		var currentRowWidth = 0;
 
-		var currentRow = ConstructGeneralButtons(userDto);
+		var currentKeyboard = ConstructGeneralButtons(userDto);
 
-		inlineKeyboard.Add(currentRow);
-		currentRow = new List<InlineKeyboardButton>();
+		var inlineKeyboard = currentKeyboard.ToList();
+
+		var currentRows = new List<InlineKeyboardButton>();
 
 		foreach (var item in items)
 		{
@@ -136,8 +136,8 @@ public class GetTasksCommand : ICommand
 
 			if (currentRowWidth + buttonWidth > availableWidth)
 			{
-				inlineKeyboard.Add(currentRow);
-				currentRow = new List<InlineKeyboardButton>();
+				inlineKeyboard.Add(currentRows);
+				currentRows = new List<InlineKeyboardButton>();
 				currentRowWidth = 0;
 			}
 
@@ -145,33 +145,43 @@ public class GetTasksCommand : ICommand
 				text: item.Title!,
 				callbackData: _callbackQueryService.CreateQuery<CallbackQueries.GetTasksQuery>(userDto,
 					(CallbackQueriesDataKey.TelegramId.DisplayName, item.Id),
-					(CallbackQueriesDataKey.IsNeedDrawTable.DisplayName, _isNeedDrawTable)));
+					(CallbackQueriesDataKey.IsNeedDrawTable.DisplayName, _isNeedDrawTable),
+					(CallbackQueriesDataKey.Status.DisplayName, string.Empty)));
 
-			currentRow.Add(button);
+			currentRows.Add(button);
 			currentRowWidth += buttonWidth;
 		}
 		
-		if (currentRow.Count > 0) inlineKeyboard.Add(currentRow);
+		if (currentRows.Count > 0) inlineKeyboard.Add(currentRows);
 
 		return new InlineKeyboardMarkup(inlineKeyboard);
 	}
 
-	private List<InlineKeyboardButton> ConstructGeneralButtons(UserDto userDto)
+	private IEnumerable<List<InlineKeyboardButton>> ConstructGeneralButtons(UserDto userDto)
 	{
 		var flag = _isNeedDrawTable ? StringConstant.ToggleOn.DisplayName : StringConstant.ToggleOff.DisplayName;
 
 		return
 		[
-			InlineKeyboardButton.WithCallbackData(
-				text: _localizer["word_personal"],
-				_callbackQueryService.CreateQuery<CallbackQueries.GetTasksQuery>(userDto,
-					(CallbackQueriesDataKey.TelegramId.DisplayName, userDto.Id),
-					(CallbackQueriesDataKey.IsNeedDrawTable.DisplayName, _isNeedDrawTable))),
-
-			InlineKeyboardButton.WithCallbackData(
-				text: $"{_localizer["in_table_view"]} {flag}",
-				callbackData: _callbackQueryService.CreateQuery<CallbackQueries.GetTasksQuery>(userDto,
-					(CallbackQueriesDataKey.Toggle.DisplayName, _isNeedDrawTable)))
+			[
+				InlineKeyboardButton.WithCallbackData(
+					text: $"{_localizer["in_table_view"]} {flag}",
+					callbackData: _callbackQueryService.CreateQuery<CallbackQueries.GetTasksQuery>(userDto,
+						(CallbackQueriesDataKey.Toggle.DisplayName, _isNeedDrawTable))),
+				
+				InlineKeyboardButton.WithCallbackData(
+					text: $"{_localizer["word_status"]}: {_localizer["word_all"]}",
+					callbackData: _callbackQueryService.CreateQuery<CallbackQueries.GetTasksQuery>(userDto,
+						(CallbackQueriesDataKey.StatusSwitch.DisplayName, string.Empty)))
+			],
+			[
+				InlineKeyboardButton.WithCallbackData(
+					text: _localizer["word_personal"],
+					_callbackQueryService.CreateQuery<CallbackQueries.GetTasksQuery>(userDto,
+						(CallbackQueriesDataKey.TelegramId.DisplayName, userDto.Id),
+						(CallbackQueriesDataKey.IsNeedDrawTable.DisplayName, _isNeedDrawTable),
+						(CallbackQueriesDataKey.Status.DisplayName, ""))),
+			]
 		];
 	}
 }

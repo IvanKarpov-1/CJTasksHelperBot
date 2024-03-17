@@ -31,7 +31,7 @@ public class CreateTaskCommandHandler : IRequestHandler<CreateTaskCommand, Resul
 
 		request.CreateTaskDto.Title = request.CreateTaskDto.Title?.Trim();
 		request.CreateTaskDto.Description = request.CreateTaskDto.Description?.Trim();
-        
+		
 		var task = _mapper.Map(request.CreateTaskDto);
 		
 		while (task.Deadline < DateTime.UtcNow.AddDays((int)task.NotificationLevel))

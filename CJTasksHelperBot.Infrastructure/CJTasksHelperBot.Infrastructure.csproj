@@ -14,7 +14,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Common\Helpers\" />
     <Folder Include="Common\Mapping\" />
     <Folder Include="Handlers\" />
   </ItemGroup>

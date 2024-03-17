@@ -136,4 +136,34 @@
     <data name="word_group">
         <value>Група</value>
     </data>
+    
+    <data name="TaskNotStarted">
+        <value>Не розпочато</value>
+    </data>
+    <data name="TaskInProgress">
+        <value>В процесі</value>
+    </data>
+    <data name="TaskAlmostDone">
+        <value>Майже готово</value>
+    </data>
+    <data name="TaskCompleted">
+        <value>Виконано</value>
+    </data>
+    <data name="TaskDeadlineMissed">
+        <value>Пропущено дедлайн</value>
+    </data>
+    <data name="TaskCompletedWithMissedDeadline">
+        <value>Виконано з пропущеним дедлайном</value>
+    </data>
+    
+    <data name="word_all">
+        <value>Усі</value>
+    </data>
+    
+    <data name="choose_status">
+        <value>Виберіть потрібний статус</value>
+    </data>
+    <data name="choose_chat_or_params">
+        <value>Виберіть з якого чату показати завдання або виберіть параметр</value>
+    </data>
 </root>

@@ -136,4 +136,34 @@ To interact with me, use the following commands:
     <data name="word_group">
         <value>Group</value>
     </data>
+
+    <data name="TaskNotStarted">
+        <value>Not started</value>
+    </data>
+    <data name="TaskInProgress">
+        <value>In progress</value>
+    </data>
+    <data name="TaskAlmostDone">
+        <value>Almost done</value>
+    </data>
+    <data name="TaskCompleted">
+        <value>Completed</value>
+    </data>
+    <data name="TaskDeadlineMissed">
+        <value>Deadline missed</value>
+    </data>
+    <data name="TaskCompletedWithMissedDeadline">
+        <value>Completed with missed deadline</value>
+    </data>
+
+    <data name="word_all">
+        <value>All</value>
+    </data>
+
+    <data name="choose_status">
+        <value>Select the desired status</value>
+    </data>
+    <data name="choose_chat_or_params">
+        <value>Choose from which chat to show tasks or choose an option</value>
+    </data>
 </root>

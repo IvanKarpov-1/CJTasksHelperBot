@@ -7,5 +7,5 @@ public class UserTaskStatusDto
     public long UserId { get; set; }
     public UserDto? User { get; set; }
     public GetTaskDto? Task { get; set; }
-    public TaskStatus Status { get; set; }
+    public TaskStatus TaskStatus { get; set; }
 }

@@ -8,4 +8,7 @@ public record CallbackQueriesDataKey(int Id, string DisplayName) : Enumeration<C
 	public static readonly CallbackQueriesDataKey IsNeedDrawTable = new(2, "IsNeedDrawTable");
 	public static readonly CallbackQueriesDataKey Toggle = new(3, "Toggle");
 	public static readonly CallbackQueriesDataKey LangCode = new(4, "LangCode");
+	public static readonly CallbackQueriesDataKey Status = new(5, "Status");
+	public static readonly CallbackQueriesDataKey StatusSwitch = new(6, "StatusSwitch");
+	public static readonly CallbackQueriesDataKey StatusSelected = new(7, "StatusSelected");
 }

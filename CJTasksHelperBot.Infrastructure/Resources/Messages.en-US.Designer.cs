@@ -230,5 +230,59 @@ namespace CJTasksHelperBot.Infrastructure.Resources {
                 return ResourceManager.GetString("word_group", resourceCulture);
             }
         }
+        
+        internal static string TaskNotStarted {
+            get {
+                return ResourceManager.GetString("TaskNotStarted", resourceCulture);
+            }
+        }
+        
+        internal static string TaskInProgress {
+            get {
+                return ResourceManager.GetString("TaskInProgress", resourceCulture);
+            }
+        }
+        
+        internal static string TaskAlmostDone {
+            get {
+                return ResourceManager.GetString("TaskAlmostDone", resourceCulture);
+            }
+        }
+        
+        internal static string TaskCompleted {
+            get {
+                return ResourceManager.GetString("TaskCompleted", resourceCulture);
+            }
+        }
+        
+        internal static string TaskDeadlineMissed {
+            get {
+                return ResourceManager.GetString("TaskDeadlineMissed", resourceCulture);
+            }
+        }
+        
+        internal static string TaskCompletedWithMissedDeadline {
+            get {
+                return ResourceManager.GetString("TaskCompletedWithMissedDeadline", resourceCulture);
+            }
+        }
+        
+        internal static string word_all {
+            get {
+                return ResourceManager.GetString("word_all", resourceCulture);
+            }
+        }
+        
+        internal static string choose_status {
+            get {
+                return ResourceManager.GetString("choose_status", resourceCulture);
+            }
+        }
+        
+        internal static string choose_chat_or_params {
+            get {
+                return ResourceManager.GetString("choose_chat_or_params", resourceCulture);
+            }
+        }
     }
 }

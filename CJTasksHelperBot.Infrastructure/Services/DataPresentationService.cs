@@ -33,9 +33,9 @@ public class DataPresentationService : IDataPresentationService
 		var headers = new List<Cell>
 		{
 			new(" №") { Padding = new Thickness(0, 0, 1, 0) },
-			new(_localizer["table_cell_name"]),
+			new(_localizer["table_cell_name"]) { Padding = new Thickness(0, 0, 1, 0) },
 			new(_localizer["table_cell_deadline"]),
-			new(_localizer["table_cell_description"]),
+			new(_localizer["table_cell_description"]) { Padding = new Thickness(0, 0, 1, 0) },
 		};
 		
 		var table = BuildTable(items, columns, headers, BuildRow);
@@ -58,16 +58,16 @@ public class DataPresentationService : IDataPresentationService
 			GridLength.Char(15),
 			GridLength.Char(11),
 			GridLength.Char(25),
-			GridLength.Char(15),
+			GridLength.Char(20),
 		};
 
 		var headers = new List<Cell>
 		{
 			new(" №") { Padding = new Thickness(0, 0, 1, 0) },
-			new(_localizer["table_cell_name"]),
+			new(_localizer["table_cell_name"]) { Padding = new Thickness(0, 0, 1, 0) },
 			new(_localizer["table_cell_deadline"]),
-			new(_localizer["table_cell_description"]),
-			new(_localizer["table_cell_status"]) { Align = Align.Right },
+			new(_localizer["table_cell_description"]) { Padding = new Thickness(0, 0, 1, 0) },
+			new(_localizer["table_cell_status"]) { Align = Align.Left },
 		};
 		
 		var table = BuildTable(items, columns, headers, BuildRow);
@@ -79,7 +79,7 @@ public class DataPresentationService : IDataPresentationService
 			new Cell(task.Task!.Title), 
 			new Cell(GetFormattedDateTime(task.Task.Deadline)), 
 			new Cell(task.Task.Description), 
-			new Cell(task.Status) { Align = Align.Right }
+			new Cell(_localizer[TaskStatusCustomEnum.FromValue((int)task.TaskStatus).DisplayName]) { Align = Align.Left },
 		];
 	}
 
@@ -100,7 +100,7 @@ public class DataPresentationService : IDataPresentationService
 			$"{task.Task!.Title} | " +
 			$"{_localizer["word_by"]}: {GetFormattedDateTime(task.Task.Deadline)} | " +
 			$"{task.Task.Description} | " +
-			$"{_localizer["word_status"]}: {TaskStatusCustomEnum.FromValue((int)task.Status).DisplayName};");
+			$"{_localizer["word_status"]}: {_localizer[TaskStatusCustomEnum.FromValue((int)task.TaskStatus).DisplayName]};");
 		return tasksInfo.ToString();
 	}
 	
