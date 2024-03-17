@@ -137,7 +137,7 @@ public class DataPresentationService : IDataPresentationService
 	private static string RenderTableToString(Document document)
 	{
 		var textRenderTarget = new TextRenderTarget();
-		ConsoleRenderer.RenderDocumentToText(document, textRenderTarget);
+		ConsoleRenderer.RenderDocumentToText(document, textRenderTarget, ConsoleRenderRect);
 
 		using var sr = new StringReader(textRenderTarget.OutputText);
 		var table = new StringBuilder();
@@ -148,6 +148,23 @@ public class DataPresentationService : IDataPresentationService
 		}
 
 		return table.ToString();
+	}
+	
+	private static Rect ConsoleRenderRect
+	{
+		get
+		{
+			const int width = 100;
+
+			try {
+				return Console.BufferWidth != 0 
+					? ConsoleRenderer.DefaultRenderRect
+					: new Rect(0, 0, width, int.MaxValue);
+			}
+			catch {
+				return new Rect(0, 0, width, int.MaxValue);
+			}
+		}
 	}
 
 	private StringBuilder BuildPlainText<T>(IEnumerable<T> items, Func<T, string> buildRow)

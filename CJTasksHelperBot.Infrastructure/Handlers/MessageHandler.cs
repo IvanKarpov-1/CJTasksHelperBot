@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using CJTasksHelperBot.Application.Common.Models;
+﻿using CJTasksHelperBot.Application.Common.Models;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces.Handlers;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces.Services;
 using CJTasksHelperBot.Infrastructure.Common.Mapping;
@@ -44,7 +43,7 @@ public class MessageHandler : IMessageHandler
 	public async Task HandleTextMessageAsync(Message message, CancellationToken cancellationToken)
 	{
 		await _commandService.InitializeAsync();
-
+		
 		if (_commandService.IsCommand(message.Text!))
 		{
 			_localizationService.SetLocalization(message.Chat.Id);
