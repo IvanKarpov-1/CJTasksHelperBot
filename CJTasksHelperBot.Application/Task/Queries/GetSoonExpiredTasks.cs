@@ -38,6 +38,7 @@ public class GetSoonExpiredTasksQueryHandler : IRequestHandler<GetSoonExpiredTas
 
         var tasksPerGroup = groupedTasks
             .SelectMany(grouping => grouping
+                .Where(x => x.UserChat!.ChatId != x.UserChat.UserId)
                 .Select(task => new { grouping.Key.Chat!.Id, Task = _mapper.Map(task) }))
             .GroupBy(item => item.Id, item => item.Task)
             .ToList();
