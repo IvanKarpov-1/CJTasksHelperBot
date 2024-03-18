@@ -161,7 +161,7 @@ public class SoonExpiredTasksNotifierService : BackgroundService
         {
             var header = _localizer[NotificationLevelCustomEnum.FromValue((int)grouping.Key).DisplayName].Value
                 .EscapeCharacters();
-            var plainText = dataPresentationMethod(grouping).EscapeCharacters();
+            var plainText = dataPresentationMethod(grouping).EscapeCharacters().TrimEnd('\n');
 
             stringBuilder.Append('*');
             stringBuilder.Append(header);
