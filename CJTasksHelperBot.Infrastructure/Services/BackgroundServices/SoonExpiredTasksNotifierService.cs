@@ -155,7 +155,9 @@ public class SoonExpiredTasksNotifierService : BackgroundService
         IEnumerable<GetTaskDto> tasks, Func<IEnumerable<GetTaskDto>, string> dataPresentationMethod,
         bool tableView = false)
     {
-        var tasksGroupedByNotificationLevel = tasks.GroupBy(x => x.NotificationLevel);
+        var tasksGroupedByNotificationLevel = tasks
+            .GroupBy(x => x.NotificationLevel)
+            .OrderBy(x => x.Key);
 
         foreach (var grouping in tasksGroupedByNotificationLevel)
         {
