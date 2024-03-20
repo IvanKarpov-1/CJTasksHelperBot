@@ -23,7 +23,7 @@ public class WritingTaskDescriptionStep : IStep
 		_localizer = localizer;
 	}
 
-	public CommandStep CommandStep { get; set; } = CommandStep.WritingTaskDescription;
+	public CommandStep CommandStep => CommandStep.WritingTaskDescription;
 
 	public async Task PerformStepAsync(UserDto userDto, ChatDto chatDto, string text, CancellationToken cancellationToken)
 	{

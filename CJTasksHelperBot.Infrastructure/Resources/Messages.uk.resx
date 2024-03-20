@@ -166,4 +166,30 @@
     <data name="choose_chat_or_params">
         <value>Виберіть з якого чату показати завдання або виберіть параметр</value>
     </data>
+
+    <data name="only_in_private">
+        <value>Дія дозволена тільки у приватних повідомленнях з ботом</value>
+    </data>
+
+    <data name="enter_partial_task_id">
+        <value>Введіть ID завдання</value>
+    </data>
+    <data name="enter_partial_task_title">
+        <value>Введіть назву завдання (можна частково)</value>
+    </data>
+    <data name="enter_new_task_status">
+        <value>Введіть новий статус завдання</value>
+    </data>
+    <data name="err_update_task_status_try_again">
+        <value>Помилка оновлення статусу завдання. Спробуйте ще раз</value>
+    </data>
+    <data name="incorrect_task_status_try_again">
+        <value>Невірне значення статусу завдання. Спробуйте ще раз</value>
+    </data>
+    <data name="task_status_updated">
+        <value>Статус завдання успішно оновлено</value>
+    </data>
+    <data name="need_enter_partial_task_id">
+        <value>Потрібно ввести ID завдання</value>
+    </data>
 </root>

@@ -27,7 +27,7 @@ public class WritingTaskDeadlineStep : IStep
 		_localizer = localizer;
 	}
 
-	public CommandStep CommandStep { get; set; } = CommandStep.WritingTaskDeadline;
+	public CommandStep CommandStep => CommandStep.WritingTaskDeadline;
 
 	public async Task PerformStepAsync(UserDto userDto, ChatDto chatDto, string text, CancellationToken cancellationToken)
 	{

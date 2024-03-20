@@ -44,6 +44,7 @@ public class DataPresentationService : IDataPresentationService
 
 		Cell[] BuildRow(GetTaskDto task) => 
 		[
+			new Cell($" {GetSecondPartOfGuid(task.Id)}") { Stroke = NoStroke, Padding = new Thickness(0, 0, 1, 0) }, 
 			new Cell(task.Title) { Stroke = NoStroke }, 
 			new Cell(GetFormattedDateTime(task.Deadline)) { Stroke = NoStroke }, 
 			new Cell(task.Description) { Stroke = NoStroke }, 
@@ -63,7 +64,7 @@ public class DataPresentationService : IDataPresentationService
 
 		var headers = new List<Cell>
 		{
-			new(" №") { Padding = new Thickness(0, 0, 1, 0) },
+			new(" №") { Padding = new Thickness(0, 0, 1, 0),  },
 			new(_localizer["table_cell_name"]) { Padding = new Thickness(0, 0, 1, 0) },
 			new(_localizer["table_cell_deadline"]),
 			new(_localizer["table_cell_description"]) { Padding = new Thickness(0, 0, 1, 0) },
@@ -76,6 +77,7 @@ public class DataPresentationService : IDataPresentationService
 
 		Cell[] BuildRow(UserTaskStatusDto task) => 
 		[
+			new Cell($" {GetSecondPartOfGuid(task.Task!.Id)}") { Stroke = NoStroke, Padding = new Thickness(0, 0, 1, 0) }, 
 			new Cell(task.Task!.Title), 
 			new Cell(GetFormattedDateTime(task.Task.Deadline)), 
 			new Cell(task.Task.Description), 
@@ -106,7 +108,7 @@ public class DataPresentationService : IDataPresentationService
 	
 	private static Grid BuildTable<T>(IEnumerable<T> items, Collection<GridLength> columns, List<Cell> headers, Func<T, Cell[]> buildRow)
 	{
-		var i = 1;
+		// var i = 1;
 		return new Grid
 		{
 			Columns =
@@ -123,8 +125,9 @@ public class DataPresentationService : IDataPresentationService
 				}),
 				headers.Select(_ => new Cell(" ") {Stroke = NoStroke}),
 				items
-					.Select(item => buildRow(item)
-						.Prepend(new Cell($" {i++:00}") {Padding = new Thickness(0, 0, 1, 0)}))
+					.Select(buildRow)
+					// .Select(item => buildRow(item)
+					// 	.Prepend(new Cell($" {i++:00}") {Padding = new Thickness(0, 0, 1, 0)}))
 					.Select(x => x.Select(cell =>
 					{
 						cell.Stroke = NoStroke;
@@ -196,4 +199,6 @@ public class DataPresentationService : IDataPresentationService
 				? "dd.MM.yyyy HH:mm"
 				: "dd.MM.yyyy");
 	}
+
+	private static string GetSecondPartOfGuid(Guid guid) => guid.ToString().Substring(9, 4);
 }

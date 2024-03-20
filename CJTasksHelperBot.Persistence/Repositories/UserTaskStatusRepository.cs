@@ -1,7 +1,7 @@
 using CJTasksHelperBot.Application.Common.Interfaces;
 using CJTasksHelperBot.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
-using Task = CJTasksHelperBot.Domain.Entities.Task;
+using TaskStatus = CJTasksHelperBot.Domain.Enums.TaskStatus;
 
 namespace CJTasksHelperBot.Persistence.Repositories;
 
@@ -19,13 +19,24 @@ public class UserTaskStatusRepository : GenericRepository<UserTaskStatus>, IUser
                 x.Task.Deadline < DateTime.UtcNow &&
                 new[]
                 {
-                    Domain.Enums.TaskStatus.AlmostDone,
-                    Domain.Enums.TaskStatus.InProgress,
-                    Domain.Enums.TaskStatus.NotStarted
+                    TaskStatus.AlmostDone,
+                    TaskStatus.InProgress,
+                    TaskStatus.NotStarted
                 }.Contains(x.TaskStatus))
             .ToListAsync();
 
         return taskStatuses;
+    }
+
+    public async Task<UserTaskStatus?> GetUserTaskStatus(long userId, string partialTaskId, string partialTaskTitle)
+    {
+        partialTaskId = partialTaskId.ToUpper();
+
+        return await ApplicationDbContext.UserTaskStatuses
+            .Where(x => x.UserId == userId &&
+                        x.TaskId.ToString().Contains(partialTaskId) &&
+                        x.Task!.Title!.Contains(partialTaskTitle))
+            .FirstOrDefaultAsync();
     }
 
     private ApplicationDbContext ApplicationDbContext => (Context as ApplicationDbContext)!;

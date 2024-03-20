@@ -166,4 +166,30 @@ To interact with me, use the following commands:
     <data name="choose_chat_or_params">
         <value>Choose from which chat to show tasks or choose an option</value>
     </data>
+
+    <data name="only_in_private">
+        <value>The action is allowed only in private messages with the bot</value>
+    </data>
+
+    <data name="enter_partial_task_id">
+        <value>Enter the task ID</value>
+    </data>
+    <data name="enter_partial_task_title">
+        <value>Enter the name of the task (can be partial)</value>
+    </data>
+    <data name="enter_new_task_status">
+        <value>Enter a new task status</value>
+    </data>
+    <data name="err_update_task_status_try_again">
+        <value>Error updating the task status. Please try again</value>
+    </data>
+    <data name="incorrect_task_status_try_again">
+        <value>Incorrect task status value. Please try again</value>
+    </data>
+    <data name="task_status_updated">
+        <value>Task status has been successfully updated</value>
+    </data>
+    <data name="need_enter_partial_task_id">
+        <value>You need to enter the task ID</value>
+    </data>
 </root>

@@ -284,5 +284,53 @@ namespace CJTasksHelperBot.Infrastructure.Resources {
                 return ResourceManager.GetString("choose_chat_or_params", resourceCulture);
             }
         }
+        
+        internal static string only_in_private {
+            get {
+                return ResourceManager.GetString("only_in_private", resourceCulture);
+            }
+        }
+        
+        internal static string enter_partial_task_id {
+            get {
+                return ResourceManager.GetString("enter_partial_task_id", resourceCulture);
+            }
+        }
+        
+        internal static string enter_partial_task_title {
+            get {
+                return ResourceManager.GetString("enter_partial_task_title", resourceCulture);
+            }
+        }
+        
+        internal static string enter_new_task_status {
+            get {
+                return ResourceManager.GetString("enter_new_task_status", resourceCulture);
+            }
+        }
+        
+        internal static string err_update_task_status_try_again {
+            get {
+                return ResourceManager.GetString("err_update_task_status_try_again", resourceCulture);
+            }
+        }
+        
+        internal static string incorrect_task_status_try_again {
+            get {
+                return ResourceManager.GetString("incorrect_task_status_try_again", resourceCulture);
+            }
+        }
+        
+        internal static string task_status_updated {
+            get {
+                return ResourceManager.GetString("task_status_updated", resourceCulture);
+            }
+        }
+        
+        internal static string need_enter_partial_task_id {
+            get {
+                return ResourceManager.GetString("need_enter_partial_task_id", resourceCulture);
+            }
+        }
     }
 }
