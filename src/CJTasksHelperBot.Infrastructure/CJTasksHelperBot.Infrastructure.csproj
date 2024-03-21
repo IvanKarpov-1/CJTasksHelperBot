@@ -9,6 +9,7 @@
   <ItemGroup>
     <PackageReference Include="Alba.CsConsoleFormat" Version="1.0.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.0-preview.1.24080.9" />
+    <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="9.0.0-preview.2.24128.4" />
     <PackageReference Include="Microsoft.Extensions.Options" Version="9.0.0-preview.1.24080.9" />
     <PackageReference Include="Telegram.Bot" Version="20.0.0-alpha.1" />
   </ItemGroup>
@@ -48,7 +49,7 @@
 
   <ItemGroup>
     <Reference Include="Microsoft.Extensions.Hosting.Abstractions">
-      <HintPath>..\..\..\..\..\usr\lib64\dotnet\shared\Microsoft.AspNetCore.App\8.0.2\Microsoft.Extensions.Hosting.Abstractions.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\usr\lib64\dotnet\shared\Microsoft.AspNetCore.App\8.0.2\Microsoft.Extensions.Hosting.Abstractions.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Extensions.Localization.Abstractions">
       <HintPath>..\..\..\..\..\usr\lib64\dotnet\shared\Microsoft.AspNetCore.App\8.0.2\Microsoft.Extensions.Localization.Abstractions.dll</HintPath>
