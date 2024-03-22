@@ -10,7 +10,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddServices(builder.Configuration, out var botConfiguration);
 builder.Services.AddApplicationServices();
 builder.Services.AddInfrastructureServices();
-builder.Services.AddPersistenceServices(builder.Configuration, builder.Environment.IsDevelopment());
+builder.Services.AddPersistenceServices(builder.Environment.IsDevelopment());
 
 var app = builder.Build();
 

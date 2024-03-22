@@ -1,12 +1,11 @@
 ﻿using CJTasksHelperBot.Application.Common.Interfaces;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace CJTasksHelperBot.Persistence;
 
 public static class ConfigureServices
 {
-	public static IServiceCollection AddPersistenceServices(this IServiceCollection services, IConfiguration configuration, bool isDevelopment)
+	public static IServiceCollection AddPersistenceServices(this IServiceCollection services, bool isDevelopment)
 	{
 		if (isDevelopment)
 		{

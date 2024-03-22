@@ -22,7 +22,7 @@ public class UnitOfWork : IUnitOfWork
 		_userTaskStatusRepository = new Lazy<IUserTaskStatusRepository>(() => new UserTaskStatusRepository(dbContext));
 	}
 
-	private ApplicationDbContext DbContext { get; set; } 
+	private ApplicationDbContext DbContext { get; } 
 
 	public IChatRepository ChatRepository => _chatRepository.Value;
 	public IUserRepository UserRepository => _userRepository.Value;
