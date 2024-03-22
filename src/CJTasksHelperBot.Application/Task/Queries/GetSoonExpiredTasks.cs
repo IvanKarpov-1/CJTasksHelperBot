@@ -7,9 +7,7 @@ using TaskStatus = CJTasksHelperBot.Domain.Enums.TaskStatus;
 namespace CJTasksHelperBot.Application.Task.Queries;
 
 public class GetSoonExpiredTasksQuery : IRequest<Result<(List<IGrouping<long, GetTaskDto>>,
-    Dictionary<long, Dictionary<string, List<GetTaskDto>>>)>>
-{
-}
+    Dictionary<long, Dictionary<string, List<GetTaskDto>>>)>>;
 
 public class GetSoonExpiredTasksQueryHandler : IRequestHandler<GetSoonExpiredTasksQuery, Result<(
     List<IGrouping<long, GetTaskDto>>,
@@ -74,6 +72,8 @@ public class GetSoonExpiredTasksQueryHandler : IRequestHandler<GetSoonExpiredTas
                 groupsTasks[key].Add(_mapper.Map(tuple.Item1));
             }
 
+            if (groupsTasks.Count == 0) continue;
+            
             tasksPerUser[userId] = groupsTasks;
         }
 
