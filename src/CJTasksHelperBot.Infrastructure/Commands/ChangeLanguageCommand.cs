@@ -72,7 +72,7 @@ public class ChangeLanguageCommand : ICommand
             if (Enum.IsDefined(typeof(LanguageCode), langId))
             {
                 await _mediator.Send(
-                    new ChangeChatLanguageCodeQuery { ChatId = chatDto.Id, LanguageCode = (LanguageCode)langId },
+                    new ChangeChatLanguageCodeCommand { ChatId = chatDto.Id, LanguageCode = (LanguageCode)langId },
                     cancellationToken);
             }
         }

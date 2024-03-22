@@ -41,7 +41,7 @@ public class ChangeLanguageQuery : ICallbackQuery
         {
             var langId = LanguageCodeCustomEnum.FromDisplayName(langCode).Id;
         
-            await _mediator.Send(new ChangeChatLanguageCodeQuery { ChatId = chatDto.Id, LanguageCode = (LanguageCode)langId }, cancellationToken);
+            await _mediator.Send(new ChangeChatLanguageCodeCommand { ChatId = chatDto.Id, LanguageCode = (LanguageCode)langId }, cancellationToken);
         }
 
         if (_callbackQuery is { Message: not null })

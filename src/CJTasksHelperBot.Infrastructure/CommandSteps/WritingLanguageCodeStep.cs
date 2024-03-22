@@ -37,7 +37,7 @@ public class WritingLanguageCodeStep : IStep
 
             if (!Enum.IsDefined(typeof(LanguageCode), langId)) throw new ArgumentException("");
             
-            await _mediator.Send(new ChangeChatLanguageCodeQuery { ChatId = chatDto.Id, LanguageCode = (LanguageCode)langId }, cancellationToken);
+            await _mediator.Send(new ChangeChatLanguageCodeCommand { ChatId = chatDto.Id, LanguageCode = (LanguageCode)langId }, cancellationToken);
             
             _cacheService.Delete(userDto.Id, chatDto.Id);
         }
