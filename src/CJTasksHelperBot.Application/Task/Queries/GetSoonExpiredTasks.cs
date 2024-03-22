@@ -1,7 +1,6 @@
 using CJTasksHelperBot.Application.Common.Interfaces;
 using CJTasksHelperBot.Application.Common.Mapping;
 using CJTasksHelperBot.Application.Common.Models;
-using CJTasksHelperBot.Domain.Enums;
 using MediatR;
 using TaskStatus = CJTasksHelperBot.Domain.Enums.TaskStatus;
 
@@ -80,11 +79,7 @@ public class GetSoonExpiredTasksQueryHandler : IRequestHandler<GetSoonExpiredTas
 
         foreach (var task in tasks)
         {
-            if (task.Deadline < DateTime.UtcNow.AddDays((int)NotificationLevel.Day))
-                task.SetNotificationLevel(NotificationLevel.Never);
-            else if (task.Deadline < DateTime.UtcNow.AddDays((int)NotificationLevel.TwoDays))
-                task.SetNotificationLevel(NotificationLevel.Day);
-            else
+            while (task.Deadline < DateTime.UtcNow.AddDays((int)task.NotificationLevel))
                 task.SetNotificationLevel();
         }
 
