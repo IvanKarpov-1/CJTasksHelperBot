@@ -32,7 +32,6 @@ public class ChatService : IChatService
 
 		chatDto = _mapper.Map(chat);
 		await _mediator.Send(new CreateChatCommand { ChatDto = chatDto });
-		chatDto = await FindChatByIdAsync(chat.Id);
 
 		return chatDto;
 	}

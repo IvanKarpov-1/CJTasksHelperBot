@@ -32,7 +32,6 @@ public class UserService : IUserService
 
         userDto = _mapper.Map(user);
         await _mediator.Send(new CreateUserCommand { UserDto = userDto });
-        userDto = await FindUserByIdAsync(user.Id);
 
         return userDto;
     }
