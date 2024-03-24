@@ -33,7 +33,7 @@ public class UpdateTaskStatusCommandHandler : IRequestHandler<UpdateTaskStatusCo
         
         var userTaskStatus = await _unitOfWork.UserTaskStatusRepository.GetUserTaskStatus(userId, partialTaskId, partialTaskTitle);
 
-        if (userTaskStatus == null) return Result<Unit>.Failure(["Something went wrong whet trying to update Task Status"]);
+        if (userTaskStatus == null) return Result<Unit>.Failure(["Something went wrong when trying to update Task Status"]);
         
         if (userTaskStatus!.TaskStatus == TaskStatus.DeadlineMissed &&
             taskStatus == TaskStatus.Completed)
@@ -49,6 +49,6 @@ public class UpdateTaskStatusCommandHandler : IRequestHandler<UpdateTaskStatusCo
         
         return result > 0
             ? Result<Unit>.Success(Unit.Value)
-            : Result<Unit>.Failure(["Something went wrong whet trying to update Task Status"]);
+            : Result<Unit>.Failure(["Something went wrong when trying to update Task Status"]);
     }
 }
