@@ -12,9 +12,7 @@ public class ChangeChatLanguageCodeCommandHandlerTests
     public async System.Threading.Tasks.Task Handle_Should_ReturnFailureResult_WhenChatWithIdIsNotFound()
     {
         // Arrange
-        var faker = new AutoFaker();
-        var chatId = faker.Generate<long>();
-        var command = new ChangeChatLanguageCodeCommand { ChatId = chatId };
+        var command = new ChangeChatLanguageCodeCommand();
         var handler = new ChangeChatLanguageCodeCommandHandler(_unitOfWork);
 
         // Act
