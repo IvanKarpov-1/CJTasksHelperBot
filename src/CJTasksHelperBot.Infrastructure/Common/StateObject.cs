@@ -2,7 +2,7 @@
 
 public class StateObject
 {
-	public string? CallingCommand { get; set; }
+	public string? CallingCommand { get; init; }
 	public string? CurrentStep { get; set; }
-	public Dictionary<string, object> Values { get; set; } = new();
+	public Dictionary<string, object> Values { get; } = new();
 }

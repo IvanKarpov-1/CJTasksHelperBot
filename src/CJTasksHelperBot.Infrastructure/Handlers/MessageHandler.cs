@@ -33,7 +33,7 @@ public class MessageHandler : IMessageHandler
 	{
 		var execute = message switch
 		{
-			{ Text: { } } => HandleTextMessageAsync(message, cancellationToken),
+			{ Text: not null } => HandleTextMessageAsync(message, cancellationToken),
 			_ => HandleUnknownMessageType(message, cancellationToken)
 		};
 

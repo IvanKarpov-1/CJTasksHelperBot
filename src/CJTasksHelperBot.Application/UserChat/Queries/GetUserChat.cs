@@ -7,8 +7,8 @@ namespace CJTasksHelperBot.Application.UserChat.Queries;
 
 public class GetUserChatQuery : IRequest<Result<UserChatDto>>
 {
-	public long UserId { get; set; }
-	public long ChatId { get; set; }
+	public long UserId { get; init; }
+	public long ChatId { get; init; }
 }
 
 public class GetUserChatQueryHandler : IRequestHandler<GetUserChatQuery, Result<UserChatDto>>
@@ -29,8 +29,7 @@ public class GetUserChatQueryHandler : IRequestHandler<GetUserChatQuery, Result<
 			                x.ChatId == request.ChatId, false);
 
 		return userChat == null
-			? Result<UserChatDto>.Failure(new[]
-				{ $"UserChat with UserId {request.UserId} and ChatId {request.ChatId} not found" })
+			? Result<UserChatDto>.Failure([$"UserChat with UserId {request.UserId} and ChatId {request.ChatId} not found"])
 			: Result<UserChatDto>.Success(_mapper.Map(userChat));
 	}
 }

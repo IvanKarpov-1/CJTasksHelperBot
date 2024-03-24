@@ -34,6 +34,6 @@ public class UserService : IUserService
         await _mediator.Send(new CreateUserCommand { UserDto = userDto });
         userDto = await FindUserByIdAsync(user.Id);
 
-        return userDto!;
+        return userDto;
     }
 }

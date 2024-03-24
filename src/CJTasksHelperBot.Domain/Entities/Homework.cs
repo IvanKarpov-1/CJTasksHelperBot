@@ -9,7 +9,7 @@ public class Homework
 	public string? Task { get; set; }
 	public TaskStatus Status { get; set; } = TaskStatus.NotStarted;
 	public DateTime Deadline { get; set; }
-	public DateTime CompletedAd { get; set; }
-	public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+	public DateTime CompletedAd { get; init; }
+	public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
 	public UserChat? UserChat { get; set; }
 }

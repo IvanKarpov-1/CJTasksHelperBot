@@ -8,6 +8,4 @@ public class UserChatRepository : GenericRepository<UserChat>, IUserChatReposito
     public UserChatRepository(ApplicationDbContext context) : base(context)
     {
     }
-
-    private ApplicationDbContext ApplicationDbContext => (Context as ApplicationDbContext)!;
 }

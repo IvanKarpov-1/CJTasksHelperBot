@@ -6,7 +6,6 @@ using CJTasksHelperBot.Infrastructure.Common.Interfaces.Services;
 using CJTasksHelperBot.Infrastructure.Resources;
 using Microsoft.Extensions.Localization;
 using Telegram.Bot;
-using Telegram.Bot.Types.Enums;
 
 namespace CJTasksHelperBot.Infrastructure.CommandSteps.UpdateTaskStatus;
 

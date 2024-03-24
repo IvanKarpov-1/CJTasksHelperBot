@@ -7,8 +7,8 @@ namespace CJTasksHelperBot.Application.Chat.Commands;
 
 public class CreateChatCommand : IRequest<Result<Unit>>
 {
-	public ChatDto? ChatDto { get; set; }
-	public long? UserId { get; set; }
+	public ChatDto? ChatDto { get; init; }
+	public long? UserId { get; init; }
 }
 
 public class CreateChatCommandHandler : IRequestHandler<CreateChatCommand, Result<Unit>>
@@ -26,7 +26,7 @@ public class CreateChatCommandHandler : IRequestHandler<CreateChatCommand, Resul
 	{
 		if (request.ChatDto == null)
 		{
-			return Result<Unit>.Failure(new[] { "ChatDto is null" });
+			return Result<Unit>.Failure(["ChatDto is null"]);
 		}
 
 		_unitOfWork.ChatRepository.Add(_mapper.Map(request.ChatDto));
@@ -47,6 +47,6 @@ public class CreateChatCommandHandler : IRequestHandler<CreateChatCommand, Resul
 
 		return result > 0
 			? Result<Unit>.Success(Unit.Value)
-			: Result<Unit>.Failure(new[] { "Something went wrong whet trying to create Chat" });
+			: Result<Unit>.Failure(["Something went wrong whet trying to create Chat"]);
 	}
 }

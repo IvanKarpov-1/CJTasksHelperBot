@@ -34,6 +34,6 @@ public class ChatService : IChatService
 		await _mediator.Send(new CreateChatCommand { ChatDto = chatDto });
 		chatDto = await FindChatByIdAsync(chat.Id);
 
-		return chatDto!;
+		return chatDto;
 	}
 }

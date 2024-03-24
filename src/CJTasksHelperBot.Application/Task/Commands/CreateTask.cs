@@ -1,14 +1,13 @@
 ﻿using CJTasksHelperBot.Application.Common.Interfaces;
 using CJTasksHelperBot.Application.Common.Mapping;
 using CJTasksHelperBot.Application.Common.Models;
-using CJTasksHelperBot.Domain.Entities;
 using MediatR;
 
 namespace CJTasksHelperBot.Application.Task.Commands;
 
 public class CreateTaskCommand : IRequest<Result<Unit>>
 {
-	public CreateTaskDto? CreateTaskDto { get; set; }
+	public CreateTaskDto? CreateTaskDto { get; init; }
 }
 
 public class CreateTaskCommandHandler : IRequestHandler<CreateTaskCommand, Result<Unit>>
@@ -51,6 +50,6 @@ public class CreateTaskCommandHandler : IRequestHandler<CreateTaskCommand, Resul
 
 		return result > 0
 			? Result<Unit>.Success(Unit.Value)
-			: Result<Unit>.Failure(new[] { "Something went wrong whet trying to create Task" });
+			: Result<Unit>.Failure(["Something went wrong whet trying to create Task"]);
 	}
 }

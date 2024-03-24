@@ -1,14 +1,11 @@
 using CJTasksHelperBot.Application.Common.Interfaces;
 using CJTasksHelperBot.Application.Common.Models;
-using CJTasksHelperBot.Domain.Entities;
 using MediatR;
 using TaskStatus = CJTasksHelperBot.Domain.Enums.TaskStatus;
 
 namespace CJTasksHelperBot.Application.Task.Commands;
 
-public class SetDeadlineMissedStatusCommand : IRequest<Result<Unit>>
-{
-}
+public class SetDeadlineMissedStatusCommand : IRequest<Result<Unit>>;
 
 public class SetDeadlineMissedStatusCommandHandler : IRequestHandler<SetDeadlineMissedStatusCommand, Result<Unit>>
 {

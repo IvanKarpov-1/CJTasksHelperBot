@@ -7,7 +7,7 @@ namespace CJTasksHelperBot.Application.User.Queries;
 
 public class GetUserQuery : IRequest<Result<UserDto>>
 {
-	public long UserId { get; set; }
+	public long UserId { get; init; }
 }
 
 public class GetUserQueryHandler : IRequestHandler<GetUserQuery, Result<UserDto>>
@@ -26,7 +26,7 @@ public class GetUserQueryHandler : IRequestHandler<GetUserQuery, Result<UserDto>
 		var user = await _unitOfWork.UserRepository.FindAsync(x => x.Id == request.UserId, false);
 
 		return user == null
-			? Result<UserDto>.Failure(new[] { $"User with id {request.UserId} not found" })
+			? Result<UserDto>.Failure([$"User with id {request.UserId} not found"])
 			: Result<UserDto>.Success(_mapper.Map(user));
 	}
 }

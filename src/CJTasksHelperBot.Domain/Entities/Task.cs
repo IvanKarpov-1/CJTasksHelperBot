@@ -8,10 +8,10 @@ public class Task
 	public Guid Id { get; set; }
 	public string? Title { get; set; }
 	public string? Description { get; set; }
-	public ICollection<UserTaskStatus> UserTaskStatuses { get; set; } = new List<UserTaskStatus>();
+	public ICollection<UserTaskStatus> UserTaskStatuses { get; init; } = new List<UserTaskStatus>();
 	public DateTime Deadline { get; set; }
 	public DateTime CompletedAt { get; set; }
-	public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+	public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
 	public UserChat? UserChat { get; set; }
 	public NotificationLevel NotificationLevel { get; set; } = NotificationLevel.Week;
 	
@@ -23,7 +23,7 @@ public class Task
 		}
 		else
 		{
-			NotificationLevel = (NotificationLevel)notificationLevel!;
+			NotificationLevel = (NotificationLevel)notificationLevel;
 		}
 	}
 }

@@ -4,8 +4,8 @@ namespace CJTasksHelperBot.Application.Common.Models;
 
 public class SetTaskStatusDto
 {
-    public long UserId { get; set; }
-    public string? PartialTaskId { get; set; }
-    public string? PartialTaskTitle { get; set; }
-    public TaskStatus TaskStatus { get; set; }
+    public long UserId { get; init; }
+    public string? PartialTaskId { get; init; }
+    public string? PartialTaskTitle { get; init; }
+    public TaskStatus TaskStatus { get; init; }
 }

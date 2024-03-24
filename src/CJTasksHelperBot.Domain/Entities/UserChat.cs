@@ -1,6 +1,4 @@
-﻿using CJTasksHelperBot.Domain.Enums;
-
-namespace CJTasksHelperBot.Domain.Entities;
+﻿namespace CJTasksHelperBot.Domain.Entities;
 
 public class UserChat
 {

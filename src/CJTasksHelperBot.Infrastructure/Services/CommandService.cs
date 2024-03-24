@@ -4,7 +4,6 @@ using CJTasksHelperBot.Infrastructure.Common.Interfaces;
 using CJTasksHelperBot.Infrastructure.Common.Interfaces.Services;
 using System.Text.RegularExpressions;
 using CJTasksHelperBot.Infrastructure.Common.Extensions;
-using Microsoft.EntityFrameworkCore.Design.Internal;
 using Telegram.Bot;
 
 namespace CJTasksHelperBot.Infrastructure.Services;

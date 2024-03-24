@@ -5,9 +5,9 @@ using MediatR;
 
 namespace CJTasksHelperBot.Application.LanguageCode.Queries;
 
-public class GetChatLanguageCodeQuery : IRequest<Result<Domain.Enums.LanguageCodeCustomEnum>>
+public class GetChatLanguageCodeQuery : IRequest<Result<LanguageCodeCustomEnum>>
 {
-    public long ChatId { get; set; }
+    public long ChatId { get; init; }
 }
 
 public class GetChatLanguageCodeQueryHandler : IRequestHandler<GetChatLanguageCodeQuery, Result<LanguageCodeCustomEnum>>
@@ -24,7 +24,7 @@ public class GetChatLanguageCodeQueryHandler : IRequestHandler<GetChatLanguageCo
         var chat = await _unitOfWork.ChatRepository.FindAsync(x => x.Id == request.ChatId, false);
 
         return chat == null
-            ? Result<LanguageCodeCustomEnum>.Failure(new[] { $"Chat with id {request.ChatId} not found" })
+            ? Result<LanguageCodeCustomEnum>.Failure([$"Chat with id {request.ChatId} not found"])
             : Result<LanguageCodeCustomEnum>.Success(LanguageCodeCustomEnum.FromValue((int)chat.LanguageCode));
     }
 }

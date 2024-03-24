@@ -7,7 +7,7 @@ namespace CJTasksHelperBot.Application.Chat.Queries;
 
 public class GetChatsWithTasksQuery : IRequest<Result<List<ChatDto>>>
 {
-	public long UserId { get; set; }
+	public long UserId { get; init; }
 }
 
 public class GetChatsWithTasksQueryHandler : IRequestHandler<GetChatsWithTasksQuery, Result<List<ChatDto>>>
@@ -27,10 +27,8 @@ public class GetChatsWithTasksQueryHandler : IRequestHandler<GetChatsWithTasksQu
 
 		var chatDtos = chats.Select(_mapper.Map).ToList();
 		
-		//chats = chats.DistinctBy(x => x.Id).ToList();
-		
-				return chats.Capacity <= 0
-			? Result<List<ChatDto>>.Failure(new[] { $"Chats with tasks for User Id {request.UserId} not found" })
+		return chats.Capacity == 0
+			? Result<List<ChatDto>>.Failure([$"Chats with tasks for User Id {request.UserId} not found"])
 			: Result<List<ChatDto>>.Success(chatDtos);
 	}
 }

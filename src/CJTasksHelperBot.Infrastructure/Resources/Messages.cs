@@ -1,3 +1,3 @@
 namespace CJTasksHelperBot.Infrastructure.Resources;
 
-public class Messages{}
+public class Messages;

@@ -1,5 +1,4 @@
 ﻿using CJTasksHelperBot.Application.Common.Models;
-using CJTasksHelperBot.Domain.Entities;
 using Riok.Mapperly.Abstractions;
 
 namespace CJTasksHelperBot.Application.Common.Mapping;

@@ -1,15 +1,14 @@
 ﻿using CJTasksHelperBot.Application.Common.Interfaces;
 using CJTasksHelperBot.Application.Common.Mapping;
 using CJTasksHelperBot.Application.Common.Models;
-using CJTasksHelperBot.Domain.Entities;
 using MediatR;
 
 namespace CJTasksHelperBot.Application.User.Commands;
 
 public class CreateUserCommand : IRequest<Result<Unit>>
 {
-	public UserDto? UserDto { get; set; }
-	public long? ChatId { get; set; }
+	public UserDto? UserDto { get; init; }
+	public long? ChatId { get; init; }
 }
 
 public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Result<Unit>>
@@ -27,7 +26,7 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Resul
 	{
 		if (request.UserDto == null)
 		{
-			return Result<Unit>.Failure(new[] { "UserDto is null" });
+			return Result<Unit>.Failure(["UserDto is null"]);
 		}
 
 		_unitOfWork.UserRepository.Add(_mapper.Map(request.UserDto));
@@ -48,6 +47,6 @@ public class CreateUserCommandHandler : IRequestHandler<CreateUserCommand, Resul
 
 		return result > 0
 			? Result<Unit>.Success(Unit.Value)
-			: Result<Unit>.Failure(new[] { "Something went wrong whet trying to create User" });
+			: Result<Unit>.Failure(["Something went wrong whet trying to create User"]);
 	}
 }

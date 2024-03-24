@@ -35,7 +35,7 @@ public class UpdateTaskStatusCommandHandler : IRequestHandler<UpdateTaskStatusCo
 
         if (userTaskStatus == null) return Result<Unit>.Failure(["Something went wrong when trying to update Task Status"]);
         
-        if (userTaskStatus!.TaskStatus == TaskStatus.DeadlineMissed &&
+        if (userTaskStatus.TaskStatus == TaskStatus.DeadlineMissed &&
             taskStatus == TaskStatus.Completed)
         {
             userTaskStatus.TaskStatus = TaskStatus.CompletedWithMissedDeadline;
