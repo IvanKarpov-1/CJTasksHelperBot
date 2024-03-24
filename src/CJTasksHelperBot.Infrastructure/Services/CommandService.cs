@@ -104,6 +104,6 @@ public partial class CommandService : ICommandService
 
 	private ICommand? GetCommand(string command)
 	{
-		return _commands.FirstOrDefault(x => x.CommandType == CommandType.FromDisplayName(command), null);
+		return _commands.FirstOrDefault(x => x?.CommandType == CommandType.FromDisplayName(command), null);
 	}
 }

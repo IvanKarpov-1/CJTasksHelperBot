@@ -17,7 +17,7 @@ public class UpdateHandler : IUpdateHandler
 		_callbackQueryHandler = callbackQueryHandler;
 	}
 
-	public async Task HandleUpdateAsync(Update update, CancellationToken cancellationToken)
+	public async Task HandleUpdateAsync(Update? update, CancellationToken cancellationToken)
 	{
 		if (update != null)
 		{

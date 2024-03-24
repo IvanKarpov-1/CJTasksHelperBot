@@ -28,6 +28,6 @@ public class StepService : IStepService
 
 	private IStep? GetStep(string stepName)
 	{
-		return _steps.FirstOrDefault(x => x.CommandStep == CommandStep.FromDisplayName(stepName), null);
+		return _steps.FirstOrDefault(x => x?.CommandStep == CommandStep.FromDisplayName(stepName), null);
 	}
 }
