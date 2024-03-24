@@ -8,12 +8,12 @@ public static class ReflectionHelper
 	{
 		var type = typeof(T);
 		var types = GetImplementationsOfType(type).Where(x => !x.IsAbstract && !x.IsInterface);
-		return types.Select(i => (T)Activator.CreateInstance(i)).ToList();
+		return types.Select(i => (T)Activator.CreateInstance(i)!).ToList();
 	}
 
 	public static IEnumerable<Type> GetImplementationsOfType(Type type)
 	{
-		return Assembly.GetAssembly(type)
+		return Assembly.GetAssembly(type)!
 			.GetTypes()
 			.Where(x => type.IsAssignableFrom(x) && x != type && !x.IsAbstract && !x.IsInterface)
 			.ToList();

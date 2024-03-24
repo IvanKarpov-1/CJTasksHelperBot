@@ -48,11 +48,11 @@ public class MessageHandler : IMessageHandler
 		{
 			_localizationService.SetLocalization(message.Chat.Id);
 			
-			var (userDto, chatDto) = await GetUserAndChat(message.From, message.Chat);
+			var (userDto, chatDto) = await GetUserAndChat(message.From!, message.Chat);
 
 			await _commandService.HandleTextCommandAsync(userDto, chatDto, message.Text!, cancellationToken);
 		}
-		else if (_commandStateService.CheckExisting(message.From.Id, message.Chat.Id))
+		else if (_commandStateService.CheckExisting(message.From!.Id, message.Chat.Id))
 		{
 			_localizationService.SetLocalization(message.Chat.Id);
 			
