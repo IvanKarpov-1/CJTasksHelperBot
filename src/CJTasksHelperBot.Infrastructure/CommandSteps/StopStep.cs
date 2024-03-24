@@ -22,7 +22,7 @@ public class StopStep : IStep
 		_localizer = localizer;
 	}
 
-	public CommandStep CommandStep { get; set; } = CommandStep.Stop;
+	public CommandStep CommandStep => CommandStep.Stop;
 
 	public async Task PerformStepAsync(UserDto userDto, ChatDto chatDto, string text, CancellationToken cancellationToken)
 	{
