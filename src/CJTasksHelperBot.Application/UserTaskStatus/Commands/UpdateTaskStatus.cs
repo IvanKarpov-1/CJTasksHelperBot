@@ -28,12 +28,12 @@ public class UpdateTaskStatusCommandHandler : IRequestHandler<UpdateTaskStatusCo
         var partialTaskTitle = request.SetTaskStatusDto.PartialTaskTitle;
         var taskStatus = request.SetTaskStatusDto.TaskStatus;
         
-        if (partialTaskId == null) Result<Unit>.Failure(["Partial task ID cannot be null"]);
-        if (partialTaskTitle == null) Result<Unit>.Failure(["Partial task title cannot be null"]);
+        if (partialTaskId == null) return Result<Unit>.Failure(["Partial task ID cannot be null"]);
+        if (partialTaskTitle == null) return Result<Unit>.Failure(["Partial task title cannot be null"]);
         
-        var userTaskStatus = await _unitOfWork.UserTaskStatusRepository.GetUserTaskStatus(userId, partialTaskId!, partialTaskTitle!);
+        var userTaskStatus = await _unitOfWork.UserTaskStatusRepository.GetUserTaskStatus(userId, partialTaskId, partialTaskTitle);
 
-        if (userTaskStatus == null) Result<Unit>.Failure(["Something went wrong whet trying to update Task Status"]);
+        if (userTaskStatus == null) return Result<Unit>.Failure(["Something went wrong whet trying to update Task Status"]);
         
         if (userTaskStatus!.TaskStatus == TaskStatus.DeadlineMissed &&
             taskStatus == TaskStatus.Completed)
