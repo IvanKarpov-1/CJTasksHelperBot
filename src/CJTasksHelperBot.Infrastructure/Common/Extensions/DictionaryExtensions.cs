@@ -17,7 +17,7 @@ public static class DictionaryExtensions
 				var keys = key.Split('|');
 				foreach (var s in keys)
 				{
-					if (dictionary.ContainsKey(s)) return dictionary[s];
+					if (dictionary.TryGetValue(s, out var argument)) return argument;
 				}
 				break;
 			}
