@@ -29,7 +29,7 @@ public class GetChatQueryHandlerTests
 
         // Assert
         result.IsSuccess.Should().BeFalse();
-        result.Errors?[0].Should().Be($"User with id {chatId} not found");
+        result.Errors?[0].Should().Be($"Chat with id {chatId} not found");
     }
 
     [Fact]
@@ -46,7 +46,7 @@ public class GetChatQueryHandlerTests
 
         // Assert
         result.IsSuccess.Should().BeFalse();
-        result.Errors?[0].Should().Be($"User with id {chatId} not found");
+        result.Errors?[0].Should().Be($"Chat with id {chatId} not found");
     }
 
     [Fact]

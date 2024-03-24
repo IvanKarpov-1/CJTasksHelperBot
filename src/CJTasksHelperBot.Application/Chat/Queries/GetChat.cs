@@ -7,7 +7,7 @@ namespace CJTasksHelperBot.Application.Chat.Queries;
 
 public class GetChatQuery : IRequest<Result<ChatDto>>
 {
-	public long ChatId { get; set; }
+	public long ChatId { get; init; }
 }
 
 public class GetChatQueryHandler : IRequestHandler<GetChatQuery, Result<ChatDto>>
@@ -26,7 +26,7 @@ public class GetChatQueryHandler : IRequestHandler<GetChatQuery, Result<ChatDto>
 		var chat = await _unitOfWork.ChatRepository.FindAsync(x => x.Id == request.ChatId, false);
 
 		return chat == null
-			? Result<ChatDto>.Failure(new[] { $"User with id {request.ChatId} not found" })
+			? Result<ChatDto>.Failure([$"Chat with id {request.ChatId} not found"])
 			: Result<ChatDto>.Success(_mapper.Map(chat));
 	}
 }
