@@ -19,6 +19,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{FD7F32A1
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CJTasksHelperBot.Application.Tests.Unit", "tests\CJTasksHelperBot.Application.Tests.Unit\CJTasksHelperBot.Application.Tests.Unit.csproj", "{8DA23E3C-F186-4242-94BB-368AB3B601DF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CJTasksHelperBot.Persistence.Tests.Unit", "tests\CJTasksHelperBot.Persistence.Tests.Unit\CJTasksHelperBot.Persistence.Tests.Unit.csproj", "{68B41BA1-7478-4ABB-997E-EAC19FD9C9EB}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -49,6 +51,10 @@ Global
 		{8DA23E3C-F186-4242-94BB-368AB3B601DF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8DA23E3C-F186-4242-94BB-368AB3B601DF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8DA23E3C-F186-4242-94BB-368AB3B601DF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68B41BA1-7478-4ABB-997E-EAC19FD9C9EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68B41BA1-7478-4ABB-997E-EAC19FD9C9EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68B41BA1-7478-4ABB-997E-EAC19FD9C9EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68B41BA1-7478-4ABB-997E-EAC19FD9C9EB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -63,5 +69,6 @@ Global
 		{9E68E194-BE3A-41AF-A2E7-22F3AF4962A0} = {F730C960-B753-44FE-9FF9-74375E6B0CBF}
 		{14D06DC9-F09D-4EE7-9622-9854F7F1445F} = {F730C960-B753-44FE-9FF9-74375E6B0CBF}
 		{8DA23E3C-F186-4242-94BB-368AB3B601DF} = {FD7F32A1-0FAF-4A35-935E-325544C3CD9C}
+		{68B41BA1-7478-4ABB-997E-EAC19FD9C9EB} = {FD7F32A1-0FAF-4A35-935E-325544C3CD9C}
 	EndGlobalSection
 EndGlobal
