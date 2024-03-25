@@ -16,7 +16,7 @@ public class CreateChatCommandHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_ReturnFailureResult_WhenChatDtoIsNull()
+    public async System.Threading.Tasks.Task Handle_WhenChatDtoIsNull_ReturnFailureResult()
     {
         // Arrange
         var command = new CreateChatCommand();
@@ -31,7 +31,7 @@ public class CreateChatCommandHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_AddChatToRepository_IfChatDtoIsNotNull()
+    public async System.Threading.Tasks.Task Handle_IfChatDtoIsNotNull_AddChatToRepository()
     {
         // Arrange
         var faker = new AutoFaker();
@@ -50,7 +50,7 @@ public class CreateChatCommandHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_AddUserChatToRepository_IfUserIdIsNotNull()
+    public async System.Threading.Tasks.Task Handle_IfUserIdIsNotNull_AddUserChatToRepository()
     {
         // Arrange
         var faker = new AutoFaker();

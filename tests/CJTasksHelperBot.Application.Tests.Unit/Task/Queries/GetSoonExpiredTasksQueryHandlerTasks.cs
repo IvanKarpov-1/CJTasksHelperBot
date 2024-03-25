@@ -18,8 +18,7 @@ public class GetSoonExpiredTasksQueryHandlerTasks
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task
-        Handle_Should_ReturnEmptyLists_WhenTasksWithSoonExpiredDeadlinesIsNotFound()
+    public async System.Threading.Tasks.Task Handle_WhenTasksWithSoonExpiredDeadlinesIsNotFound_ReturnEmptyLists()
     {
         // Arrange
         var tasks = new List<Domain.Entities.Task>();
@@ -37,7 +36,7 @@ public class GetSoonExpiredTasksQueryHandlerTasks
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_SetAppropriateNotificationLevel_ForSoonExpiredTasks()
+    public async System.Threading.Tasks.Task Handle_WhenGetSoonExpiredTasks_SetAppropriateNotificationLevel()
     {
         // Arrange
         var deadlinesWithNotLevels = new List<(DateTime, NotificationLevel)>
@@ -76,7 +75,7 @@ public class GetSoonExpiredTasksQueryHandlerTasks
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_ReturnTasksPerGroup()
+    public async System.Threading.Tasks.Task Handle_WhenGetSoonExpiredTasks_ReturnTasksPerGroup()
     {
         // Arrange
         const int countOfTasks = 5;
@@ -121,7 +120,7 @@ public class GetSoonExpiredTasksQueryHandlerTasks
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_ReturnTasksPerUser()
+    public async System.Threading.Tasks.Task Handle_WhenGetSoonExpiredTasks_ReturnTasksPerUser()
     {
         // Arrange
         const int countOfTasks = 5;

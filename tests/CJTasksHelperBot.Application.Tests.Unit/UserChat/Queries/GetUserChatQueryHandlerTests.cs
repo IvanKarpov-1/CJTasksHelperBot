@@ -16,7 +16,7 @@ public class GetUserChatQueryHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_ReturnFailureResult_WhenUserChatIsNotFound()
+    public async System.Threading.Tasks.Task Handle_WhenUserChatIsNotFound_ReturnFailureResult()
     {
         // Arrange
         var faker = new AutoFaker();
@@ -34,7 +34,7 @@ public class GetUserChatQueryHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_ShouldReturnUserChatDto_WhenUserChatIsFound()
+    public async System.Threading.Tasks.Task Handle_WhenUserChatIsFound_ReturnUserChatDto()
     {
         // Arrange
         var faker = new AutoFaker();

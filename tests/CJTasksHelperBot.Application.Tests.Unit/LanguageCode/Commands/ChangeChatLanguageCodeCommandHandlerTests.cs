@@ -9,7 +9,7 @@ public class ChangeChatLanguageCodeCommandHandlerTests
     private readonly IUnitOfWork _unitOfWork = Substitute.For<IUnitOfWork>();
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_ReturnFailureResult_WhenChatWithIdIsNotFound()
+    public async System.Threading.Tasks.Task Handle_WhenChatWithIdIsNotFound_ReturnFailureResult()
     {
         // Arrange
         var command = new ChangeChatLanguageCodeCommand();
@@ -24,7 +24,7 @@ public class ChangeChatLanguageCodeCommandHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_ReturnSuccessfulResult_WhenLanguageCodeIsChanged()
+    public async System.Threading.Tasks.Task Handle_WhenLanguageCodeIsChanged_ReturnSuccessfulResult()
     {
         // Arrange
         var faker = new AutoFaker();

@@ -17,7 +17,7 @@ public class CreateTaskCommandHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_ReturnFailureResult_WhenTaskDtoIsNull()
+    public async System.Threading.Tasks.Task Handle_WhenTaskDtoIsNull_ReturnFailureResult()
     {
         // Arrange
         var command = new CreateTaskCommand();
@@ -32,7 +32,7 @@ public class CreateTaskCommandHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_ReturnFailureResult_WhenCannotAddTask()
+    public async System.Threading.Tasks.Task Handle_WhenCannotAddTask_ReturnFailureResult()
     {
         // Arrange
         var faker = new AutoFaker();
@@ -50,7 +50,7 @@ public class CreateTaskCommandHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_ReturnSuccessfulResult_WhenTaskIsSuccessfullyAdded()
+    public async System.Threading.Tasks.Task Handle_WhenTaskIsSuccessfullyAdded_ReturnSuccessfulResult()
     {
         // Arrange
         var faker = new AutoFaker();
@@ -89,7 +89,7 @@ public class CreateTaskCommandHandlerTests
 
     [Theory]
     [MemberData(nameof(Deadlines))]
-    public async System.Threading.Tasks.Task Handle_Should_SetAppropriateNotificationLevel(DateTime deadline,
+    public async System.Threading.Tasks.Task Handle_WhenTaskCanBeCreated_SetAppropriateNotificationLevel(DateTime deadline,
         NotificationLevel notificationLevel)
     {
         // Arrange

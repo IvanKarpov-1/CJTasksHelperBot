@@ -16,7 +16,7 @@ public class CreateUserCommandHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_ReturnFailureResult_WhenUserDtoIsNull()
+    public async System.Threading.Tasks.Task Handle_WhenUserDtoIsNull_ReturnFailureResult()
     {
         // Arrange
         var command = new CreateUserCommand();
@@ -31,7 +31,7 @@ public class CreateUserCommandHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_AddUserToRepository_IfUserDtoIsNotNull()
+    public async System.Threading.Tasks.Task Handle_WhenUserDtoIsNotNull_AddUserToRepository()
     {
         // Arrange
         var faker = new AutoFaker();
@@ -50,7 +50,7 @@ public class CreateUserCommandHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_AddUserChatToRepository_IfChatIdIsNotNull()
+    public async System.Threading.Tasks.Task Handle_WhenChatIdIsNotNull_AddUserChatToRepository()
     {
         // Arrange
         var faker = new AutoFaker();

@@ -9,7 +9,7 @@ public class SetDeadlineMissedStatusCommandHandlerTests
     private readonly IUnitOfWork _unitOfWork = Substitute.For<IUnitOfWork>();
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_SetMissedDeadlineForTasks()
+    public async System.Threading.Tasks.Task Handle_WhenGetTaskWithMissedDeadlines_SetMissedDeadlineStatusToIt()
     {
         // Arrange
         var faker = new AutoFaker();

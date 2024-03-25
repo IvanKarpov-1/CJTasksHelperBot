@@ -16,7 +16,7 @@ public class CreateUserChatCommandHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_ReturnFailureResult_WhenUserChatDtoIsNull()
+    public async System.Threading.Tasks.Task Handle_WhenUserChatDtoIsNull_ReturnFailureResult()
     {
         // Arrange
         var command = new CreateUserChatCommand();
@@ -31,7 +31,7 @@ public class CreateUserChatCommandHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_ReturnFailureResult_WhenCannotAddUserChatToRepository()
+    public async System.Threading.Tasks.Task Handle_WhenCannotAddUserChatToRepository_ReturnFailureResult()
     {
         // Arrange
         var faker = new AutoFaker();
@@ -50,7 +50,7 @@ public class CreateUserChatCommandHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_AddUserChatToRepository_IfUserChatDtoIsNotNull()
+    public async System.Threading.Tasks.Task Handle_WhenUserChatDtoIsNotNull_AddUserChatToRepository()
     {
         // Arrange
         var faker = new AutoFaker();

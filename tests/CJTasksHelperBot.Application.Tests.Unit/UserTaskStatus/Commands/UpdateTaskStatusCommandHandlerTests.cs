@@ -10,7 +10,7 @@ public class UpdateTaskStatusCommandHandlerTests
     private readonly IUnitOfWork _unitOfWork = Substitute.For<IUnitOfWork>();
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_ReturnFailureResult_WhenSetTaskStatusDtoIsNull()
+    public async System.Threading.Tasks.Task Handle_WhenSetTaskStatusDtoIsNull_ReturnFailureResult()
     {
         // Arrange
         var command = new UpdateTaskStatusCommand();
@@ -25,7 +25,7 @@ public class UpdateTaskStatusCommandHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_ReturnFailureResult_WhenPartialTaskIdIsNull()
+    public async System.Threading.Tasks.Task Handle_WhenPartialTaskIdIsNull_ReturnFailureResult()
     {
         // Arrange
         var setTaskStatusDtoFaker = new AutoFaker<SetTaskStatusDto>();
@@ -44,7 +44,7 @@ public class UpdateTaskStatusCommandHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_ReturnFailureResult_WhenPartialTaskTitleIsNull()
+    public async System.Threading.Tasks.Task Handle_WhenPartialTaskTitleIsNull_ReturnFailureResult()
     {
         // Arrange
         var setTaskStatusDtoFaker = new AutoFaker<SetTaskStatusDto>();
@@ -63,7 +63,7 @@ public class UpdateTaskStatusCommandHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_ReturnFailureResult_WhenUnableToGetUserTaskStatus()
+    public async System.Threading.Tasks.Task Handle_WhenUnableToGetUserTaskStatus_ReturnFailureResult()
     {
         // Arrange
         var faker = new AutoFaker();
@@ -83,7 +83,7 @@ public class UpdateTaskStatusCommandHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_ReturnFailureResult_WhenTryingToUpdateTaskStatus()
+    public async System.Threading.Tasks.Task Handle_WhenUpdatingTaskStatusFails_ReturnFailureResult()
     {
         // Arrange
         var faker = new AutoFaker();
@@ -105,7 +105,7 @@ public class UpdateTaskStatusCommandHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_UpdateTaskStatus()
+    public async System.Threading.Tasks.Task Handle_DtoIsFullAndUserTaskStatusIsFound_UpdateTaskStatus()
     {
         // Arrange
         var allowedStatuses = new[]
@@ -146,7 +146,8 @@ public class UpdateTaskStatusCommandHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_UpdateTaskStatusToCompletedWithMissedDeadline_WhenOldStatusWasDeadlineMissedAndNewWasCompleted()
+    public async System.Threading.Tasks.Task 
+        Handle_WhenOldStatusIsDeadlineMissedAndNewIsCompleted_UpdateTaskStatusToCompletedWithMissedDeadline()
     {
         // Arrange
         var setTaskStatusDtoFaker = new AutoFaker<SetTaskStatusDto>();

@@ -16,7 +16,7 @@ public class GetChatQueryHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_ReturnFailureResult_WhenChatIdIsNotProvided()
+    public async System.Threading.Tasks.Task Handle_WhenChatIdIsNotProvided_ReturnFailureResult()
     {
         // Arrange
         var faker = new AutoFaker();
@@ -33,7 +33,7 @@ public class GetChatQueryHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_ReturnFailureResult_WhenChatWithIdIsNotFound()
+    public async System.Threading.Tasks.Task Handle_WhenChatWithIdIsNotFound_ReturnFailureResult()
     {
         // Arrange
         var faker = new AutoFaker();
@@ -50,7 +50,7 @@ public class GetChatQueryHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_ShouldReturnChatDto_WhenChatWithIdIsFound()
+    public async System.Threading.Tasks.Task Handle_WhenChatWithIdIsFound_ReturnChatDto()
     {
         // Arrange
         var faker = new AutoFaker();

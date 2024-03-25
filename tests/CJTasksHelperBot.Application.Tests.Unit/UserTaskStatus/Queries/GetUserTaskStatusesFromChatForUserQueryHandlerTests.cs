@@ -16,7 +16,7 @@ public class GetUserTaskStatusesFromChatForUserQueryHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_ReturnFailureResult_WhenChatIdIsNull()
+    public async System.Threading.Tasks.Task Handle_WhenChatIdIsNull_ReturnFailureResult()
     {
         // Arrange
         var query = new GetUserTaskStatusesFromChatForUserQuery();
@@ -31,7 +31,7 @@ public class GetUserTaskStatusesFromChatForUserQueryHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_ReturnUserTaskStatusDtos_WhenTasksForChatAreFound()
+    public async System.Threading.Tasks.Task Handle_WhenTasksForChatAreFound_ReturnUserTaskStatusDtos()
     {
         // Arrange
         const int countToGenerate = 5;
@@ -72,7 +72,7 @@ public class GetUserTaskStatusesFromChatForUserQueryHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_AddUserTaskStatusToTask_IfThereAreNoUserTaskStatusesForUser()
+    public async System.Threading.Tasks.Task Handle_WhenThereAreNoUserTaskStatusesForUser_AddUserTaskStatusToTask()
     {
         // Arrange
         const int countToGenerate = 5;
@@ -102,7 +102,7 @@ public class GetUserTaskStatusesFromChatForUserQueryHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_ReturnReturnUserTaskStatusDtos_WithSpecificTaskStatus()
+    public async System.Threading.Tasks.Task Handle_WhenTasksAreFound_ReturnUserTaskStatusDtosWithSpecificTaskStatus()
     {
         // Arrange
         const int countToGenerate = 5;

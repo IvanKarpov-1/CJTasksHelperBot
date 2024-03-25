@@ -16,7 +16,7 @@ public class GetUserQueryHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_ReturnFailureResult_WhenUserIdIsNotProvided()
+    public async System.Threading.Tasks.Task Handle_WhenUserIdIsNotProvided_ReturnFailureResult()
     {
         // Arrange
         var faker = new AutoFaker();
@@ -33,7 +33,7 @@ public class GetUserQueryHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_ReturnFailureResult_WhenUserWithIdIsNotFound()
+    public async System.Threading.Tasks.Task Handle_WhenUserWithIdIsNotFound_ReturnFailureResult()
     {
         // Arrange
         var faker = new AutoFaker();
@@ -50,7 +50,7 @@ public class GetUserQueryHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_ShouldReturnUserDto_WhenUserWithIdIsFound()
+    public async System.Threading.Tasks.Task Handle_WhenUserWithIdIsFound_ReturnUserDto()
     {
         // Arrange
         var faker = new AutoFaker();

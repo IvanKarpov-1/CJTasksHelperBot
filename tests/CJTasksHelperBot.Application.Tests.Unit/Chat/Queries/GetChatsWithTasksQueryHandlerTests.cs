@@ -15,7 +15,7 @@ public class GetChatsWithTasksQueryHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_ShouldReturnFailureResult_WhenChatsWithTasksForUserAreNotFound()
+    public async System.Threading.Tasks.Task Handle_WhenChatsWithTasksForUserAreNotFound_ReturnFailureResult()
     {
         // Arrange
         var faker = new AutoFaker();
@@ -32,7 +32,7 @@ public class GetChatsWithTasksQueryHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_ShouldReturnChatDtos_WhenChatsWithTasksForUserAreFound()
+    public async System.Threading.Tasks.Task Handle_WhenChatsWithTasksForUserAreFoundReturnChatDtos()
     {
         // Arrange
         var faker = new AutoFaker();

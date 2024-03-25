@@ -15,7 +15,7 @@ public class GetTasksFromChatQueryHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_ReturnFailureResult_WhenChatIdIsNull()
+    public async System.Threading.Tasks.Task Handle_WhenChatIdIsNull_ReturnFailureResult()
     {
         // Arrange
         var query = new GetTasksFromChatQuery();
@@ -30,7 +30,7 @@ public class GetTasksFromChatQueryHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_ReturnSuccessfulResult_WhenChatIdIsNotNull()
+    public async System.Threading.Tasks.Task Handle_WhenChatIdIsNotNull_ReturnSuccessfulResult()
     {
         // Arrange
         var faker = new AutoFaker();
@@ -49,7 +49,7 @@ public class GetTasksFromChatQueryHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_AddUserTaskStatusToTask_WhenThereIsNoUserTaskStatusWithSuchUserId()
+    public async System.Threading.Tasks.Task Handle_WhenThereIsNoUserTaskStatusWithSuchUserId_AddUserTaskStatusToTask()
     {
         // Arrange
         long? userId = 1;

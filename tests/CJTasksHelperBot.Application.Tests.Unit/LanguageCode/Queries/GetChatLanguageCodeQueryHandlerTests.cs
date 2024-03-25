@@ -10,7 +10,7 @@ public class GetChatLanguageCodeQueryHandlerTests
     private readonly IUnitOfWork _unitOfWork = Substitute.For<IUnitOfWork>();
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_ReturnFailureResult_WhenChatWithIdIsNotFound()
+    public async System.Threading.Tasks.Task Handle_WhenChatWithIdIsNotFound_ReturnFailureResult()
     {
         // Arrange
         var query = new GetChatLanguageCodeQuery();
@@ -25,7 +25,7 @@ public class GetChatLanguageCodeQueryHandlerTests
     }
 
     [Fact]
-    public async System.Threading.Tasks.Task Handle_Should_ReturnLangCode_WhenChatWithIdIsFound()
+    public async System.Threading.Tasks.Task Handle_WhenChatWithIdIsFound_ReturnLangCode()
     {
         // Arrange
         var faker = new AutoFaker();
