@@ -9,5 +9,5 @@ public class User
 	public ICollection<Chat> Chats { get; init; } = new List<Chat>();
 	public ICollection<UserTaskStatus> UserTaskStatuses { get; init; } = new List<UserTaskStatus>();
 	public ICollection<Homework> Homeworks { get; init; } = new List<Homework>();
-	public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+	public DateTime CreatedAt { get; init; } = DateTime.UtcNow;
 }
