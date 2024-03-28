@@ -10,6 +10,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="EfCore.TestSupport" Version="6.0.2" />
         <PackageReference Include="FluentAssertions" Version="7.0.0-alpha.3" />
         <PackageReference Include="FluentAssertions.Analyzers" Version="0.31.0">
           <PrivateAssets>all</PrivateAssets>
@@ -25,6 +26,7 @@
         <PackageReference Include="NSubstitute.QuickFixes" Version="0.1.0" />
         <PackageReference Include="Soenneker.Utils.AutoBogus" Version="2.1.160" />
         <PackageReference Include="xunit" Version="2.4.2"/>
+        <PackageReference Include="xunit.core" Version="2.7.0" />
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
@@ -37,10 +39,6 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\src\CJTasksHelperBot.Persistence\CJTasksHelperBot.Persistence.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Repository\" />
     </ItemGroup>
 
 </Project>
