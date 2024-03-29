@@ -4,7 +4,7 @@ using DataSeeder = CJTasksHelperBot.Persistence.DataSeeding.DataSeeder;
 
 namespace CJTasksHelperBot.Persistence.Tests.Unit.Repository.ChatRepositoryTests;
 
-public class GetChatsWithTasksAsyncTests
+public class GetChatsWithTasksAsync
 {
     [Fact]
     public async Task GetChatsWithTasksAsync_WhenChatsNotFound_ReturnEmptyList()
