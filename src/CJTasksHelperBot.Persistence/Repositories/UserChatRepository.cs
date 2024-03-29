@@ -3,9 +3,5 @@ using CJTasksHelperBot.Domain.Entities;
 
 namespace CJTasksHelperBot.Persistence.Repositories;
 
-public class UserChatRepository : GenericRepository<UserChat>, IUserChatRepository
-{
-    public UserChatRepository(ApplicationDbContext context) : base(context)
-    {
-    }
-}
+public class UserChatRepository(ApplicationDbContext context)
+    : GenericRepository<UserChat>(context), IUserChatRepository;

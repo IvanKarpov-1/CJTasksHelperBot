@@ -3,9 +3,4 @@ using CJTasksHelperBot.Domain.Entities;
 
 namespace CJTasksHelperBot.Persistence.Repositories;
 
-public class UserRepository : GenericRepository<User>, IUserRepository
-{
-    public UserRepository(ApplicationDbContext context) : base(context)
-    {
-    }
-}
+public class UserRepository(ApplicationDbContext context) : GenericRepository<User>(context), IUserRepository;

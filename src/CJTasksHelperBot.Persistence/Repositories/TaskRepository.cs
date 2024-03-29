@@ -5,13 +5,8 @@ using Task = CJTasksHelperBot.Domain.Entities.Task;
 
 namespace CJTasksHelperBot.Persistence.Repositories;
 
-public class TaskRepository : GenericRepository<Task>, ITaskRepository
+public class TaskRepository(ApplicationDbContext context) : GenericRepository<Task>(context), ITaskRepository
 {
-    public TaskRepository(ApplicationDbContext context) : base(context)
-    {
-    }
-
-
     public async Task<List<Task>> GetSoonExpiredTasksAsync()
     {
         var tasks = await ApplicationDbContext.Tasks

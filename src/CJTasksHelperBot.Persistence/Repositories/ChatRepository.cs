@@ -4,12 +4,8 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CJTasksHelperBot.Persistence.Repositories;
 
-public class ChatRepository : GenericRepository<Chat>, IChatRepository
+public class ChatRepository(ApplicationDbContext context) : GenericRepository<Chat>(context), IChatRepository
 {
-    public ChatRepository(ApplicationDbContext context) : base(context)
-    {
-    }
-
     public async Task<List<Chat>> GetChatsWithTasksAsync(long userId, CancellationToken cancellationToken)
     {
         var chats = await ApplicationDbContext.UserChats

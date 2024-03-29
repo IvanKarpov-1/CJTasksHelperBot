@@ -5,12 +5,9 @@ using TaskStatus = CJTasksHelperBot.Domain.Enums.TaskStatus;
 
 namespace CJTasksHelperBot.Persistence.Repositories;
 
-public class UserTaskStatusRepository : GenericRepository<UserTaskStatus>, IUserTaskStatusRepository
+public class UserTaskStatusRepository(ApplicationDbContext context)
+    : GenericRepository<UserTaskStatus>(context), IUserTaskStatusRepository
 {
-    public UserTaskStatusRepository(ApplicationDbContext context) : base(context)
-    {
-    }
-
     public async Task<List<UserTaskStatus>> GetTasksWithMissedDeadlinesAsync()
     {
         var taskStatuses = await ApplicationDbContext.UserTaskStatuses

@@ -4,14 +4,10 @@ using System.Linq.Expressions;
 
 namespace CJTasksHelperBot.Persistence.Repositories;
 
-public class GenericRepository<TEntity> : IGenericRepository<TEntity> where TEntity : class
+public class GenericRepository<TEntity>(DbContext context) : IGenericRepository<TEntity>
+	where TEntity : class
 {
-	protected readonly DbContext Context;
-
-	public GenericRepository(DbContext context)
-	{
-		Context = context;
-	}
+	protected readonly DbContext Context = context;
 
 	public async Task<TEntity?> FindAsync(Expression<Func<TEntity, bool>> predicate, bool tracking = true)
 	{
