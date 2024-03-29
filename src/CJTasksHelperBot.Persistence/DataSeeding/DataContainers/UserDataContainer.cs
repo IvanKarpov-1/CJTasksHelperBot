@@ -20,7 +20,7 @@ internal class UserDataContainer(DataSeeder dataSeeder, User user, UserChat user
         UserChat.Chat = null;
         
         var taskFaker = new Faker<Task>()
-            .RuleFor(x => x.Id, Guid.NewGuid())
+            .RuleFor(x => x.Id, (_, _) => Guid.NewGuid())
             .RuleFor(x => x.Title, f => f.Lorem.Slug())
             .RuleFor(x => x.Description, f => f.Lorem.Sentence())
             .RuleFor(x => x.UserChat, UserChat)
