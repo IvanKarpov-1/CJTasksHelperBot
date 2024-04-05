@@ -59,7 +59,7 @@ public class GetTasksCommand : ICommand
 
 		if (userDto.Id != chatDto.Id)
 		{
-			if (!_isNeedDrawTable)
+			if (_isNeedDrawTable)
 			{
 				var tasks = await GetTasks(userDto.Id, chatDto.Id, cancellationToken);
 
