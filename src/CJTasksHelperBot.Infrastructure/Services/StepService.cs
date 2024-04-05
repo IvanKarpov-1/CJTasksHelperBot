@@ -21,7 +21,7 @@ public class StepService : IStepService
 	{
 		var stateObject = _commandStateService.Get<StateObject>(userDto.Id, chatDto.Id);
 		var stepName = text == CommandStep.Stop.DisplayName ? text : stateObject?.CurrentStep!;
-		var commandStep =  GetStep(stepName);
+		var commandStep = GetStep(stepName);
 		commandStep?.PerformStepAsync(userDto, chatDto, text, cancellationToken);
 		return Task.CompletedTask;
 	}
