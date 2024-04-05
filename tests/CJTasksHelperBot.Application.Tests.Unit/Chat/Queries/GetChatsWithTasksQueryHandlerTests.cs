@@ -22,6 +22,7 @@ public class GetChatsWithTasksQueryHandlerTests
         var userId = faker.Generate<long>();
         var query = new GetChatsWithTasksQuery{ UserId = userId };
         var handler = new GetChatsWithTasksQueryHandler(_unitOfWork, _mapper);
+        _unitOfWork.ChatRepository.GetChatsWithTasksAsync(Arg.Any<long>(), default).Returns([]);
 
         // Act
         var result = await handler.Handle(query, default);
