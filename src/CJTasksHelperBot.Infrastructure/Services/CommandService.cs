@@ -32,7 +32,7 @@ public partial class CommandService : ICommandService
 		if (_commandRegex != null) return;
 
 		var bot = await _botClient.GetMeAsync();
-		_commandRegex = new Regex($@"^\/[A-Za-z_]+(@{bot.Username})?", RegexOptions.IgnoreCase);
+		_commandRegex = new Regex($@"^\/[A-Za-z_]+(?:@{bot.Username})?(?:\s+|$)", RegexOptions.IgnoreCase);
 
 		_commandLineArgumentsRegex = GetCommandLineArgumentRegex();
 	}
@@ -58,7 +58,7 @@ public partial class CommandService : ICommandService
 			command = command.ToLower().Split('@')[0];
 		}
 
-		return command;
+		return command.Trim();
 	}
 
 	private bool IsCommandHaveCommandLineArguments(string command)
