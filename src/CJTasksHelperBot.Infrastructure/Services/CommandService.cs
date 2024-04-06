@@ -49,36 +49,6 @@ public partial class CommandService : ICommandService
 		return CommandType.GetAll().Any(x => x.DisplayName == parsedCommand);
 	}
 
-	private string ParseCommand(string command)
-	{
-		command = _commandRegex!.Match(command).ToString();
-		var isContainsAt = command.Contains('@');
-		if (isContainsAt)
-		{
-			command = command.ToLower().Split('@')[0];
-		}
-
-		return command.Trim();
-	}
-
-	private bool IsCommandHaveCommandLineArguments(string command)
-	{
-		return _commandLineArgumentsRegex != null && _commandLineArgumentsRegex.IsMatch(command);
-	}
-
-	private Dictionary<string, string> ParseCommandLineArguments(string command)
-	{
-		var matches = _commandLineArgumentsRegex!.Matches(command);
-		var arguments = new Dictionary<string, string>();
-		foreach (var m in matches.Cast<Match>())
-		{
-			var parameter = m.Groups["parameter"].Value.Replace("—", "--");
-			arguments[parameter] = m.Groups["argument"].Value.Trim();
-		}
-
-		return arguments;
-	}
-
 	public async Task HandleTextCommandAsync(UserDto userDto, ChatDto chatDto, string command, CancellationToken cancellationToken)
 	{
 		command += " ";
@@ -102,8 +72,38 @@ public partial class CommandService : ICommandService
 		await botCommand.ExecuteAsync(userDto, chatDto, cancellationToken);
 	}
 
+	private string ParseCommand(string command)
+	{
+		command = _commandRegex!.Match(command).ToString();
+		var isContainsAt = command.Contains('@');
+		if (isContainsAt)
+		{
+			command = command.ToLower().Split('@')[0];
+		}
+
+		return command.Trim();
+	}
+
 	private ICommand? GetCommand(string command)
 	{
 		return _commands.FirstOrDefault(x => x?.CommandType == CommandType.FromDisplayName(command), null);
+	}
+
+	private bool IsCommandHaveCommandLineArguments(string command)
+	{
+		return _commandLineArgumentsRegex != null && _commandLineArgumentsRegex.IsMatch(command);
+	}
+
+	private Dictionary<string, string> ParseCommandLineArguments(string command)
+	{
+		var matches = _commandLineArgumentsRegex!.Matches(command);
+		var arguments = new Dictionary<string, string>();
+		foreach (var m in matches.Cast<Match>())
+		{
+			var parameter = m.Groups["parameter"].Value.Replace("—", "--");
+			arguments[parameter] = m.Groups["argument"].Value.Trim();
+		}
+
+		return arguments;
 	}
 }
