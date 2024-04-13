@@ -22,7 +22,7 @@ public class IsCommand
 
     [Theory]
     [InlineData("some text", false, "")]
-    [InlineData("some text with /command", false, "")]
+    [InlineData("some text with /start", false, "")]
     [InlineData("/start", true, "")]
     [InlineData("/start", true, "myBot")]
     [InlineData("/start --argument", true, "myBot")]
