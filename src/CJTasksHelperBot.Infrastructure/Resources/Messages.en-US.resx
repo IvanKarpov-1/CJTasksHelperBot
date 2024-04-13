@@ -201,4 +201,52 @@ To interact with me, use the following commands:
     <data name="need_enter_partial_task_id">
         <value>You need to enter the task ID</value>
     </data>
+
+    <data name="HelpAddTask">
+        <value>Help with the /add_task command
+
+Available arguments:
+&lt;code&gt;   -t|--title&lt;/code&gt; — enter the title of the task
+&lt;code&gt;--des|--description&lt;/code&gt; — enter a description of the task
+&lt;code&gt; --dl|--deadline&lt;/code&gt; — enter the deadline of the task. The deadline must be in the format &lt;code&gt;dd.MM.yyyy HH:mm&lt;/code&gt; or &lt;code&gt;dd.MM.yyyy&lt;/code&gt;
+
+If one argument is specified, all others must be specified. Each argument must be followed by the corresponding value.
+The command can also be called without arguments, in which case the user will be prompted to enter the required values interactively. To interrupt the command in this mode, you can enter /stop</value>
+    </data>
+    <data name="HelpGetTasks">
+        <value>Help with the /get_tasks command
+
+Available arguments:
+&lt;code&gt;--dt|--drawtable&lt;/code&gt; — display tasks in a table form
+
+You do not need to write anything after the argument, it is just a flag.
+
+The behavior of the bot when executing a command in groups and a private conversation with the bot is different:
+— in a group, the bot will only show tasks from that group;
+— in a private conversation, a built-in keyboard will appear, which will allow you to select a group from which to show tasks, choose a display mode, and filter tasks by their status</value>
+    </data>
+    <data name="HelpChangeLanguage">
+        <value>Help with the /ch_lang command
+
+❗️Only group administrators can change the language of a group
+
+Available arguments:
+&lt;code&gt;-l|--language&lt;/code&gt; — enter the language code
+
+The argument must be followed by the code of the available language.
+The command can also be called without arguments, in which case the user will be prompted to enter the required code interactively. To interrupt the command in this mode, you can enter /stop</value>
+    </data>
+    <data name="HelpUpdateTaskStatus">
+        <value>Help with the /update_status command
+
+❗️The command works only in a private conversation with the bot
+
+Available arguments:
+&lt;code&gt;-i|--id&lt;/code&gt; — task number/id
+&lt;code&gt;-t|--title&lt;/code&gt; — task name (can be partial)
+&lt;code&gt;-s|--status&lt;/code&gt; — new task status (code)
+
+If one argument is specified, all others must be specified. Each argument must be followed by the corresponding value.
+The command can also be called without arguments, in which case the user will be prompted to enter the required values interactively. To interrupt the command in this mode, you can enter /stop</value>
+    </data>
 </root>

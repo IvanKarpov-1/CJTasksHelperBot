@@ -332,5 +332,29 @@ namespace CJTasksHelperBot.Infrastructure.Resources {
                 return ResourceManager.GetString("need_enter_partial_task_id", resourceCulture);
             }
         }
+        
+        internal static string HelpAddTask {
+            get {
+                return ResourceManager.GetString("HelpAddTask", resourceCulture);
+            }
+        }
+        
+        internal static string HelpGetTasks {
+            get {
+                return ResourceManager.GetString("HelpGetTasks", resourceCulture);
+            }
+        }
+        
+        internal static string HelpChangeLanguage {
+            get {
+                return ResourceManager.GetString("HelpChangeLanguage", resourceCulture);
+            }
+        }
+        
+        internal static string HelpUpdateTaskStatus {
+            get {
+                return ResourceManager.GetString("HelpUpdateTaskStatus", resourceCulture);
+            }
+        }
     }
 }

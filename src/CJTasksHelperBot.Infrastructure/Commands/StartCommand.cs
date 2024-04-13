@@ -4,6 +4,7 @@ using CJTasksHelperBot.Infrastructure.Common.Interfaces;
 using CJTasksHelperBot.Infrastructure.Resources;
 using Microsoft.Extensions.Localization;
 using Telegram.Bot;
+using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.ReplyMarkups;
 
 namespace CJTasksHelperBot.Infrastructure.Commands;
@@ -27,6 +28,7 @@ public class StartCommand : ICommand
 		await _botClient.SendTextMessageAsync(
 			chatId: chatDto.Id,
 			text: _localizer["usage"],
+			parseMode: ParseMode.Html,
 			replyMarkup: new ReplyKeyboardRemove(),
 			cancellationToken: cancellationToken);
 	}
