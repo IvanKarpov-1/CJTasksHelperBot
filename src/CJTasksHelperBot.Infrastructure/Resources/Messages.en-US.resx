@@ -23,13 +23,18 @@
             
 Some commands are executed in several steps, so you need to keep entering the necessary information or cancel the command.
             
-Some commands support command line arguments with checkboxes. For details, add the &lt;code&gt;-h|--help&lt;/code&gt; flag to the command (separated by a space). This flag takes precedence over other flags, so others will be ignored.
+Some commands support command line arguments with flags. For details, add the &lt;code&gt;-h|--help&lt;/code&gt; flag to the command (separated by a space). This flag takes precedence over other flags, so others will be ignored.
             
 To interact with me, use the following commands:
-/help - show this help
-/add_task - add a task
+/start — show available commands
+/help — show this help
+/get_current_user — show the name of the current user
+/add_task — add a task
+/get_tasks — view tasks
+/ch_lang — change the display language for the chat
+/update_status — update task status
 
-/stop - stop the current command</value>
+/stop — stop the current command</value>
     </data>
     
     <data name="table_cell_name">
@@ -75,11 +80,15 @@ To interact with me, use the following commands:
     </data>
 
     <data name="usage">
-        <value>Usage:
+        <value>&lt;b&gt;Usage&lt;/b&gt;
 
-/start - show available commands
-/get_current_user - get the name and surname of the current user
-/add_task - add a task</value>
+/start — show available commands
+/help — show help
+/get_current_user — show the name of the current user
+/add_task — add a task
+/get_tasks — view tasks
+/ch_lang — change the display language for the chat
+/update_status — update task status</value>
     </data>
     
     <data name="no_tasks">
