@@ -32,14 +32,14 @@ public partial class CommandService : ICommandService
 		if (_commandRegex != null) return;
 
 		var bot = await _botClient.GetMeAsync();
-		_commandRegex = new Regex($@"^\/[A-Za-z_]+(?:@{bot.Username})?(?:\s+|$)", RegexOptions.IgnoreCase);
+		_commandRegex = new Regex($@"^\/[A-Za-z_]+(?:@{bot.Username})?(?:\s+|$)");
 
 		_commandLineArgumentsRegex = GetCommandLineArgumentRegex();
 	}
 
 	public bool IsCommand(string command)
 	{
-		if (_commandRegex != null && !_commandRegex.IsMatch(command.ToLower()))
+		if (_commandRegex != null && !_commandRegex.IsMatch(command))
 		{
 			return false;
 		}
