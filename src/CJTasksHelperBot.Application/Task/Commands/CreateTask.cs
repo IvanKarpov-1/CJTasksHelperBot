@@ -1,6 +1,7 @@
 ﻿using CJTasksHelperBot.Application.Common.Interfaces;
 using CJTasksHelperBot.Application.Common.Mapping;
 using CJTasksHelperBot.Application.Common.Models;
+using CJTasksHelperBot.Domain.Enums;
 using MediatR;
 
 namespace CJTasksHelperBot.Application.Task.Commands;
@@ -32,6 +33,9 @@ public class CreateTaskCommandHandler : IRequestHandler<CreateTaskCommand, Resul
 		request.CreateTaskDto.Description = request.CreateTaskDto.Description?.Trim();
 		
 		var task = _mapper.Map(request.CreateTaskDto);
+
+		task.UserChat!.User = null;
+		task.UserChat!.Chat = null;
 		
 		while (task.Deadline < DateTime.UtcNow.AddDays((int)task.NotificationLevel))
 			task.SetNotificationLevel();
