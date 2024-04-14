@@ -38,7 +38,10 @@ public class CreateTaskCommandHandler : IRequestHandler<CreateTaskCommand, Resul
 		task.UserChat!.Chat = null;
 		
 		while (task.Deadline < DateTime.UtcNow.AddDays((int)task.NotificationLevel))
+		{
 			task.SetNotificationLevel();
+			if (task.NotificationLevel == NotificationLevel.Never) break;
+		}
 
 		var user = _mapper.Map(request.CreateTaskDto.UserChatDto!.UserDto!);
 		
